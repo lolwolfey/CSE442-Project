@@ -1,0 +1,20 @@
+﻿Sqlite3 is an easy way to create a database in python.
+
+
+How to initialize SQLite3 in python:
+https://www.sqlitetutorial.net/sqlite-python/create-tables/
+https://www.tutorialspoint.com/sqlite/sqlite_python.htm
+
+
+How to create sqlite3 tables/structures:
+https://docs.python.org/3/library/sqlite3.html
+https://www.tutorialspoint.com/sqlite/sqlite_python.htm
+
+
+Simple sqlite3 python example created
+
+
+How to create one in docker:
+https://docs.docker.com/get-started/05_persisting_data/
+https://stackoverflow.com/questions/33711818/embed-sqlite-database-to-docker-container
+https://stackoverflow.com/questions/52900532/connect-store-sqlite3-database-in-specified-directory-other-than-default-c
