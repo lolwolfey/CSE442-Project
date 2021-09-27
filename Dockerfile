@@ -7,6 +7,7 @@ COPY . .
 
 EXPOSE 8000
 
-RUN pip install flask
+RUN pip3 install -r requirements.txt
+RUN pip3 install flask
 
 CMD export FLASK_APP=app && flask run 
