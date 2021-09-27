@@ -9,4 +9,4 @@ EXPOSE 8000
 
 RUN pip install flask
 
-CMD export FLASK_APP=app && flask run --port=8000 --host=0.0.0.0
+CMD export FLASK_APP=app && flask run 
