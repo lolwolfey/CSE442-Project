@@ -5,9 +5,9 @@ WORKDIR /root
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE $PORT
 
 RUN pip3 install -r requirements.txt
 RUN pip3 install flask
 
-CMD export FLASK_APP=app && flask run 
+CMD python3 app.py $PORT
