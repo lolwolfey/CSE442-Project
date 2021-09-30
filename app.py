@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import *
 import os
+import sys
 app = Flask(__name__)
 
 app = Flask(__name__)
@@ -22,7 +23,7 @@ def database_test():
     conn.commit()
     cursor.execute("SELECT * FROM test;")
     rows = cursor.fetchall()
-    print(rows)
+    sys.stderr.write(rows)
     conn.close()
     return render_template("Signup.html")
 
