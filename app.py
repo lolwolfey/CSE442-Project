@@ -9,6 +9,7 @@ app = Flask(__name__)
 def hello_world():
     return render_template("Login.html")
 
+@app.route("/test")
 def database_test():
     import psycopg2
     db_config = os.environ['DATABASE_URL']
