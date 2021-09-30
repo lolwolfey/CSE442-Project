@@ -22,7 +22,7 @@ def database_test():
     cursor.execute("INSERT INTO test VALUES ('salad', 0);")
     conn.commit()
     cursor.execute("SELECT * FROM test;")
-    rows = cursor.fetchall()
+    rows = str(cursor.fetchall())
     sys.stderr.write(rows)
     conn.close()
     return render_template("Signup.html")
