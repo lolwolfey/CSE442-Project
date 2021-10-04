@@ -3,7 +3,7 @@ from flask import *
 from . import db
 import os
 import sys
-from flask_login import login_user, login_required, logout_users
+from flask_login import login_user, login_required, logout_user
 
 
 
