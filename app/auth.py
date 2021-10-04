@@ -33,9 +33,10 @@ def login():
         
         user = User.query.filter_by(username=username).first()
 
-        sys.stderr.write(user.username)
-        sys.stderr.write(str(user.password))
+        
         if not user or not check_password_hash(user.password, password):
+            sys.stderr.write(str(generate_password_hash(password, method='sha256')))
+            sys.stderr.write(str(user.password))
             flash('Invalid Ussername or Password. Try Again.')
             return redirect(url_for('auth.login'))
 
