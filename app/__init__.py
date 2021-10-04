@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
+import psycopg2
 
 db = SQLAlchemy()
 
@@ -23,6 +24,8 @@ def create_app():
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    db.create_all()
 
     from .models import User
 
