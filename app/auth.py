@@ -58,11 +58,11 @@ def signup():
 
         if password1 == password2:
             user = User.query.filter_by(email=email).first()
-            if User:
+            if user:
                 message = 'That email already exists'
                 return redirect(url_for('auth.signup'))
             user = User.query.filter_by(email=email).first()
-            if User:
+            if user:
                 message = 'That username already exists'
                 return redirect(url_for('auth.signup'))
             
