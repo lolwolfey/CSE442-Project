@@ -30,8 +30,6 @@ def login():
 
         login_user(user, remember=True)
         redirect(url_for('main.home'))
-
-
     return render_template("Login.html")
 
 
