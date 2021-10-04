@@ -57,6 +57,8 @@ def signup():
         password2 = request.form['password2']
 
         if password1 == password2:
+            db.create_all()
+
             # Check to see if email already exists.
             user = User.query.filter_by(email=email).first()
             if user:
