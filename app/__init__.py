@@ -27,7 +27,7 @@ def create_app():
 
     from .models import User
 
-    db.create_all()
-    
+    #db.create_all()
+
     return app
 
