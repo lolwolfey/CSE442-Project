@@ -5,7 +5,6 @@ from flask_login import login_user
 from .models import User
 
 auth = Blueprint('auth', __name__)
-#db.create_all()
 
 @auth.route("/login", methods =['POST', 'GET'])
 def login():
@@ -20,6 +19,7 @@ def login():
                 authenticate(username,password)
                 return redirect('/')
     """
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -32,6 +32,8 @@ def login():
 
         login_user(user, remember=True)
         redirect(url_for('main.home'))
+
+
     return render_template("Login.html")
 
 
@@ -71,6 +73,7 @@ def signup():
         password1 = request.form['password1']
         password2 = request.form['password2']
 
+
         if password1 == password2:
 
             # Check to see if email already exists.
@@ -105,5 +108,3 @@ def signup():
 
 
     return render_template("Signup.html")
-
-#@app.route("/signup")
