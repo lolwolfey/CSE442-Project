@@ -1,5 +1,7 @@
 from flask import *
 from . import db
+from werkzeug.security import generate_password_hash
+from .models import User
 
 auth = Blueprint('auth', __name__)
 
@@ -19,7 +21,7 @@ def login():
 
 
 @auth.route("/signup", methods=['POST','GET'])
-def database_test():
+def signup():
     """
     import psycopg2
     db_config = os.environ['DATABASE_URL']
@@ -48,6 +50,40 @@ def database_test():
             fake_database.append({'email': email,'username':username,'password':password1})
             return redirect('/')
     """
+    if request.method == 'POST':
+        email = request.form['email']
+        username = request.form['username']
+        password1 = request.form['password1']
+        password2 = request.form['password2']
+
+        if password1 == password2:
+            user = User.query.filter_by(email=email).first()
+            if User:
+                message = 'That email already exists'
+                return redirect(url_for('auth.signup'))
+            user = User.query.filter_by(email=email).first()
+            if User:
+                message = 'That username already exists'
+                return redirect(url_for('auth.signup'))
+            
+            # If the user does not exist and the passwords match, a new user is created.
+            new_user = User(email=email, 
+                            username=username, 
+                            password=generate_password_hash(password1, method='sha256')
+                            )
+
+            db.session.add(new_user)
+            db.session.commit()
+
+            return redirect(url_for('auth.login'))
+        else:
+            message = "Passwords do not match."
+            return redirect(url_for('auth.signup'))
+        
+
+        
+
+
     return render_template("Signup.html")
 
 #@app.route("/signup")
