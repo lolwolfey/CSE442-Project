@@ -3,3 +3,4 @@ psycopg2-binary
 Flask-SQLAlchemy
 Flask-Login
 Flask-Migrate
+Flask-Login
