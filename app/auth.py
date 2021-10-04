@@ -32,6 +32,7 @@ def login():
         
         user = User.query.filter_by(username=username).first()
 
+        print(user)
         if not user or not check_password_hash(user.password, password):
             flash('Invalid Ussername or Password. Try Again.')
             return redirect(url_for('auth.login'))
@@ -87,7 +88,7 @@ def signup():
             if user:
                 flash('That email already exists')
                 return redirect(url_for('auth.signup'))
-            user = User.query.filter_by(email=email).first()
+            user = User.query.filter_by(username=username).first()
 
             # check to see if username already exists.
             if user:
