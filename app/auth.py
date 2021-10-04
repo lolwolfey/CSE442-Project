@@ -8,6 +8,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route("/login", methods =['POST', 'GET'])
 def login():
+    db.create_all()
     """
     if request.method == 'POST':
         username = request.form['username']
@@ -70,7 +71,6 @@ def signup():
         password2 = request.form['password2']
 
         if password1 == password2:
-            db.create_all()
 
             # Check to see if email already exists.
             user = User.query.filter_by(email=email).first()
