@@ -5,10 +5,11 @@ from flask_login import login_user
 from .models import User
 
 auth = Blueprint('auth', __name__)
+db.create_all()
 
 @auth.route("/login", methods =['POST', 'GET'])
 def login():
-    db.create_all()
+    
     """
     if request.method == 'POST':
         username = request.form['username']
