@@ -12,4 +12,4 @@ RUN pip3 install -r requirements.txt
 
 #CMD python3 app.py $PORT
 
-CMD export FLASK_APP=app && flask run --port=$PORT --host=0.0.0.0 --debug=True
+CMD export FLASK_APP=app && flask run --port=$PORT --host=0.0.0.0
