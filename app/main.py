@@ -13,8 +13,9 @@ import sys
 main = Blueprint('main',__name__)
 
 @main.route('/')
+@login_required
 def home():
-    return render_template('\home')
+    return render_template('testHome.html')
 
 
 

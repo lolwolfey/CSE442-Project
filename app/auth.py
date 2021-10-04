@@ -1,6 +1,7 @@
 from flask import *
 from . import db
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user
 from .models import User
 
 auth = Blueprint('auth', __name__)
@@ -17,6 +18,20 @@ def login():
                 authenticate(username,password)
                 return redirect('/')
     """
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        user = User.query.filter_by(username=username).first()
+
+        if not user or not check_password_hash(user.password, password):
+            flash('Invalid Ussername or Password. Try Again.')
+            return redirect(url_for('auth.login'))
+
+        login_user(user, remember=True)
+        redirect(url_for('main.home'))
+
+
     return render_template("Login.html")
 
 
