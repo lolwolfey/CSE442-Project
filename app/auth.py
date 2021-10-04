@@ -57,13 +57,16 @@ def signup():
         password2 = request.form['password2']
 
         if password1 == password2:
+            # Check to see if email already exists.
             user = User.query.filter_by(email=email).first()
             if user:
-                message = 'That email already exists'
+                flash('That email already exists')
                 return redirect(url_for('auth.signup'))
             user = User.query.filter_by(email=email).first()
+
+            # check to see if username already exists.
             if user:
-                message = 'That username already exists'
+                flash('That username already exists')
                 return redirect(url_for('auth.signup'))
             
             # If the user does not exist and the passwords match, a new user is created.
@@ -76,8 +79,9 @@ def signup():
             db.session.commit()
 
             return redirect(url_for('auth.login'))
+        # Check to see if passwords match
         else:
-            message = "Passwords do not match."
+            flash("Passwords do not match.")
             return redirect(url_for('auth.signup'))
         
 

@@ -1,11 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 import os
 
 db = SQLAlchemy()
 
 def create_app():
     app=Flask(__name__)
+
+    migrate = Migrate(app, db)
 
     app.config['SECRET_KEY'] = b'\nI\x18]\xc3\x96m&@\xbffG\xf5a.T'
     app.config['SQLALCHEMY_DATABSE_URI'] = os.environ['DATABASE_URL']
@@ -21,4 +24,7 @@ def create_app():
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    from .models import User
+
     return app
+
