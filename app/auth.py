@@ -41,7 +41,7 @@ def login():
             return redirect(url_for('auth.login'))
 
         login_user(user, remember=True)
-        redirect(url_for('main.home'))
+        return redirect(url_for('main.home'))
 
 
     return render_template("Login.html")
