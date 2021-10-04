@@ -3,6 +3,7 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user
 from .models import User
+import sys
 
 auth = Blueprint('auth', __name__)
 
@@ -32,7 +33,7 @@ def login():
         
         user = User.query.filter_by(username=username).first()
 
-        print(user)
+        sys.stderr.write(user)
         if not user or not check_password_hash(user.password, password):
             flash('Invalid Ussername or Password. Try Again.')
             return redirect(url_for('auth.login'))
