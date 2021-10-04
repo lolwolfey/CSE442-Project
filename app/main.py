@@ -3,7 +3,7 @@ from flask import *
 from . import db
 import os
 import sys
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 
 
 
@@ -16,7 +16,7 @@ main = Blueprint('main',__name__)
 @main.route('/home')
 @login_required
 def home():
-    return render_template('testHome.html')
+    return render_template('testHome.html', username=current_user.username)
 
 
 
