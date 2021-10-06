@@ -1,2 +1,6 @@
 Flask==1.1.2
 psycopg2-binary
+Flask-SQLAlchemy
+Flask-Login
+Flask-Migrate
+Flask-Login
