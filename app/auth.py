@@ -6,7 +6,7 @@ from .models import User
 import sys
 import psycopg2
 import os
-from .lbookmarks import bookmark_channel #delete when merging
+from .bookmarks import bookmark_channel #delete when merging
 auth = Blueprint('auth', __name__)
 
 @auth.route("/")
