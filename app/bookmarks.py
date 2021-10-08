@@ -19,6 +19,9 @@ def bookmark_channel(id,channel):
                            VALUES (%s,%s);
                         """
     cursor.execute(bookmark_command,(id,channel))
+    cursor.execute("SELECT * FROM bookmarks")#Testing Code
+    test = str(cursor.fetchall()) #testing
+    sys.stderr.write(test)#testing
     conn.commit()
     conn.close()
     return True #returns true for successful bookmark
