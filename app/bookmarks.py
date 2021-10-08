@@ -13,6 +13,7 @@ def bookmark_channel(id,channel):
     cursor.execute(check_command,(id,channel))
     row = cursor.fetchone()
     if row != None:
+        sys.stderr.write("aborted")
         return False #bookmark already exists, abort
     #otherwise, insert into the bookmarks table
     bookmark_command = """ INSERT INTO bookmarks(id, channel)
