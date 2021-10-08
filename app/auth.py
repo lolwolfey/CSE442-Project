@@ -6,7 +6,7 @@ from .models import User
 import sys
 import psycopg2
 import os
-from .bookmarks import bookmark_channel #delete when merging
+from .database_handler import bookmark_channel #delete when merging
 auth = Blueprint('auth', __name__)
 
 @auth.route("/")
@@ -43,7 +43,7 @@ def initialize():
     #bookmarks(id,channel) id->user wants to bookmark a channel.
     #Foreign Key constraint makes deleting channels easier. For example
     #If you delete a user with ID=100, all rows where ID = 100 will be deleted as well.
-    cursor.execute(create_test_table)
+    cursor.execute(create_test_table) #delete later
     cursor.execute(create_user_table)
     cursor.execute(create_bookmarks_table)
     conn.commit()
@@ -58,7 +58,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         bookmark_channel(1,username)#delete when merging
-        user = User.query.filter_by(username=username).first()
+        #user = User.query.filter_by(username=username).first()
 
         
         if not user or not check_password_hash(user.password, password):
