@@ -4,12 +4,43 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
 from .models import User
 import sys
-
+import psycopg2
+import os
 auth = Blueprint('auth', __name__)
 
 @auth.route("/")
 def initialize():
-    db.create_all()
+    #db.create_all()
+    #RAW SQL
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    create_user_table = """CREATE TABLE IF NOT EXISTS users( 
+                        id INTEGER ,
+                        email TEXT NOT NULL,
+                        username VARCHAR(100) NOT NULL,
+                        password VARCHAR(100) NOT NULL,
+                        PRIMARY KEY (id),
+                        UNIQUE (email,username)
+                        );
+                        """
+    #users(id = PRIMARY KEY, email = UNIQUE, username = UNIQUE, password)
+    create_bookmarks_table = """ CREATE TABLE IF NOT EXISTS bookmarks(
+                            id INTEGER ,
+                            channel TEXT,
+                            CONSTRAINT fk_users
+                                FOREIGN KEY (id)
+                                    REFERENCES users(id)
+                                    ON DELETE CASCADE
+                            );
+                            """
+    #bookmarks(id,channel) id->user wants to bookmark a channel.
+    #Foreign Key constraint makes deleting channels easier. For example
+    #If you delete a user with ID=100, all rows where ID = 100 will be deleted as well.
+    cursor.execute(create_user_table)
+    cursor.execute(create_bookmarks_table)
+    conn.commit()
+    conn.close()
     return redirect(url_for('auth.login'))
 
 
