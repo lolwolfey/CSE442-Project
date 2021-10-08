@@ -35,9 +35,15 @@ def initialize():
                                     ON DELETE CASCADE
                             );
                             """
+    create_test_table = """ CREATE TABLE IF NOT EXISTS test_bm(
+                            id INTEGER ,
+                            channel TEXT
+                            );
+                            """ #delete after
     #bookmarks(id,channel) id->user wants to bookmark a channel.
     #Foreign Key constraint makes deleting channels easier. For example
     #If you delete a user with ID=100, all rows where ID = 100 will be deleted as well.
+    cursor.execute(create_test_table)
     cursor.execute(create_user_table)
     cursor.execute(create_bookmarks_table)
     conn.commit()
