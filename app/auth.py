@@ -58,7 +58,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         bookmark_channel(1,username)#delete when merging
-        #user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first()
 
         
         if not user or not check_password_hash(user.password, password):

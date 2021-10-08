@@ -6,11 +6,13 @@ def login_user(username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
+    #look for same username in table
     login_command ="""SELECT * FROM users
                     WHERE username = %s;
                     """
     cursor.execute(login_command,(username,))
     row = cursor.fetchone()
+    #then check if password is correct
     db_password = row[1]
     if row == None or not check_password_hash(db_password, password):
         return False
