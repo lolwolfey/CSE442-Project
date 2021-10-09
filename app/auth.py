@@ -17,7 +17,7 @@ def initialize():
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
-                        id INTEGER ,
+                        id SERIAL ,
                         email TEXT NOT NULL,
                         username VARCHAR(100) NOT NULL,
                         password VARCHAR(100) NOT NULL,

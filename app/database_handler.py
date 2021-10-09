@@ -13,9 +13,11 @@ def login_user(username,password):
     cursor.execute(login_command,(username,))
     row = cursor.fetchone()
     #then check if password is correct
-    db_password = row[1]
+    db_password = row[3]
     if row == None or not check_password_hash(db_password, password):
         return False
+    conn.commit()
+    conn.close()
     return True
 
 def signup_user(email,username,password):
@@ -30,9 +32,9 @@ def signup_user(email,username,password):
     username_check = """SELECT * FROM users
                         WHERE username = %s;
                     """
-    cursor.execute(email_check)
+    cursor.execute(email_check,(email))
     returnemail = cursor.fetchone()
-    cursor.execute(username_check)
+    cursor.execute(username_check,(username,))
     returnusername = cursor.fetchone()
     #None = none found in query
     if returnemail == None and returnusername == None:
@@ -41,7 +43,11 @@ def signup_user(email,username,password):
                     """
         hashed_pass=generate_password_hash(password, method='sha256')
         cursor.execute(insert_user,(1,email,username,hashed_pass))
+        conn.commit()
+        conn.close()
         return True #signup good
+    conn.commit()
+    conn.close()
     return False #signup failed
 
 def bookmark_channel(id,channel):
