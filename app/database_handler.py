@@ -41,7 +41,7 @@ def init():
     conn.commit()
     conn.close()
 
-def login_user(username,password):
+def user_login(username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
