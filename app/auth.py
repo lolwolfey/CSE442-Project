@@ -6,48 +6,14 @@ from .models import User
 import sys
 import psycopg2
 import os
-from .database_handler import bookmark_channel #delete when merging
+from .database_handler import bookmark_channel,init #delete when merging
 auth = Blueprint('auth', __name__)
 
 @auth.route("/")
 def initialize():
     #db.create_all()
     #RAW SQL
-    db_config = os.environ['DATABASE_URL']
-    conn = psycopg2.connect(db_config, sslmode='require')
-    cursor = conn.cursor()
-    create_user_table = """CREATE TABLE IF NOT EXISTS users( 
-                        id SERIAL ,
-                        email TEXT NOT NULL,
-                        username VARCHAR(100) NOT NULL,
-                        password VARCHAR(100) NOT NULL,
-                        PRIMARY KEY (id),
-                        UNIQUE (email,username)
-                        );
-                        """
-    #users(id = PRIMARY KEY, email = UNIQUE, username = UNIQUE, password)
-    create_bookmarks_table = """ CREATE TABLE IF NOT EXISTS bookmarks(
-                            id INTEGER ,
-                            channel TEXT,
-                            CONSTRAINT fk_users
-                                FOREIGN KEY (id)
-                                    REFERENCES users(id)
-                                    ON DELETE CASCADE
-                            );
-                            """
-    create_test_table = """ CREATE TABLE IF NOT EXISTS test_bm(
-                            id INTEGER ,
-                            channel TEXT
-                            );
-                            """ #delete after
-    #bookmarks(id,channel) id->user wants to bookmark a channel.
-    #Foreign Key constraint makes deleting channels easier. For example
-    #If you delete a user with ID=100, all rows where ID = 100 will be deleted as well.
-    cursor.execute(create_test_table) #delete later
-    cursor.execute(create_user_table)
-    cursor.execute(create_bookmarks_table)
-    conn.commit()
-    conn.close()
+    init()
     return redirect(url_for('auth.login'))
 
 

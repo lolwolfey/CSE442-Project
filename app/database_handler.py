@@ -2,6 +2,45 @@ import sys
 import psycopg2
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
+
+def init():
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    create_user_table = """CREATE TABLE IF NOT EXISTS users( 
+                        id SERIAL,
+                        email TEXT NOT NULL,
+                        username VARCHAR(100) NOT NULL,
+                        password VARCHAR(100) NOT NULL,
+                        PRIMARY KEY (id),
+                        UNIQUE (email,username)
+                        );
+                        """
+    #serial auto increments ID
+    #users(id = PRIMARY KEY, email = UNIQUE, username = UNIQUE, password)
+    create_bookmarks_table = """ CREATE TABLE IF NOT EXISTS bookmarks(
+                            id INTEGER ,
+                            channel TEXT,
+                            CONSTRAINT fk_users
+                                FOREIGN KEY (id)
+                                    REFERENCES users(id)
+                                    ON DELETE CASCADE
+                            );
+                            """
+    create_test_table = """ CREATE TABLE IF NOT EXISTS test_bm(
+                            id INTEGER ,
+                            channel TEXT
+                            );
+                            """ #delete after
+    #bookmarks(id,channel) id->user wants to bookmark a channel.
+    #Foreign Key constraint makes deleting channels easier. For example
+    #If you delete a user with ID=100, all rows where ID = 100 will be deleted as well.
+    cursor.execute(create_test_table) #delete later
+    cursor.execute(create_user_table)
+    cursor.execute(create_bookmarks_table)
+    conn.commit()
+    conn.close()
+
 def login_user(username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
@@ -32,17 +71,17 @@ def signup_user(email,username,password):
     username_check = """SELECT * FROM users
                         WHERE username = %s;
                     """
-    cursor.execute(email_check,(email))
+    cursor.execute(email_check,(email,))
     returnemail = cursor.fetchone()
     cursor.execute(username_check,(username,))
     returnusername = cursor.fetchone()
     #None = none found in query
     if returnemail == None and returnusername == None:
-        insert_user = """INSERT INTO users(id,email,username,password)
-                        VALUES (%s,%s,%s,%s);
+        insert_user = """INSERT INTO users(email,username,password)
+                        VALUES (%s,%s,%s);
                     """
         hashed_pass=generate_password_hash(password, method='sha256')
-        cursor.execute(insert_user,(1,email,username,hashed_pass))
+        cursor.execute(insert_user,(email,username,hashed_pass))
         conn.commit()
         conn.close()
         return True #signup good

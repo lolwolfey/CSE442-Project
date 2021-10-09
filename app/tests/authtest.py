@@ -10,10 +10,11 @@ def local_initialize():
     #db.create_all()
     #RAW SQL
     #db_config = os.environ['DATABASE_URL']
-    conn = sqlite3.connect("app/tests/testing.db")
+    conn = sqlite3.connect("tests/testing.db")
     cursor = conn.cursor()
+    #cursor.execute("DROP TABLE users")
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
-                        id INTEGER ,
+                        id INTEGER,
                         email TEXT NOT NULL,
                         username VARCHAR(100) NOT NULL,
                         password VARCHAR(100) NOT NULL,
@@ -47,7 +48,7 @@ def local_initialize():
 
 def local_login_user(username,password):
     #db_config = os.environ['DATABASE_URL']
-    conn = sqlite3.connect("app/tests/testing.db")
+    conn = sqlite3.connect("tests/testing.db")
     cursor = conn.cursor()
     #look for same username in table
     login_command ="""SELECT * FROM users
@@ -66,7 +67,7 @@ def local_login_user(username,password):
 
 def local_signup_user(email,username,password):
     #db_config = os.environ['DATABASE_URL']
-    conn = sqlite3.connect("app/tests/testing.db")
+    conn = sqlite3.connect("tests/testing.db")
     cursor = conn.cursor()
     #check if email already exists
     email_check = """SELECT * FROM users
@@ -86,11 +87,11 @@ def local_signup_user(email,username,password):
     #None = none found in query
     if returnemail == None and returnusername == None:
         print("this is true")
-        insert_user = """INSERT INTO users(id,email,username,password)
-                        VALUES (?,?,?,?);
+        insert_user = """INSERT INTO users(email,username,password)
+                        VALUES (?,?,?);
                     """
         hashed_pass=generate_password_hash(password, method='sha256')
-        cursor.execute(insert_user,(1,email,username,hashed_pass))
+        cursor.execute(insert_user,(email,username,hashed_pass))
         cursor.execute("SELECT * FROM users;")
         rows = cursor.fetchall()
         print(rows)
@@ -103,7 +104,7 @@ def local_signup_user(email,username,password):
 
 def local_bookmark_channel(id,channel):
     #db_config = os.environ['DATABASE_URL']
-    conn = sqlite3.connect("app/tests/testing.db")
+    conn = sqlite3.connect("tests/testing.db")
     cursor = conn.cursor()
     #check if bookmark already exists
     check_command = """ SELECT * FROM test_bm
@@ -130,5 +131,9 @@ def main():
     local_initialize()
     assert local_signup_user("hi@gmail.com","testuser","123456") == False
     assert local_login_user("testuser", "123456") == True
+    local_signup_user("hi2@liquid.com","matthewpatel","4561abc")
+    local_bookmark_channel(1,"veritasium")
+    assert local_bookmark_channel(1,"veritasium") == False
+    
 if __name__ == '__main__':
     main()
