@@ -49,6 +49,9 @@ class User:
     def is_active(self):
         return True
     
+    def get_username(self):
+        return self.username
+    
     # similar to is_active, required for Flask_login
     def is_anonymous(self):
         return False

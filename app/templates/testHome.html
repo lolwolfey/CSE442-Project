@@ -4,7 +4,9 @@
         <title>Home Page</title>
     </head>
     <body>
-        <h1>Welco,e {{ username }}</h1>
+        {% if current_user.is_authenticated %}
+            <h1>Welcome {{ current_user.username }}!</h1>
+        {% endif %}
         <form method='POST' action='\logout'>
             <button type="submit">Logout</button>
         </form>
