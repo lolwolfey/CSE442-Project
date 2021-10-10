@@ -3,7 +3,7 @@ import psycopg2
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 class User:
-    user_id = -1
+    user_id = 0
     email = None
     username = None
     hashedPassword = None
@@ -18,7 +18,8 @@ class User:
                 self.username = user[2]
                 self.hashedPassword = user[3]
                 self.user_id = user[0]
-                sys.stderr.write(self.user_id)
+                sys.stdout.write(user[0])
+                sys.stdout.write(self.user_id)
 
         elif username == None and password == None:
             try:
