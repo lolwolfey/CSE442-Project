@@ -18,6 +18,7 @@ class User:
                 self.username = user[2]
                 self.hashedPassword = user[3]
                 self.id = user[0]
+
         elif type(id) is int and username == None and password == None:
             user = get_user_by_id(id)
             self.email = user[1]
@@ -57,7 +58,7 @@ class User:
         return False
 
     def get_id(self):
-        return self.id
+        return str(self.id)
 
 
 
