@@ -26,7 +26,20 @@ def login():
         password = request.form['password']
         #bookmark_channel(1,username)#delete when merging
         user = User(None, username, password)
-        sys.stderr.write(user.get_id().decode())
+        """
+        ~~~~~~~~~DELETE THIS LATER~~~~~~
+        """
+        import psycopg2
+        db_config = os.environ['DATABASE_URL']
+        conn = psycopg2.connect(db_config, sslmode='require')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users;")
+        rows = str(cursor.fetchall())
+        sys.stderr.write(rows)
+        conn.close()
+        """
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        """
         if user.login(username, password):
             login_user(user, remember=True)
             return redirect(url_for('main.home'))

@@ -61,9 +61,6 @@ class User:
     def get_id(self):
         return str(self.user_id).encode()
 
-
-
-
 def init():
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
