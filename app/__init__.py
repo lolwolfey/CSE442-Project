@@ -29,7 +29,8 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User(user_id, None, None)
+        user = User(user_id, None, None)
+        return user
         #return User.query.get(int(user_id))
 
     # Bluprints allow us to control the content users have access to. By creating a separate blueprint 

@@ -54,7 +54,7 @@ class User:
         return False
 
     def get_id(self):
-        return str(self.user_id)
+        return self.user_id.encode()
 
 
 
