@@ -35,7 +35,7 @@ class User:
     """
     
     def login(self, username, password):
-        if login_user(username, password):
+        if user_login(username, password):
             self.authenticated = True
         return self.authenticated
 
@@ -102,7 +102,7 @@ def init():
     conn.commit()
     conn.close()
 
-def login_user(username,password):
+def user_login(username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()

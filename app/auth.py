@@ -6,7 +6,7 @@ from flask_login import login_user, login_required, logout_user
 import sys
 import psycopg2
 import os
-from .database_handler import bookmark_channel, init, signup_user, login_user, User #delete when merging
+from .database_handler import bookmark_channel, init, signup_user, user_login, User #delete when merging
 
 auth = Blueprint('auth', __name__)
 
