@@ -37,9 +37,15 @@ def login():
         rows = str(cursor.fetchall())
         sys.stderr.write(rows)
         conn.close()
+        sys.stderr.write(user.user_id)
+        sys.stderr.write(user.email)
+        sys.stderr.write(user.username)
+        sys.stderr.write(user.hashedPassword)
+        sys.stderr.write(user.authenticated)
         """
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         """
+        
         if user.login(username, password):
             login_user(user, remember=True)
             return redirect(url_for('main.home'))
