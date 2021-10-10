@@ -60,7 +60,7 @@ def init():
     cursor.execute(delete_user_table)
 
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
-                        id SERIAL PRIMARY KEY,
+                        id SERIAL,
                         email TEXT NOT NULL,
                         username VARCHAR(100) NOT NULL,
                         password VARCHAR(100) NOT NULL,
