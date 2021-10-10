@@ -11,14 +11,14 @@ class User:
 
    # A user object can be made in 2 ways, username and password or user id. the other values should be none.
     def __init__(self, id, username, password):
-        if type(id) is int:
+        if id == None:
             user = get_user_by_username(username)
             if user[3] == generate_password_hash(password):
                 self.email = user[1]
                 self.username = user[2]
                 self.hashedPassword = user[3]
                 self.id = user[0]
-        elif username == None and password == None:
+        elif type(id) is int and username == None and password == None:
             user = get_user_by_id(id)
             self.email = user[1]
             self.username = user[2]
