@@ -21,8 +21,6 @@ class User:
                 self.username = user[2]
                 self.hashedPassword = user[3]
                 self.user_id = user[0]
-                sys.stderr.write(user[0])
-                sys.stderr.write(self.user_id)
 
         elif username == None and password == None:
             try:
