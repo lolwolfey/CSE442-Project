@@ -52,6 +52,11 @@ def init():
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
+
+    # Comment/uncomment this to save/delete users table between test deploys
+    delete_user_table = "DROP TABLE %s;"
+    cursor.execute(delete_user_table,('users',))
+
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
                         id SERIAL PRIMARY KEY,
                         email TEXT NOT NULL,
