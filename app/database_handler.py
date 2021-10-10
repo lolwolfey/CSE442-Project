@@ -14,6 +14,8 @@ class User:
         if user_id == None:
             user = get_user_by_username(username)
             sys.stderr.write('here' + str(user))
+            sys.stderr.write('Userpasshash' + user[3])
+            sys.stderr.write('Genpasshash' + generate_password_hash(password, method='sha256'))
             if user[3] == generate_password_hash(password, method='sha256'):
                 self.email = user[1]
                 self.username = user[2]
