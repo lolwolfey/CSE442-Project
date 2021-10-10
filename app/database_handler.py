@@ -54,8 +54,9 @@ class User:
     def is_anonymous(self):
         return False
 
+    # returns unicode user_id
     def get_id(self):
-        return self.user_id.encode()
+        return str(self.user_id).encode()
 
 
 
