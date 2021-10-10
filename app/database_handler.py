@@ -36,8 +36,8 @@ class User:
     
     def login(self, username, password):
         if login_user(username, password):
-            self.autehnticate = True
-        return self.authenticate
+            self.authenticated = True
+        return self.authenticated
 
     def is_authenticated(self):
         return self.authenticated
