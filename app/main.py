@@ -16,7 +16,7 @@ main = Blueprint('main',__name__)
 @main.route('/home')
 @login_required
 def home():
-    return render_template('testHome.html', username=current_user.username)
+    return render_template('testHome.html')
 
 
 
