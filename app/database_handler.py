@@ -13,8 +13,8 @@ class User:
     def __init__(self, user_id, username, password):
         if user_id == None:
             user = get_user_by_username(username)
-            sys.stderr.write(str(user))
-            if user[3] == generate_password_hash(password):
+            sys.stderr.write('here' + str(user))
+            if user[3] == generate_password_hash(password, method='sha256'):
                 self.email = user[1]
                 self.username = user[2]
                 self.hashedPassword = user[3]
