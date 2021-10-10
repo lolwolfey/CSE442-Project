@@ -9,16 +9,6 @@ class User:
     hashedPassword = None
     authenticated = False
 
-    """
-    def __init__(self, email, username, password):   
-        if signup_user(email, username, password):
-            self.email = email
-            self.username = username
-            self.hashedPassword = generate_password_hash(password)
-
-            # Retrieve new user id.
-            self.id = get_user_by_username(username)[0]
-    """
    # A user object can be made in 2 ways, username and password
     def __init__(self, username, password):
         user = get_user_by_username(username)
@@ -34,7 +24,6 @@ class User:
         self.username = user[2]
         self.hashedPassword = user[3]
         self.id = [0]
-        
     
     def login(self, username, password):
         if login_user(username, password):
@@ -64,7 +53,7 @@ def init():
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
-                        id SERIAL,
+                        id SERIAL PRIMARY KEY,
                         email TEXT NOT NULL,
                         username VARCHAR(100) NOT NULL,
                         password VARCHAR(100) NOT NULL,
