@@ -1,20 +1,23 @@
 from flask import *
-from . import db
+#from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
-from .models import User
+#from .models import User
 import sys
 import psycopg2
 import os
-from .database_handler import bookmark_channel,init #delete when merging
+from .database_handler import bookmark_channel, init, signup_user #delete when merging
+
 auth = Blueprint('auth', __name__)
 
+"""
 @auth.route("/")
 def initialize():
     #db.create_all()
     #RAW SQL
     init()
     return redirect(url_for('auth.login'))
+"""
 
 
 @auth.route("/login", methods =['POST', 'GET'])
@@ -46,7 +49,7 @@ def signup():
         password1 = request.form['password1']
         password2 = request.form['password2']
 
-
+        """
         if password1 == password2:
 
             # Check to see if email already exists.
@@ -75,6 +78,15 @@ def signup():
         else:
             flash("Passwords do not match.")
             return redirect(url_for('auth.signup'))
+        """
+        
+    if password1 == password2:
+        if signup_user(email,username, password1):
+            return redirect(url_for('auth.login'))
+        else:
+            flash("There is already an account associated with that email/username.")
+    else:
+        flash("Passwords do not match.")
 
     return render_template("Signup.html")
 

@@ -89,6 +89,21 @@ def signup_user(email,username,password):
     conn.close()
     return False #signup failed
 
+def get_user_by_id(id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    id_check = """SELECT * FROM users
+                    WHERE id = %s;
+                """
+    cursor.execute(id_check,(id,))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    conn.commit()
+    conn.close()
+    return row
+
 def bookmark_channel(id,channel):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
