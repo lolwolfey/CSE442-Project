@@ -10,7 +10,7 @@ class User:
     authenticated = False
 
    # A user object can be made in 2 ways, username and password or user id. the other values should be none.
-    def __init__(self, id, username, password):
+    def __init__(self, user_id, username, password):
         if id == None:
             user = get_user_by_username(username)
             if user[3] == generate_password_hash(password):
@@ -21,10 +21,10 @@ class User:
 
         elif username == None and password == None:
             try:
-                id = int(id)
+                user_id = int(id)
             except ValueError:
                 return None
-            user = get_user_by_id(id)
+            user = get_user_by_id(user_id)
             self.email = user[1]
             self.username = user[2]
             self.hashedPassword = user[3]
