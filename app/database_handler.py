@@ -79,7 +79,7 @@ def init():
                         username VARCHAR(100) NOT NULL,
                         password VARCHAR(100) NOT NULL,
                         PRIMARY KEY (id),
-                        UNIQUE (email,username)
+                        UNIQUE (id, email, username)
                         );
                         """
     #serial auto increments ID
