@@ -37,11 +37,11 @@ def login():
         rows = str(cursor.fetchall())
         sys.stderr.write(rows)
         conn.close()
-        sys.stderr.write(user.user_id.decode())
-        sys.stderr.write(user.email)
-        sys.stderr.write(user.username)
-        sys.stderr.write(user.hashedPassword)
-        sys.stderr.write(user.authenticated)
+        sys.stderr.write(str(user.user_id))
+        sys.stderr.write(str(user.email))
+        sys.stderr.write(str(user.username))
+        sys.stderr.write(str(user.hashedPassword))
+        sys.stderr.write(str(user.authenticated))
         """
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         """
