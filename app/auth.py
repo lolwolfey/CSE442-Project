@@ -16,7 +16,7 @@ def initialize():
     #db.create_all()
     #RAW SQL
     #init()
-    return redirect(url_for('main.home'))
+    return redirect(url_for('auth.login'))
 
 
 @auth.route("/login", methods =['POST', 'GET'])
