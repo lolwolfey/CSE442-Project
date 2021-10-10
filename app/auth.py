@@ -37,7 +37,7 @@ def login():
         login_user(user, remember=True)
         return redirect(url_for('main.home'))
         """
-        user = User(username, password)
+        user = User(None, username, password)
         if user.login(username, password):
             login_user(user)
             return redirect(url_for('main.home'))

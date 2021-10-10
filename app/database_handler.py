@@ -9,14 +9,22 @@ class User:
     hashedPassword = None
     authenticated = False
 
-   # A user object can be made in 2 ways, username and password
-    def __init__(self, username, password):
-        user = get_user_by_username(username)
-        if user[3] == generate_password_hash(password):
+   # A user object can be made in 2 ways, username and password or user id. the other values should be none.
+    def __init__(self, id, username, password):
+        if id == None:
+            user = get_user_by_username(username)
+            if user[3] == generate_password_hash(password):
+                self.email = user[1]
+                self.username = user[2]
+                self.hashedPassword = user[3]
+                self.id = [0]
+        else:
+            user = get_user_by_username(id)
             self.email = user[1]
             self.username = user[2]
             self.hashedPassword = user[3]
             self.id = [0]
+    """
     # or user id
     def __init__(self, id):
         user = get_user_by_username(id)
@@ -24,6 +32,7 @@ class User:
         self.username = user[2]
         self.hashedPassword = user[3]
         self.id = [0]
+    """
     
     def login(self, username, password):
         if login_user(username, password):
