@@ -54,8 +54,8 @@ def init():
     cursor = conn.cursor()
 
     # Comment/uncomment this to save/delete users table between test deploys
-    delete_user_table = "DROP TABLE %s;"
-    cursor.execute(delete_user_table,('users',))
+    delete_user_table = "DROP TABLE users;"
+    cursor.execute(delete_user_table)
 
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
                         id SERIAL PRIMARY KEY,
