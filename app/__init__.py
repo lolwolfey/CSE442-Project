@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 import os
-from .database_handler import bookmark_channel, init, get_user_by_id
+from .database_handler import bookmark_channel, init, User
 
 #db = SQLAlchemy()
 debug = True
@@ -29,7 +29,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return get_user_by_id
+        return User(user_id)
         #return User.query.get(int(user_id))
 
     # Bluprints allow us to control the content users have access to. By creating a separate blueprint 

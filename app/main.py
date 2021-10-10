@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import *
-from . import db
+#from . import db
 import os
 import sys
 from flask_login import login_user, login_required, logout_user, current_user

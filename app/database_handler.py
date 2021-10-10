@@ -2,6 +2,62 @@ import sys
 import psycopg2
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
+class User:
+    id = None
+    email = None
+    username = None
+    hashedPassword = None
+    authenticated = False
+
+    """
+    def __init__(self, email, username, password):   
+        if signup_user(email, username, password):
+            self.email = email
+            self.username = username
+            self.hashedPassword = generate_password_hash(password)
+
+            # Retrieve new user id.
+            self.id = get_user_by_username(username)[0]
+    """
+   # A user object can be made in 2 ways, username and password
+    def __init__(self, username, password):
+        user = get_user_by_username(username)
+        if user[3] == generate_password_hash(password):
+            self.email = user[1]
+            self.username = user[2]
+            self.hashedPassword = user[3]
+            self.id = [0]
+    # or user id
+    def __init__(self, id):
+        user = get_user_by_username(id)
+        self.email = user[1]
+        self.username = user[2]
+        self.hashedPassword = user[3]
+        self.id = [0]
+        
+    
+    def login(self, username, password):
+        if login_user(username, password):
+            self.autehnticate = True
+        return self.authenticate
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    # This is a required method for Flask_login functionality.
+    # for now it always returns true, but if we add functionality to ban/suspend users would change this.
+    def is_active(self):
+        return True
+    
+    # similar to is_active, required for Flask_login
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.id
+
+
+
 
 def init():
     db_config = os.environ['DATABASE_URL']
@@ -41,7 +97,7 @@ def init():
     conn.commit()
     conn.close()
 
-def user_login(username,password):
+def login_user(username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
@@ -88,6 +144,23 @@ def signup_user(email,username,password):
     conn.commit()
     conn.close()
     return False #signup failed
+
+def get_user_by_username(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    username_check = """SELECT * FROM users
+                    WHERE id = %s;
+                """
+    cursor.execute(username_check,(username,))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    conn.commit()
+    conn.close()
+    return row
+
+
 
 def get_user_by_id(id):
     db_config = os.environ['DATABASE_URL']
