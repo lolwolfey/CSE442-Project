@@ -27,6 +27,8 @@ class User:
             except ValueError:
                 return None
             user = get_user_by_id(user_id)
+            if not user:
+                return None
             self.email = user[1]
             self.username = user[2]
             self.hashedPassword = user[3]
