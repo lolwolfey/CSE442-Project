@@ -3,7 +3,7 @@ import psycopg2
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 class User:
-    user_id = 0
+    user_id = None
     email = None
     username = None
     hashedPassword = None
