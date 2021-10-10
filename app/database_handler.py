@@ -54,7 +54,7 @@ class User:
         return False
 
     def get_id(self):
-        return str(self.id)
+        return str(self.user_id)
 
 
 
