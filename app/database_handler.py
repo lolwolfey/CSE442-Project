@@ -13,10 +13,10 @@ class User:
     def __init__(self, user_id, username, password):
         if user_id == None:
             user = get_user_by_username(username)
-            sys.stderr.write('here' + str(user))
-            sys.stderr.write('Userpasshash' + user[3])
-            sys.stderr.write('Genpasshash' + generate_password_hash(password, method='sha256'))
-            if user[3] == generate_password_hash(password, method='sha256'):
+            sys.stderr.write('\nUser: ' + str(user))
+            sys.stderr.write('\nUserpasshash: ' + user[3])
+            sys.stderr.write('\nGenpasshash: ' + generate_password_hash(password, method='sha256'))
+            if check_password_hash(user[3], password):
                 self.email = user[1]
                 self.username = user[2]
                 self.hashedPassword = user[3]
