@@ -17,7 +17,7 @@ class User:
                 self.email = user[1]
                 self.username = user[2]
                 self.hashedPassword = user[3]
-                self.id = user[0]
+                self.user_id = user[0]
 
         elif username == None and password == None:
             try:
