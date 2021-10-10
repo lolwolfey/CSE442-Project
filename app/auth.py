@@ -39,7 +39,7 @@ def login():
         """
         user = User(None, username, password)
         if user.login(username, password):
-            login_user(user)
+            login_user(user, remember=True)
             return redirect(url_for('main.home'))
         else:
             flash('Invalid username or password.')
