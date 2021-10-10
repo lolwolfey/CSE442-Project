@@ -26,7 +26,7 @@ def login():
         password = request.form['password']
         #bookmark_channel(1,username)#delete when merging
         user = User(None, username, password)
-        sys.stderr(user.get_id())
+        sys.stderr.write(user.get_id())
         if user.login(username, password):
             login_user(user, remember=True)
             return redirect(url_for('main.home'))
