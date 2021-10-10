@@ -27,15 +27,6 @@ class User:
             self.id =user[0]
         else:
             return None
-    """
-    # or user id
-    def __init__(self, id):
-        user = get_user_by_username(id)
-        self.email = user[1]
-        self.username = user[2]
-        self.hashedPassword = user[3]
-        self.id = [0]
-    """
     
     def login(self, username, password):
         if user_login(username, password):
