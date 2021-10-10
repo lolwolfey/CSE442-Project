@@ -17,13 +17,13 @@ class User:
                 self.email = user[1]
                 self.username = user[2]
                 self.hashedPassword = user[3]
-                self.id = [0]
+                self.id = user[0]
         elif username == None and password == None:
             user = get_user_by_id(id)
             self.email = user[1]
             self.username = user[2]
             self.hashedPassword = user[3]
-            self.id = [0]
+            self.id =user[0]
         else:
             return None
     """
