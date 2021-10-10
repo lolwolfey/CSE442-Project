@@ -21,6 +21,7 @@ class User:
                 self.username = user[2]
                 self.hashedPassword = user[3]
                 self.user_id = user[0]
+                self.authenticated = True
 
         elif username == None and password == None:
             try:
@@ -34,10 +35,11 @@ class User:
             self.username = user[2]
             self.hashedPassword = user[3]
             self.user_id = user[0]
+            self.authenticated = True
 
         else:
             return None
-    
+
     def login(self, username, password):
         if user_login(username, password):
             self.authenticated = True

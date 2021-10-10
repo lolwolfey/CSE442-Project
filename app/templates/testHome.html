@@ -7,8 +7,6 @@
         {% if current_user.is_authenticated %}
             <h1>Welcome {{ current_user.username }}!</h1>
             <h2>Email: {{ current_user.email }}</h2>
-            <h2>Hashed Password: {{ current_user.password }}</h2>
-            <h2>ID: {{ current_user.id  }}    </h2>
             <h2>Authenticated:  {{ current_user.authenticated }}    </h2>
         {% endif %}
         <form method='POST' action='\logout'>
