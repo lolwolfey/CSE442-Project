@@ -155,7 +155,7 @@ def get_user_by_username(username):
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     username_check = """SELECT * FROM users
-                    WHERE id = %s;
+                    WHERE username = %s;
                 """
     cursor.execute(username_check,(username,))
     row = cursor.fetchone()
