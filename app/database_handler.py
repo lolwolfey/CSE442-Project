@@ -19,7 +19,7 @@ class User:
                 self.hashedPassword = user[3]
                 self.id = [0]
         else:
-            user = get_user_by_username(id)
+            user = get_user_by_id(id)
             self.email = user[1]
             self.username = user[2]
             self.hashedPassword = user[3]
@@ -164,8 +164,6 @@ def get_user_by_username(username):
     conn.commit()
     conn.close()
     return row
-
-
 
 def get_user_by_id(id):
     db_config = os.environ['DATABASE_URL']
