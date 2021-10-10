@@ -10,14 +10,13 @@ from .database_handler import bookmark_channel, init, signup_user, login_user, U
 
 auth = Blueprint('auth', __name__)
 
-"""
+
 @auth.route("/")
 def initialize():
     #db.create_all()
     #RAW SQL
-    init()
+    #init()
     return redirect(url_for('auth.login'))
-"""
 
 
 @auth.route("/login", methods =['POST', 'GET'])
@@ -85,13 +84,13 @@ def signup():
             flash("Passwords do not match.")
             return redirect(url_for('auth.signup'))
         """
-    if password1 == password2:
-        if signup_user(email, username, password1):
-            return redirect(url_for('auth.login'))
+        if password1 == password2:
+            if signup_user(email, username, password1):
+                return redirect(url_for('auth.login'))
+            else:
+                flash('That username/email address is already attached to an account.')
         else:
-            flash('That username/email address is already attached to an account.')
-    else:
-        flash('Passwords do not match.')
+            flash('Passwords do not match.')
 
     return render_template("Signup.html")
 
