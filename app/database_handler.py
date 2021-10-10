@@ -20,7 +20,6 @@ class User:
                 self.id = user[0]
 
         elif username == None and password == None:
-            try:
                 user = get_user_by_id(int(id))
                 self.email = user[1]
                 self.username = user[2]
