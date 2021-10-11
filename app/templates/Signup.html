@@ -89,7 +89,7 @@ body {
   border: 0;
   margin: 0;
   font-family: 'Rancho', cursive;
-  text-align: center;
+  text-align: left;
   list-style-position: inside;
   font-size: 15px;
   white-space: nowrap;
@@ -155,17 +155,15 @@ body {
         <input type="submit" value="Sign Up">
       </form>
       <div class = "signup">Have an account already? <a href="\"> Log in</a></div>
-      <div class = "flashes">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          <ul class = "flashes">
+          <ul class=flashes>
           {% for category, message in messages %}
             <li class="{{ category }}">{{ message }}</li>
           {% endfor %}
           </ul>
         {% endif %}
       {% endwith %}
-    </div>
   </div>
 </body>
 </html>
