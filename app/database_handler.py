@@ -119,8 +119,10 @@ def user_login(username,password):
     cursor.execute(login_command,(username,))
     row = cursor.fetchone()
     #then check if password is correct
+    if row == None:
+        return False
     db_password = row[3]
-    if row == None or not check_password_hash(db_password, password):
+    if not check_password_hash(db_password, password):
         return False
     conn.commit()
     conn.close()
