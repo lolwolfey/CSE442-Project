@@ -86,7 +86,7 @@ def password_requirements(password):
     if upper_case < 3:
         valid = False
         error.append('Must contain at least 3 capital letters.')
-    if lower_case < 4:
+    if lower_case < 3:
         valid = False
         error.append('Must contain at least 3 lower case letters. ')
     if number < 1:
