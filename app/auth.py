@@ -43,16 +43,15 @@ def signup():
         
         if password1 == password2:
             valid, error = password_requirements(password1)
-            if not valid:
+            if valid:
+                if signup_user(email, username, password1):
+                    flash('Account created', 'info')
+                    return redirect(url_for('auth.login'))
+                else:
+                    flash('That username/email address is already attached to an account.', 'error')
+            else:
                 for err in error:
                     flash(err, 'error')
-                    return render_template("Signup.html")
-
-            if signup_user(email, username, password1):
-                flash('Account created', 'info')
-                return redirect(url_for('auth.login'))
-            else:
-                flash('That username/email address is already attached to an account.', 'error')
         else:
             flash('Passwords do not match.', 'error')
 
