@@ -13,13 +13,15 @@ class User:
     def __init__(self, user_id, username, password):
         if user_id == None:
             user = get_user_by_username(username)
-            if check_password_hash(user[3], password):
-                self.email = user[1]
-                self.username = user[2]
-                self.hashedPassword = user[3]
-                self.user_id = user[0]
-                self.authenticated = True
+            if user:
+                if check_password_hash(user[3], password):
+                    self.email = user[1]
+                    self.username = user[2]
+                    self.hashedPassword = user[3]
+                    self.user_id = user[0]
+                    self.authenticated = True
 
+        # Exccpets a unicode ID, must return None id an invalid Id is provided.
         elif username == None and password == None:
             try:
                 user_id = int(user_id)
