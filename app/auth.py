@@ -13,9 +13,6 @@ auth = Blueprint('auth', __name__)
 
 @auth.route("/")
 def initialize():
-    #db.create_all()
-    #RAW SQL
-    #init()
     return redirect(url_for('auth.login'))
 
 
@@ -26,31 +23,12 @@ def login():
         password = request.form['password']
         #bookmark_channel(1,username)#delete when merging
         user = User(None, username, password)
-        """
-        ~~~~~~~~~DELETE THIS LATER~~~~~~
-        """
-        import psycopg2
-        db_config = os.environ['DATABASE_URL']
-        conn = psycopg2.connect(db_config, sslmode='require')
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users;")
-        rows = str(cursor.fetchall())
-        sys.stderr.write(rows)
-        conn.close()
-        sys.stderr.write(str(user.user_id))
-        sys.stderr.write(str(user.email))
-        sys.stderr.write(str(user.username))
-        sys.stderr.write(str(user.hashedPassword))
-        sys.stderr.write(str(user.authenticated))
-        """
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        """
         
         if user.login(username, password):
             login_user(user, remember=True)
             return redirect(url_for('main.home'))
         else:
-            flash('Invalid username or password.')
+            flash('Invalid username or password.', 'error')
 
     return render_template("Login.html")
 
@@ -64,14 +42,58 @@ def signup():
         password2 = request.form['password2']
         
         if password1 == password2:
+
             if signup_user(email, username, password1):
-                return redirect(url_for('auth.login'))
+                # Check for a valid password only if the username and email are unique.
+                valid, error = password_requirements(password1)
+                if not valid:
+                    for err in error:
+                        flash(err, 'error')
+                else:
+                    return redirect(url_for('auth.login'))
             else:
-                flash('That username/email address is already attached to an account.')
+                flash('That username/email address is already attached to an account.', 'error')
         else:
-            flash('Passwords do not match.')
+            flash('Passwords do not match.', 'error')
 
     return render_template("Signup.html")
+
+# The following Password requirements must be met:
+# 3 upper case letters.
+# 3 lower case letters.
+# 1 number.
+# Returns a boolean valid parameter and a array of erros.
+def password_requirements(password):
+    upper_case = 0
+    lower_case = 0
+    number = 0
+    valid = True
+    error = []
+
+    for char in password:
+        if char.isupper():
+            upper_case += 1
+        elif char.islower():
+            lower_case += 1
+        elif char.isdigit():
+            number += 1
+    
+    if upper_case < 3:
+        valid = False
+        error.append('Must contain at least 3 capital letters.')
+    if lower_case < 4:
+        valid = False
+        error.append('Must contain at least 3 lower case letters. ')
+    if number < 1:
+        valid = False
+        error.append('Must contain at least 1 number.')
+
+    if not valid:
+        error.insert(0,'Invalid Password:')
+    
+    return valid, error
+
+
 
 @auth.route("/logout", methods=['POST'])
 @login_required
