@@ -42,14 +42,13 @@ def signup():
         password2 = request.form['password2']
         
         if password1 == password2:
+            valid, error = password_requirements(password1)
+            if not valid:
+                for err in error:
+                    flash(err, 'error')
+                    return render_template("Signup.html")
 
             if signup_user(email, username, password1):
-                # Check for a valid password only if the username and email are unique.
-                valid, error = password_requirements(password1)
-                if not valid:
-                    for err in error:
-                        flash(err, 'error')
-                else:
                     return redirect(url_for('auth.login'))
             else:
                 flash('That username/email address is already attached to an account.', 'error')
@@ -59,11 +58,13 @@ def signup():
     return render_template("Signup.html")
 
 # The following Password requirements must be met:
+# At least 8 characters long.
 # 3 upper case letters.
 # 3 lower case letters.
 # 1 number.
 # Returns a boolean valid parameter and a array of erros.
 def password_requirements(password):
+    count = 0
     upper_case = 0
     lower_case = 0
     number = 0
@@ -71,6 +72,7 @@ def password_requirements(password):
     error = []
 
     for char in password:
+        count += 1
         if char.isupper():
             upper_case += 1
         elif char.islower():
@@ -78,6 +80,9 @@ def password_requirements(password):
         elif char.isdigit():
             number += 1
     
+    if count < 8:
+        valid = False
+        error.append('Must be at least 8 characters long.')
     if upper_case < 3:
         valid = False
         error.append('Must contain at least 3 capital letters.')
