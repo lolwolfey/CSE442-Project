@@ -22,7 +22,7 @@ def search():
 def stats():
     return render_template('Stats.html')
 
-@main.route('/settins')
+@main.route('/settings')
 @login_required
 def settings():
     return render_template('Settings.html')
