@@ -36,7 +36,7 @@
     width: 100%;
     padding: 0 30px;
     height: 40px;
-    font-size: 18px;
+    font-size: 25px;
     border: none;
     background: white;
     outline: 5px;
@@ -108,38 +108,82 @@ body {
   color: black;
 }
 
+i.VerticalLine{
+    border-right: solid rgb(0, 0, 0);
+}
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #eff0f1;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+.sidebar{
+    float:left;
+    width:20%;
+    padding:20px;
+    text-align: center;
+}
+
+.main{
+    float:right;
+    width:80%;
+    padding:20px;
+    padding-top: 7.5%;
+}
+.image_circle{
+      width: 100px;
+      height: 100px;
+      -webkit-border-radius: 50px;
+      -moz-border-radius: 50px;
+      border-radius: 50px;
+      background: rgb(248, 246, 246);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+}
+
 </style>
 <head>
-  <title>Login Page</title>
+  <title>Stats</title>
 </head>
 <body>
 <div class="topnav">
-    <a class="active" href="#home"><i>Boom Boom Sauce</i></a>
+    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
+    <a><i class = "VerticalLine"></i></a>
+    <a href="/Stats"><i>Stats</i></a>
+    <a href="/Search"><i>Search</i></a>
+    <a href="/Settings"><i>Settings</i></a>
+    <form id="logoutbutton" method="post" action="/logout"></form>
+    <a onclick="document.getElementById('logoutbutton').submit();"><i>Log Out</i></a>
 </div>
-  <br></br>
-      <div class = "login">
-        <h1> Welcome! </h1>
-        <form method="post">
-          <div class="textf">
-            <input type="text" placeholder="Enter your email" required>
-            <span></span>
-          </div>
-          <div class="textf">
-            <input type="text" placeholder="Enter your Username" required>
-            <span></span>
-          </div>
-        <div class="textf">
-            <input type="text" placeholder="Enter your Password" required>
-            <span></span>
-        </div>
-            <div class="textf">
-            <input type="text" placeholder="Confirm your Password" required>
-            <span></span>
-            </div>
-       
-      <input type="submit" value="Sign Up">
-        </form>
-      <div class = "signup">Have an account already? <a href="C:\Users\Roshan\Desktop\CSE442-Project\public-html\Login.html"> Log in</a></div>
+  <div>
+      <div class= "main" style="font-family: Arial; font-size:x-large; text-align: left;" >
+
+            Sub Count:
+            <br>
+            Total Videos:
+            <br>
+            Bookmark This Channel
+            <br><br>
+            Bar graph showing daily viewership in the past week
+            <br>
+            
+            <br>
+            Line graph showing daily subscriber growth in the past week
+            <br>
+
+
+      </div>
+      <aside class="sidebar">
+        <div class="image_circle">yes</div>
+        <div style="font-size: x-large; font-family: Arial;">Account</div>
+        <a href="https://www.google.com/" style="font-size: large; font-family: Arial;">link to channel</a>
+      </aside>
   </div>
 </body>
 </html>
