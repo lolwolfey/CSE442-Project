@@ -154,7 +154,6 @@ form.example button {
 <body>
 <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
-    <a><i class = "VerticalLine"></i></a>
     <a href="/stats"><i>Stats</i></a>
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
@@ -181,7 +180,7 @@ form.example button {
       </div>
       <aside class="sidebar">
         <div class="image_circle">yes</div>
-        <div style="font-size: x-large; font-family: Arial;">Account</div>
+        <div style="font-size: x-large; font-family: Arial;">{{ current_user.username }}</div>
         <a href="https://www.google.com/" style="font-size: large; font-family: Arial;">link to channel</a>
       </aside>
   </div>
