@@ -29,3 +29,5 @@ def home():
     return render_template('Stats.html')
 
 
+
+
