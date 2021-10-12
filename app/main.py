@@ -5,12 +5,6 @@ import os
 import sys
 from flask_login import login_user, login_required, logout_user, current_user
 
-
-
-
-#authenticated = [False]
-#fake_database = []
-
 main = Blueprint('main',__name__)
 
 @main.route('/home')
@@ -20,13 +14,18 @@ def home():
 
 @main.route('/search')
 @login_required
-def home():
+def search():
     return render_template('Search.html')
 
 @main.route('/stats')
 @login_required
-def home():
+def stats():
     return render_template('Stats.html')
+
+@main.route('/settins')
+@login_required
+def settings():
+    return render_template('Settings.html')
 
 
 
