@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
@@ -33,10 +33,11 @@
     margin: 10px 0;
   }
   .textf input{
-    width: 100%;
+    transform: translate(-15%, -50%);
+    width: 150%;
     padding: 0 30px;
     height: 40px;
-    font-size: 25px;
+    font-size: 22px;
     border: none;
     background: white;
     outline: 5px;
@@ -50,6 +51,7 @@
     text-decoration: underline;
   }
   input[type="submit"]{
+    transform: translate(0%,-60%);
     width: 50%;
     height: 30px;
     border: 1px solid;
@@ -75,6 +77,16 @@ body {
   font-size: 50px;
 }
 
+.signup {
+  position: relative;
+  border: 0;
+  margin: 0;
+  font-family: 'Rancho', cursive;
+  text-align: center;
+  font-size: 25px;
+  white-space: nowrap;
+}
+
 .topnav { 
   overflow: hidden;
   background-color: rgb(146, 23, 23);
@@ -98,49 +110,25 @@ body {
   color: black;
 }
 
-.channel_card {
-  width: 25%;
-  background-color: blue;
-  padding: 5px 10px;
-}
-
 </style>
-
 <head>
-  <title>Home</title>
+  <title>Search</title>
 </head>
-
 <body>
 <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
     <a><i class = "VerticalLine"></i></a>
-    <a href="/Stats"><i>Stats</i></a>
-    <a href="/Search"><i>Search</i></a>
-    <a href="/Settings"><i>Settings</i></a>
+    <a href="/stats"><i>Stats</i></a>
+    <a href="/search"><i>Search</i></a>
+    <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
     <a onclick="document.getElementById('logoutbutton').submit();"><i>Log Out</i></a>
 </div>
   <br></br>
-
-<div class = "login">
-    {% if current_user.is_authenticated %}
-        <h1>Welcome {{ current_user.username }}!</h1>
-    {% endif %}
-</div>
-  <br></br>
-
-<div class = "login">
-    <h1> Bookmarked Channels </h1>
-</div>
-<br></br>
-
-  {{start_loop}}
-  <div class="channel_card">
-    <h4><b href="{{Channel_Stats_Page}}">{{Channel_Name}}, {{Channel_Subscribers}}</b></h4> 
-    <p type="button" onclick="alert('Bookmark will be deleted.')">Delete Bookmark</p> 
+      <div class = "login">
+        {% if current_user.is_authenticated %}
+            <h1>{{ current_user.username }}'s Settings Page</h1>
+        {% endif %}
   </div>
-  <br></br>
-  {{end_loop}}
-
 </body>
 </html>
