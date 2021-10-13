@@ -81,9 +81,12 @@ body {
 }
 
 .channel_card {
-  width: 25%;
-  background-color: blue;
+  width: 50%;
+  background-color: white;
   padding: 5px 10px;
+  align-self: center;
+  align-content: center;
+  align-items: center;
 }
 </style>
 
@@ -94,25 +97,22 @@ body {
 <body>
 <div class="topnav">
     <a class="active" href="#home"><i>Boom Boom Sauce</i></a>
+    <a class="active" href="#setting"><i>Settings</i></a>
+    <a class="active" href="#search"><i>Search</i></a>
 </div>
 <br></br>
 
-<div class = "login">
-        <h1> {{Other_User}} </h1>
+<div>
+  <h1> {{Other_User}} </h1>
+  <h1> Bookmarked Channels </h1>
 </div>
 <br></br>
 
-<div class = "login">
-    <h1> Bookmarked Channels </h1>
-</div>
-<br></br>
-
-  {{start_loop}}
+<!--{{start_loop}}-->
   <div class="channel_card">
-    <h4><b href="{{Channel_Stats_Page}}">{{Channel_Name}}, {{Channel_Subscribers}}</b></h4> 
+    <h4><b href="{{Channel_Stats_Page}}" onclick="alert('redirect to channel stats page')">{{Channel_Name}}, {{Channel_Subscribers}}</b></h4> 
   </div>
   <br></br>
-  {{end_loop}}
-
+<!--{{end_loop}}-->
 </body>
 </html>
