@@ -25,7 +25,7 @@
   }
   .login form{
     padding: 0 100px;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
   }
   form .textf{
     position: relative;
@@ -33,11 +33,10 @@
     margin: 10px 0;
   }
   .textf input{
-    transform: translate(-15%, -50%);
-    width: 150%;
+    width: 100%;
     padding: 0 30px;
     height: 40px;
-    font-size: 22px;
+    font-size: 25px;
     border: none;
     background: white;
     outline: 5px;
@@ -51,7 +50,6 @@
     text-decoration: underline;
   }
   input[type="submit"]{
-    transform: translate(0%,-60%);
     width: 50%;
     height: 30px;
     border: 1px solid;
@@ -77,16 +75,6 @@ body {
   font-size: 50px;
 }
 
-.signup {
-  position: relative;
-  border: 0;
-  margin: 0;
-  font-family: 'Rancho', cursive;
-  text-align: center;
-  font-size: 25px;
-  white-space: nowrap;
-}
-
 .topnav { 
   overflow: hidden;
   background-color: rgb(146, 23, 23);
@@ -110,10 +98,21 @@ body {
   color: black;
 }
 
+.channel_card {
+  width: 50%;
+  background-color: white;
+  padding: 5px 10px;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+}
+
 </style>
+
 <head>
-  <title>Home</title>
+  <title>Main Page</title>
 </head>
+
 <body>
 <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
@@ -125,10 +124,23 @@ body {
     <a onclick="document.getElementById('logoutbutton').submit();"><i>Log Out</i></a>
 </div>
   <br></br>
-      <div class = "login">
-        {% if current_user.is_authenticated %}
-            <h1>Welcome {{ current_user.username }}!</h1>
-        {% endif %}
-  </div>
+
+<div>
+    {% if current_user.is_authenticated %}
+    <h1>Welcome {{ current_user.username }}!</h1>
+    {% endif %}
+    <br></br>
+    <h1> Bookmarked Channels </h1>
+</div>
+<br></br>
+
+<!--{{start_loop}}-->
+<div class="channel_card">
+    <b href="{{Channel_Stats_Page}}" onclick="alert('redirect to channel stats page')">{{Channel_Name}}, {{Channel_Subscribers}}</b>
+    <p type="button" onclick="confirm('Bookmark will be deleted. Continue?')">Delete Bookmark</p> 
+</div>
+<br></br>
+<!--{{end_loop}}-->
+
 </body>
 </html>
