@@ -120,7 +120,7 @@ body {
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
-    <a onclick="document.getElementById('logoutbutton').submit();confirm('Account will be logged out. Continue?')"><i>Log Out</i></a>
+    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
   <br></br>
 
