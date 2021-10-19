@@ -110,24 +110,19 @@ body {
 </style>
 
 <head>
-  <title>Home Page</title>
+  <title>Main Page</title>
 </head>
 
 <body>
 <div class="topnav">
-    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
-    <a href="/stats"><i>Stats</i></a>
-    <a href="/search"><i>Search</i></a>
-    <a href="/settings"><i>Settings</i></a>
-    <form id="logoutbutton" method="post" action="/logout"></form>
-    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
+    <a class="active" href="#home"><i>Boom Boom Sauce</i></a>
+    <a class="active" href="#setting"><i>Settings</i></a>
+    <a class="active" href="#search"><i>Search</i></a>
 </div>
   <br></br>
 
 <div>
-    {% if current_user.is_authenticated %}
-    <h1>Welcome {{ current_user.username }}!</h1>
-    {% endif %}
+    <h1> Hello, {{Username}}!</h1>
     <br></br>
     <h1> Bookmarked Channels </h1>
 </div>
