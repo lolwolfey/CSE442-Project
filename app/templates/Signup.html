@@ -16,7 +16,7 @@
     width: 400px;
     background: #BDBDBD;
     border-radius: px;
-    
+    z-index: 0
   }
   .login h1{
     text-align: center;
@@ -84,12 +84,25 @@ body {
   font-size: 25px;
   white-space: nowrap;
 }
+.flashes {
+  position: relative;
+  border: 0;
+  margin: 0;
+  font-family: 'Rancho', cursive;
+  text-align: center;
+  list-style-position: inside;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.error {
+  color: red;
+}
 
 .topnav { 
   overflow: hidden;
   background-color: rgb(146, 23, 23);
   font-family: 'Rancho', cursive;
-  
+  z-index: 1;
 }
 
 .topnav a {
@@ -142,6 +155,17 @@ body {
         <input type="submit" value="Sign Up">
       </form>
       <div class = "signup">Have an account already? <a href="\"> Log in</a></div>
+      <div class = "flashes">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+    </div>
   </div>
 </body>
 </html>
