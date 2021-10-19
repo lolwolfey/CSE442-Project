@@ -10,7 +10,7 @@ main = Blueprint('main',__name__)
 @main.route('/home')
 @login_required
 def home():
-    return render_template('testHome.html')
+    return render_template('Home.html')
 
 @main.route('/search')
 @login_required

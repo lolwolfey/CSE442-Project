@@ -108,9 +108,6 @@ body {
   color: black;
 }
 
-i.VerticalLine{
-    border-right: solid rgb(0, 0, 0);
-}
 form.example button {
   float: left;
   width: 20%;
@@ -152,13 +149,13 @@ form.example button {
   <title>Stats</title>
 </head>
 <body>
-<div class="topnav">
-    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
+  <div class="topnav">
+    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
     <a href="/stats"><i>Stats</i></a>
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
-    <a onclick="document.getElementById('logoutbutton').submit();"><i>Log Out</i></a>
+    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
   <div>
       <div class= "main" style="font-family: Arial; font-size:x-large; text-align: left;" >

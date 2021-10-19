@@ -25,7 +25,7 @@
   }
   .login form{
     padding: 0 100px;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
   }
   form .textf{
     position: relative;
@@ -36,7 +36,7 @@
     width: 100%;
     padding: 0 30px;
     height: 40px;
-    font-size: 18px;
+    font-size: 25px;
     border: none;
     background: white;
     outline: 5px;
@@ -75,16 +75,6 @@ body {
   font-size: 50px;
 }
 
-.signup {
-  position: relative;
-  border: 0;
-  margin: 0;
-  font-family: 'Rancho', cursive;
-  text-align: center;
-  font-size: 25px;
-  white-space: nowrap;
-}
-
 .topnav { 
   overflow: hidden;
   background-color: rgb(146, 23, 23);
@@ -108,38 +98,48 @@ body {
   color: black;
 }
 
+.channel_card {
+  width: 50%;
+  background-color: white;
+  padding: 5px 10px;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+}
+
 </style>
+
 <head>
-  <title>Login Page</title>
+  <title>Main Page</title>
 </head>
+
 <body>
 <div class="topnav">
-    <a class="active" href="#home"><i>Boom Boom Sauce</i></a>
+    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
+    <a href="/stats"><i>Stats</i></a>
+    <a href="/search"><i>Search</i></a>
+    <a href="/settings"><i>Settings</i></a>
+    <form id="logoutbutton" method="post" action="/logout"></form>
+    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
   <br></br>
-      <div class = "login">
-        <h1> Welcome! </h1>
-        <form method="post">
-          <div class="textf">
-            <input type="text" placeholder="Enter your email" required>
-            <span></span>
-          </div>
-          <div class="textf">
-            <input type="text" placeholder="Enter your Username" required>
-            <span></span>
-          </div>
-        <div class="textf">
-            <input type="text" placeholder="Enter your Password" required>
-            <span></span>
-        </div>
-            <div class="textf">
-            <input type="text" placeholder="Confirm your Password" required>
-            <span></span>
-            </div>
-       
-      <input type="submit" value="Sign Up">
-        </form>
-      <div class = "signup">Have an account already? <a href="C:\Users\Roshan\Desktop\CSE442-Project\public-html\Login.html"> Log in</a></div>
-  </div>
+
+<div>
+    {% if current_user.is_authenticated %}
+    <h1>Welcome {{ current_user.username }}!</h1>
+    {% endif %}
+    <br></br>
+    <h1> Bookmarked Channels </h1>
+</div>
+<br></br>
+
+<!--{{start_loop}}-->
+<div class="channel_card">
+    <b href="{{Channel_Stats_Page}}" onclick="alert('redirect to channel stats page')">{{Channel_Name}}, {{Channel_Subscribers}}</b>
+    <p type="button" onclick="confirm('Bookmark will be deleted. Continue?')">Delete Bookmark</p> 
+</div>
+<br></br>
+<!--{{end_loop}}-->
+
 </body>
 </html>
