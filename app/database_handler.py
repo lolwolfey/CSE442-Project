@@ -193,7 +193,7 @@ def bookmark_channel(id,channel):
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     #check if bookmark already exists
-    check_command = """ SELECT * FROM test_bm
+    check_command = """ SELECT * FROM bookmarks
                         WHERE id = %s AND channel = %s;
                     """
     cursor.execute(check_command,(id,channel))
@@ -202,11 +202,11 @@ def bookmark_channel(id,channel):
         sys.stderr.write("aborted")
         return False #bookmark already exists, abort
     #otherwise, insert into the bookmarks table
-    bookmark_command = """ INSERT INTO test_bm(id, channel)
+    bookmark_command = """ INSERT INTO bookmarks(id, channel)
                            VALUES (%s,%s);
                         """
     cursor.execute(bookmark_command,(id,channel))
-    cursor.execute("SELECT * FROM test_bm")#Testing Code
+    cursor.execute("SELECT * FROM bookmarks")#Testing Code
     test = str(cursor.fetchall()) #testing
     sys.stderr.write(test)#testing
     conn.commit()
