@@ -212,3 +212,17 @@ def bookmark_channel(id,channel):
     conn.commit()
     conn.close()
     return True #returns true for successful bookmark
+
+#can change username paramerter to id if need be
+def change_pass(username,new_password):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    hashed_new_pass = generate_password_hash(new_password,method="sha256")
+    change_pass_command = """ UPDATE users 
+                            SET password = %s
+                            WHERE username = %s;
+                          
+                          """
+    cursor.execute(change_pass_command,(hashed_new_pass,username))
+
