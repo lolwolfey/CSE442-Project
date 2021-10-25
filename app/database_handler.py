@@ -225,4 +225,6 @@ def change_pass(username,new_password):
                           
                           """
     cursor.execute(change_pass_command,(hashed_new_pass,username))
+    conn.commit()
+    conn.close()
 
