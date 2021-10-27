@@ -1,5 +1,5 @@
 import sqlite3
-from sqlite3.dbapi2 import Cursor
+#from sqlite3.dbapi2 import Cursor
 import psycopg2
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -152,13 +152,14 @@ def print_select_all():
 def main():
     local_initialize()
     assert local_signup_user("hi@gmail.com","testuser","123456") == False
-    assert local_login_user("testuser", "123456") == True
+    #assert local_login_user("testuser", "123456") == True
     local_signup_user("hi2@liquid.com","matthewpatel","4561abc")
     local_bookmark_channel(1,"veritasium")
     assert local_bookmark_channel(1,"veritasium") == False
     print_select_all()
     local_change_pass("testuser","abc1548974549")
     print_select_all()
+    assert local_login_user("testuser","abc1548974549") == True
     
 if __name__ == '__main__':
     main()
