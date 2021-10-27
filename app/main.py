@@ -42,12 +42,9 @@ def create_figure():
     axis = fig.add_subplot(1, 1, 1)
     xs = range(100)
     ys = [random.randint(1, 50) for x in xs]
-    """
-    Fix this.
-    axis.title("Random Noise")
-    axis.xlabel("1 - 100")
-    axis.ylabel("Random #'s (1-50)")
-    """
+    axis.set_title("Random Noise")
+    axis.set_xlabel("1 - 100")
+    axis.set_ylabel("Random #'s (1-50)")
     axis.plot(xs, ys, )
     return fig
 
