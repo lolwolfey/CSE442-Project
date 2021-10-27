@@ -37,20 +37,26 @@ request = youtube.channels().list(
     part='snippet, contentDetails,statistics',
     id = 'UCupvZG-5ko_eiXAupbDfxWw',
 )
-
+#data from the youtube channel
 response = request.execute()
+
+
 channel_stats = response['items']
+
+#gets the upload id of the youtube account so that we can access their videos
 upload_id = channel_stats[0]['contentDetails']['relatedPlaylists']['uploads']
-print(upload_id)
 
 video_list = []
+
+#requests the 50 most recent videos uploaded by the youtube page using their upload_id. This is limited to 50 ids for request.
 request = youtube.playlistItems().list(
     part="snippet,contentDetails",
     playlistId=upload_id,
     maxResults = 50
 )
-
 response = request.execute()
+
+#Gets the videoId of each video so that we can access the data on each video
 data = response['items']
 for video in data:
     video_id = video['contentDetails']['videoId']
@@ -61,6 +67,7 @@ print(len(video_list))
 
 stats_list = []
 
+#Requests the statistics on each video from our Video_list
 request = youtube.videos().list(
     part = "snippet,contentDetails,statistics",
     id = video_list[0:50]
@@ -89,6 +96,6 @@ for vid in stats_list:
     published.insert(0,vid['published'])
 print(view_list)
 plt.plot(published, view_list)
-plt.ylabel('Viewers (in millions')
+plt.ylabel('Viewers (in millions)')
 plt.xlabel('Videos')
-plt.show()
+plt.savefig('Viewer_count.png')
