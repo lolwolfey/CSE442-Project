@@ -8,8 +8,7 @@
     box-sizing: border-box;
     font-family: "Rancho", cursive;
   }
-  
-  .login{
+  .search{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -19,21 +18,27 @@
     border-radius: px;
     
   }
-  .login h1{
+  .search h1{
+    transition: transform(-50%,-50%);
     text-align: center;
     padding: 5px 0;
     border-bottom: 1px solid silver;
   }
-  .login form{
+  .search form{
     padding: 0 100px;
     box-sizing: border-box;
   }
-
+  form .textf{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 10px 0;
+  }
   .textf input{
-    width: 100%;
+    transform: translate(-15%, -50%);
+    width: 150%;
     padding: 0 30px;
     height: 40px;
-    font-size: 25px;
+    font-size: 22px;
     border: none;
     background: white;
     outline: 5px;
@@ -46,7 +51,23 @@
   .pass:hover{
     text-decoration: underline;
   }
-
+  input[type="submit"]{
+    transform: translate(0%,-60%);
+    width: 50%;
+    height: 30px;
+    border: 1px solid;
+    background: red;
+    border-radius: 25px;
+    font-size: 18px;
+    color: #e9f4fb;
+    font-weight: 700;
+    cursor: pointer;
+    outline: 5px;
+  }
+  input[type="submit"]:hover{
+    border-color: black;
+    transition: .5s;
+  }
 body {
   background-color: #BDBDBD;
   border: 0;
@@ -55,6 +76,16 @@ body {
   font-weight: bold;
   text-align: center;
   font-size: 50px;
+}
+
+.signup {
+  position: relative;
+  border: 0;
+  margin: 0;
+  font-family: 'Rancho', cursive;
+  text-align: center;
+  font-size: 25px;
+  white-space: nowrap;
 }
 
 .topnav { 
@@ -80,123 +111,111 @@ body {
   color: black;
 }
 
-.leftPhoto {
-  font-size: 30px;
-  align-content: left;
-  align-self: left;
-  align-items: center;
-  text-align: left;
-  margin-left: 150px;
-  margin-top: -50px;
+#searchBar {
+    transform: translate(0%,-100%);
+    top: 100px;
+    width: 100%;
+    height: 32px;
+    border-radius: 3px;
+    border: 1px solid #eaeaea;
+    padding: 5px 10px;
+    font-size: 25px;
+    text-align: center;
 }
 
-.channelName {
-  font-size: 30px;
-  text-align: left;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 0px;
+#searchWrapper {
+    position: relative;
 }
 
-form.example button {
+#searchWrapper::after {
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+
+#charactersList {
+    padding-inline-start: 0;
+    display: flex;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 20px;
+}
+
+.character {
+    list-style-type: none;
+    background-color: rgb(146, 23, 23);
+    border-radius: 3px;
+    padding: 5px 10px;
+    display: flex;
+    grid-template-columns: 3fr 1fr;
+    grid-template-areas:
+        'name'
+    text-align: center;
+}
+
+.character > h2 {
+    margin-bottom: 0px;
+    color: #FFFFFF;
+}
+
+.channelBoxes {
+  width: 850px;
+  height: 200px;
+  margin: 0 auto;
+  transform: translate(-40%,20%);
+  font-size: 30px;
+}
+
+.col {
+  width: 100px;
+  height: 80px;
+  background-color: red;
   float: left;
-  width: 20%;
-  padding: 10px;
-  background: #eff0f1;
-  color: white;
-  font-size: 17px;
-  border: 1px solid grey;
-  border-left: none;
-  cursor: pointer;
-}
-
-.channelStats {
-  font-size: 50px;
+  border: 2px solid black;
+  padding: 40px;
+  margin: 40px;
+  font-size: 30px;
   text-align: center;
-  transform: translate(0%,-150%);
-  margin-top: 40px;
-}
-.channel_card {
-  width: 50%;
-  background-color: white;
-  padding: 5px 10px;
-  align-self: center;
-  align-content: center;
-  align-items: center;
 }
 
-img.rounded-corners {
-  border-radius: 50%;
+.submit_popular {
+  width: 100%;
+  height: 100%
 }
-
-.sidebar{
-    float:left;
-    width:20%;
-    padding:10px;
-    padding-top: 5%;
-    text-align: center;
-}
-
-.main{
-    float:right;
-    font-size:50px; 
-    font-family: "Rancho", cursive; 
-    width:80%;
-    text-align: center;
-    margin-top: 5px;
-    transform: translate(0%,-80%);
-}
-
-.image_circle{
-      width: 100px;
-      height: 100px;
-      -webkit-border-radius: 50px;
-      -moz-border-radius: 50px;
-      border-radius: 50px;
-      background: rgb(248, 246, 246);
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-}
-
 </style>
-
 <head>
-  <title>{{Other_User}}'s Page</title>
+  <title>Search</title>
 </head>
-
 <body>
-  <div class="topnav">
-    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
+<div class="topnav">
+    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
     <a href="/stats"><i>Stats</i></a>
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
     <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
-<br></br>
-
-<div class="leftPhoto">
-  <img src="{{thumbNail}}" class="rounded-corners" />
-  <h1> <b>{{Other_User}}</b> </h1>
-</div>
-<div class="channelStats">
-  <p>Subscriber Count: {{subCounter}}</p>
-  <p>Viewer Count: {{viewCounter}}</p>
-  <p>Video Count: {{videoCounter}}</p>
-  <p> <i> <a href="#bookmarks">Bookmark this Channel</a></i></p> 
-</div>
-
-
-<div class= "main">
-  Bar graph showing daily viewership in the past week
-  <br>
-  <br>          
-  <br>
-  Line graph showing daily subscriber growth in the past week
-  <br>
-</div>
-<!--{{start_loop}}-->
-<!--{{end_loop}}-->
+  <br></br>
+  <div class="search">
+    <h1>Search</h1>
+    <br/>
+    <form method="POST">
+      <div class="textf">
+        <input type="text" name="userName" id="userName" placeholder="Enter the username of YouTuber!" required>
+      </div>
+      <input
+          type="submit"
+          value="Search"
+        />
+    </form>
+<br>
+<div style = "font-size: 25px; width: 400px;"> <h1> Popular YouTube Channels </h1> </div>
+<form method="POST">
+  <div class="channelBoxes">
+    <input type="submit" name="col" id="userName" value="PewDiePie" />
+    <input type="submit" name="col" id="pop2" value="MrBeast6000" />
+    <input type="submit" name="col" id="pop3" value="VanossGaming" />
+    <input type="submit" name="col" id="pop4" value="DrDisRespect" />
+  </div>
+</form>
 </body>
 </html>
