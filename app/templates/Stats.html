@@ -98,6 +98,18 @@ body {
   margin-top: 0px;
 }
 
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #eff0f1;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
 .channelStats {
   font-size: 50px;
   text-align: center;
@@ -154,13 +166,13 @@ img.rounded-corners {
 </head>
 
 <body>
-<div class="topnav">
-    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
+  <div class="topnav">
+    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
     <a href="/stats"><i>Stats</i></a>
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
-    <a onclick="document.getElementById('logoutbutton').submit();"><i>Log Out</i></a>
+    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
 <br></br>
 

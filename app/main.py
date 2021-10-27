@@ -10,7 +10,7 @@ channels = [()]
 @main.route('/home')
 @login_required
 def home():
-    return render_template('testHome.html')
+    return render_template('Home.html')
 
 @main.route('/search',methods = ["GET","POST"])
 @login_required
