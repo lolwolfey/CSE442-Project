@@ -1,5 +1,4 @@
 from flask import *
-<<<<<<< HEAD
 import os
 import sys
 import requests
@@ -11,19 +10,6 @@ import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import random
-=======
-import os
-import sys
-import requests
-#from . import db
-from flask_login import login_user, login_required, logout_user, current_user
-import json
-import YoutubeStats
-import io
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-import random
->>>>>>> Statistics
 
 main = Blueprint('main',__name__)
 
