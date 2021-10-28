@@ -6,3 +6,4 @@ Flask-Migrate
 Flask-Login
 matplotlib
 requests
+google-api-python-client
