@@ -5,3 +5,4 @@ Flask-Login
 Flask-Migrate
 Flask-Login
 matplotlib
+requests
