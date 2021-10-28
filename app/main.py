@@ -5,7 +5,7 @@ import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 import json
-import YoutubeStats
+from . import YoutubeStats
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
