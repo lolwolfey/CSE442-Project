@@ -245,7 +245,7 @@ def name_to_id(channel_id, channel_name):
     insert_relation_command = """INSERT INTO idtoname(channel_id, channel_name)
                                 VALUES(%s, %s);
                                 """
-    cursor.execute(insert_relation_command,channel_id,channel_name)
+    cursor.execute(insert_relation_command,(channel_id,channel_name))
     conn.commit()
     conn.close()
 
@@ -258,6 +258,6 @@ def get_channel_id(channel_name):
     get_id_command = """SELECT channel_id FROM idtoname
                         WHERE channel_name = %s;
                     """
-    cursor.execute(get_id_command,channel_name)
+    cursor.execute(get_id_command,(channel_name,))
     retval = cursor.fetchone()
     return retval
