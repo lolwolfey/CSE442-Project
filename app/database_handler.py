@@ -249,3 +249,15 @@ def name_to_id(channel_id, channel_name):
     conn.commit()
     conn.close()
 
+#get id from querying username
+#returns id
+def get_channel_id(channel_name):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    get_id_command = """SELECT channel_id FROM idtoname
+                        WHERE channel_name = %s;
+                    """
+    cursor.execute(get_id_command,channel_name)
+    retval = cursor.fetchone()
+    return retval
