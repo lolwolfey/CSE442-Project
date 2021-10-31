@@ -74,6 +74,14 @@ def init():
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
 
+    create_idtoname_relation = """CREATE TABLE IF NOT EXISTS idtoname(
+                                channel_id INTEGER,
+                                channel_name VARCHAR(100),
+                                PRIMARY KEY (channel_id),
+                                UNIQUE (channel_name)
+                                );
+                                """
+
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
                         id SERIAL,
                         email TEXT NOT NULL,
@@ -105,6 +113,7 @@ def init():
     cursor.execute(create_test_table) #delete later
     cursor.execute(create_user_table)
     cursor.execute(create_bookmarks_table)
+    cursor.execute(create_idtoname_relation)
     conn.commit()
     conn.close()
 
@@ -225,6 +234,18 @@ def change_pass(username,new_password):
                           
                           """
     cursor.execute(change_pass_command,(hashed_new_pass,username))
+    conn.commit()
+    conn.close()
+
+#save id into database
+def name_to_id(channel_id, channel_name):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    insert_relation_command = """INSERT INTO idtoname(channel_id, channel_name)
+                                VALUES(%s, %s);
+                                """
+    cursor.execute(insert_relation_command,channel_id,channel_name)
     conn.commit()
     conn.close()
 
