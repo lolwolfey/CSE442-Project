@@ -56,7 +56,7 @@ def stats():
 def settings():
     return render_template('Settings.html')
 
-4@main.route('/plot.png')
+@main.route('/plot.png')
 @login_required
 def plot_png():
     fig = create_figure()
