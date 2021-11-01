@@ -7,3 +7,4 @@ Flask-Login
 matplotlib
 requests
 google-api-python-client
+pyparsing==2.4.7
