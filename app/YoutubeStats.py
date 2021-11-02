@@ -54,7 +54,7 @@ def WeeklyViewerCount(Chann_Id):
     request = youtube.playlistItems().list(
         part="snippet,contentDetails",
         playlistId=upload_id,
-        maxResults = 50
+        maxResults = 10
     )
     response = request.execute()
 
