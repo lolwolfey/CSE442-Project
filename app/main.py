@@ -34,7 +34,6 @@ def search():
         subCount = data['items'][0]["statistics"]["subscriberCount"]
         viewCount = data['items'][0]["statistics"]["viewCount"]
         videoCount = data['items'][0]["statistics"]["videoCount"]
-    #channelPic = data['items'][0]["high"]["url"]
         channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
 
         infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID)
