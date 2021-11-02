@@ -26,11 +26,12 @@ def search():
     if request.method == "POST":
         #print(request.form)
         #print(request.form.get("username"))
-        ytchannel = request.form.get("username") #get the username field of form in search page
+        ytchannel = request.form.get("userName") #get the username field of form in search page
         url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&forUsername={ytchannel}&key={api_key}"
         json_url = requests.get(url) #get the json data from url
         data = json.loads(json_url.text)
-        #print(data)
+        
+        sys.stderr.write(str(data))
         channelID = data['items'][0]["id"] #channelID to use for plotting
         subCount = data['items'][0]["statistics"]["subscriberCount"]
         viewCount = data['items'][0]["statistics"]["viewCount"]
