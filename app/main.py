@@ -57,7 +57,7 @@ def stats():
 def settings():
     return render_template('Settings.html')
 
-# @main.route('/barplot.png')
+# @main.route('/barplot.png')       // put all the images under plot.png route
 # @login_required
 # def plot_png():
 #     fig = create_figure()
@@ -78,11 +78,11 @@ def settings():
 
 @main.route('/plot.png')
 @login_required
-def plot_png():
-    fig = create_figure()
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-    return Response(output.getvalue(), mimetype='image/png')
+# def plot_png():
+#     fig = create_figure()
+#     output = io.BytesIO()
+#     FigureCanvas(fig).print_png(output)
+#     return Response(output.getvalue(), mimetype='image/png')
 
 def create_figure():
     fig = Figure()
