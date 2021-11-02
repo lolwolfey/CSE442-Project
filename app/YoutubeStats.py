@@ -97,8 +97,11 @@ def WeeklyViewerCount(Chann_Id):
         day = day[0]
         published.insert(0,vid['published'])
     print(view_list)
+
+    return (published, view_list)
+    """
     plt.plot(published, view_list)
     plt.ylabel('Viewers (in millions)')
     plt.xlabel('Videos')
     plt.savefig('Viewer_count.png')
-    
+    """

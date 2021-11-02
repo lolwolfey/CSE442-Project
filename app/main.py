@@ -49,7 +49,7 @@ def search():
 @login_required
 def stats():
     global channels
-    YoutubeStats.WeeklyViewerCount(channels[0][5])
+    published, viewlist = YoutubeStats.WeeklyViewerCount(channels[0][5])
     return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
 
 @main.route('/settings')
@@ -66,14 +66,13 @@ def plot_png():
     return Response(output.getvalue(), mimetype='image/png')
 
 def create_figure():
+    x, y = YoutubeStats.WeeklyViewerCount(channels[0][5])
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
-    xs = range(100)
-    ys = [random.randint(1, 50) for x in xs]
-    axis.set_title("Random Noise")
-    axis.set_xlabel("1 - 100")
-    axis.set_ylabel("Random #'s (1-50)")
-    axis.plot(xs, ys, )
+    axis.set_title("Views in the Last Week")
+    axis.set_xlabel("Videos")
+    axis.set_ylabel("Viewers (in millions)")
+    axis.plot(x, y, )
     return fig
 
 
