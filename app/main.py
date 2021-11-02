@@ -47,9 +47,10 @@ def search():
 @main.route('/stats')
 @login_required
 def stats():
-    global channels
-    YoutubeStats.WeeklyViewerCount(channels[0][5])
-    return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
+    # global channels
+    # YoutubeStats.WeeklyViewerCount(channels[0][5])
+    # return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
+    return render_template("Stats.html")
 
 @main.route('/settings')
 @login_required
