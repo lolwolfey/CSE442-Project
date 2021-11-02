@@ -72,7 +72,7 @@ def create_figure():
     axis.set_title("Views in the Last Week")
     axis.set_xlabel("Videos")
     axis.set_ylabel("Viewers (in millions)")
-    axis.plot(x, y, )
+    axis.bar(x, y, )
     return fig
 
 
