@@ -39,7 +39,7 @@ def search():
         channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
         infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID) #adds all the info into tuple and adds tuple to array
         channels[0] = infoTuple
-        return redirect(url_for('stats'))
+        return redirect(url_for('main.stats'))
         #print(channels)
 
     #print(request.form.get()) 
