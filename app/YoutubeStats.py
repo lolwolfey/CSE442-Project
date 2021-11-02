@@ -86,9 +86,8 @@ def WeeklyViewerCount(Chann_Id):
         stats_list.append(stats_dictionary)
     print(stats_list)
 
-    view_list = [] #x is published date, y is view list
+    view_list = []
     published = []
-    
     for vid in stats_list:
         view_list.insert(0,(int(vid['views'])/1000000))
         pub = vid['published']
@@ -97,13 +96,9 @@ def WeeklyViewerCount(Chann_Id):
         day = pub[2].split('T')
         day = day[0]
         published.insert(0,vid['published'])
-    # print(view_list)
-    # plt.plot(published, view_list) 
-    # plt.ylabel('Viewers (in millions)')
-    # plt.xlabel('Videos')
-    # plt.savefig('Viewer_count.png')
-
-    return [published, view_list]
-
-    
+    print(view_list)
+    plt.plot(published, view_list)
+    plt.ylabel('Viewers (in millions)')
+    plt.xlabel('Videos')
+    plt.savefig('Viewer_count.png')
     
