@@ -39,7 +39,7 @@ def search():
         infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID)
         channels[0] = infoTuple
         print(channels)
-        return redirect(url_for('stats'))
+        return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],channelID=channels[0][5])
     #newurl = f"https://youtube.googleapis.com/youtube/v3/search?part=snippet&relevanceLanguage=en&maxResults=5&key={api_key}"
     #json_url2 = requests.get(newurl)
     #data2 = json.loads(json_url2.text)
