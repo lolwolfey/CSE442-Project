@@ -75,7 +75,7 @@ def init():
     cursor.execute(delete_user_table)
 
     create_idtoname_relation = """CREATE TABLE IF NOT EXISTS idtoname(
-                                channel_id INTEGER,
+                                channel_id VARCHAR(100),
                                 channel_name VARCHAR(100),
                                 PRIMARY KEY (channel_id),
                                 UNIQUE (channel_name)
