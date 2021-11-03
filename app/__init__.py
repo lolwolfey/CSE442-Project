@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 import os
 from .database_handler import bookmark_channel, init, User
+import flask_mail
 from flask_mail import Mail, Message
 
 debug = True
