@@ -83,7 +83,7 @@ def create_figure():
     # axis.plot(xs, ys, )
 
     # bar graph (DEFAULT VALUES FROM TUTORIAL POINT! MUST CHANGE!)
-    bars = fig.add_subplot(1, 1, 2)
+    bars = fig.add_subplot(1, 1, 1)
     xs1 = datalist[0]                         #returns an array
     ys1 = datalist[2]                            #returns an array
     ys2 = datalist[3]
