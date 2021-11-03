@@ -14,7 +14,7 @@ def create_app():
 
     app.config['SECRET_KEY'] = b'\nI\x18]\xc3\x96m&@\xbffG\xf5a.T'
 
-    """app.config.update(
+    app.config.update(
         DEBUG = True,
         #email settings
         MAIL_SERVER = 'smtp.gmail.com',
@@ -33,7 +33,7 @@ def create_app():
             message.body = "testing"
             mail.send(message)
             return render_template("Signup.html")
-        return render_template("Send_Email.html")"""
+        return render_template("Send_Email.html")
 
     # Initialize the ;login manager for Flask_login
     login_manager = LoginManager()
