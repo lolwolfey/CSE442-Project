@@ -88,10 +88,11 @@ def create_figure():
     ys1 = datalist[2]                            #returns an array
     ys2 = datalist[3]
     distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+    bars.bar(xs1, ys1, 0.2)
+    #bars.bar(distance + 0.1, ys2, 0.2)
     bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
     bars.set_xlabel("Video Dates")
     bars.set_ylabel("Tally of Likes and Dislikes")
-    bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
-    bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
+
 
     return fig
