@@ -71,32 +71,27 @@ def plot_png():
 def create_figure():
     global channels
     # YoutubeStats.WeeklyViewerCount(channels[0][5])
-    datalist = YoutubeStats.WeeklyViewerCount('placeholder')
+    datalist = YoutubeStats.WeeklyViewerCount(channels[0][5])
     fig = Figure()
-
     #line graph
-    axis = fig.subplots(2)
+    axis = fig.add_subplot(1, 1, 1)
     xs = datalist[0]                        #returns array of 7 most recent publish dates
     ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
-    axis[0].set_title("Total Views of the 7 Most Recent Videos")
-    axis[0].set_xlabel("Video Dates")
-    axis[0].set_ylabel("Total Viewership (in millions)")
-    axis[0].plot(xs, ys)
+    axis.set_title("Total Views of the 7 Most Recent Videos")
+    axis.set_xlabel("Video Dates")
+    axis.set_ylabel("Total Viewership")
+    axis.plot(xs, ys, )
 
-    #bar graph
-    # bars = fig.subplot(2,)
+    #bar graph (DEFAULT VALUES FROM TUTORIAL POINT! MUST CHANGE!)
+    bars = fig.add_subplot(2, 1, 2)
     xs1 = datalist[0]                         #returns an array
     ys1 = datalist[2]                            #returns an array
     ys2 = datalist[3]
     distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
-
-    axis[1].xticks(distance, xs1)
-    axis[1].bar(distance - 0.1, ys1, 0.2, label= 'Likes')
-    axis[1].bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
-    axis[1].set_title("Likes and Dislikes of the 7 Most Recent Videos")
-    axis[1].set_xlabel("Video Dates")
-    axis[1].set_ylabel("Tally of Likes and Dislikes (in thousands)")
-
-
+    bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
+    bars.set_xlabel("Video Dates")
+    bars.set_ylabel("Tally of Likes and Dislikes")
+    bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
+    bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
 
     return fig
