@@ -3,6 +3,7 @@ import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 import json
+from .database_handler import get_channel_id, name_to_id
 
 main = Blueprint('main',__name__)
 
@@ -35,15 +36,17 @@ def search():
         viewCount = data['items'][0]["statistics"]["viewCount"]
         videoCount = data['items'][0]["statistics"]["videoCount"]
         channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
-
-        infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID)
+        name_to_id(channelID,ytchannel) #writing channelID and channel username to database
+        dbCheck = get_channel_id(ytchannel) #used to check if database stores
+        infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID,dbCheck)
         channels[0] = infoTuple
         print(channels)
-        return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],channelID=channels[0][5])
+        return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],channelID=channels[0][5],DBcheck=channels[0][6])
     #newurl = f"https://youtube.googleapis.com/youtube/v3/search?part=snippet&relevanceLanguage=en&maxResults=5&key={api_key}"
     #json_url2 = requests.get(newurl)
     #data2 = json.loads(json_url2.text)
     #print(data2)
+    
     return render_template("Search.html")
 
 @main.route('/stats')
