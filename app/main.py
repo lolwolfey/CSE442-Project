@@ -82,7 +82,7 @@ def create_figure():
     # axis.set_ylabel("Total Viewership")
     # axis.plot(xs, ys, )
 
-    bar graph (DEFAULT VALUES FROM TUTORIAL POINT! MUST CHANGE!)
+    # bar graph (DEFAULT VALUES FROM TUTORIAL POINT! MUST CHANGE!)
     bars = fig.add_subplot(1, 1, 2)
     xs1 = datalist[0]                         #returns an array
     ys1 = datalist[2]                            #returns an array
