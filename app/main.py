@@ -79,21 +79,21 @@ def create_figure():
     ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
     axis.set_title("Total Views of the 7 Most Recent Videos")
     axis.set_xlabel("Video Dates")
-    axis.set_ylabel("Total Viewership")
+    axis.set_ylabel("Total Viewership (in millions)")
     axis.plot(xs, ys, )
 
-    # #bar graph
-    # bars = fig.add_axes([0,0,1,1])
-    # xs1 = datalist[0]                         #returns an array
-    # ys1 = datalist[2]                            #returns an array
-    # ys2 = datalist[3]
-    # distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
-    # bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
-    # bars.set_xlabel("Video Dates")
-    # bars.set_ylabel("Tally of Likes and Dislikes")
-    # bars.xticks(distance, xs1)
-    # bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
-    # bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
+    #bar graph
+    bars = fig.add_axes([0,0,1,1])
+    xs1 = datalist[0]                         #returns an array
+    ys1 = datalist[2]                            #returns an array
+    ys2 = datalist[3]
+    distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+    bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
+    bars.set_xlabel("Video Dates")
+    bars.set_ylabel("Tally of Likes and Dislikes (in thousands)")
+    bars.xticks(distance, xs1)
+    bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
+    bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
 
 
     return fig
