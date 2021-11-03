@@ -128,6 +128,23 @@ def user_login(username,password):
     conn.close()
     return True
 
+def Check_email(email):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if email already exists
+    email_check = """SELECT * FROM users
+                     WHERE email = %s;
+                """
+    cursor.execute(email_check,(email,))
+    returnemail = cursor.fetchone()
+
+    if returnemail != None:
+        return True
+    conn.commit()
+    conn.close()
+    return False
+
 def signup_user(email,username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
