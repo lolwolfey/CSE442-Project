@@ -37,7 +37,7 @@ def WeeklyViewerCount(Chann_Id):
     #The id is the YouTube id for CNN https://www.youtube.com/channel/UCupvZG-5ko_eiXAupbDfxWw
     request = youtube.channels().list(
         part='snippet, contentDetails,statistics',
-        id = 'UCupvZG-5ko_eiXAupbDfxWw',
+        id = Chann_Id,
     )
     #data from the youtube channel
     response = request.execute()

@@ -48,7 +48,7 @@ def search():
 @main.route('/stats')
 @login_required
 def stats():
-    global channels
+    #global channels
     published, viewlist = YoutubeStats.WeeklyViewerCount(channels[0][5])
     return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
 
@@ -69,7 +69,7 @@ def create_figure():
     x, y = YoutubeStats.WeeklyViewerCount(channels[0][5])
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
-    axis.set_title("Views in the Last Week")
+    axis.set_title("Views from the Last 50 Videos")
     axis.set_xlabel("Videos")
     axis.set_ylabel("Viewers (in millions)")
     axis.set_xticklabels([])
