@@ -74,16 +74,16 @@ def create_figure():
     datalist = YoutubeStats.WeeklyViewerCount(channels[0][5])
     fig = Figure()
     #line graph
-    axis = fig.add_subplot(1, 1, 1)
-    xs = datalist[0]                        #returns array of 7 most recent publish dates
-    ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
-    axis.set_title("Total Views of the 7 Most Recent Videos")
-    axis.set_xlabel("Video Dates")
-    axis.set_ylabel("Total Viewership")
-    axis.plot(xs, ys, )
+    # axis = fig.add_subplot(1, 1, 1)
+    # xs = datalist[0]                        #returns array of 7 most recent publish dates
+    # ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
+    # axis.set_title("Total Views of the 7 Most Recent Videos")
+    # axis.set_xlabel("Video Dates")
+    # axis.set_ylabel("Total Viewership")
+    # axis.plot(xs, ys, )
 
-    #bar graph (DEFAULT VALUES FROM TUTORIAL POINT! MUST CHANGE!)
-    bars = fig.add_subplot(2, 1, 2)
+    bar graph (DEFAULT VALUES FROM TUTORIAL POINT! MUST CHANGE!)
+    bars = fig.add_subplot(1, 1, 2)
     xs1 = datalist[0]                         #returns an array
     ys1 = datalist[2]                            #returns an array
     ys2 = datalist[3]
