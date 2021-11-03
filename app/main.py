@@ -72,6 +72,8 @@ def create_figure():
     global channels
     # YoutubeStats.WeeklyViewerCount(channels[0][5])
     datalist = YoutubeStats.WeeklyViewerCount('placeholder')
+
+    #References: https://www.tutorialspoint.com/matplotlib/matplotlib_bar_plot.htm, https://matplotlib.org/stable/api/figure_api.html
     fig = Figure()
     #line graph
     axis = fig.add_subplot(2, 1, 1)
@@ -82,10 +84,10 @@ def create_figure():
     axis.set_ylabel("Total Viewership")
     axis.plot(xs, ys)
 
-    #bar graph
+    #bar graph 
     bars = fig.add_subplot(2, 1, 2)
-    xs1 = datalist[0]                         #returns an array
-    ys1 = datalist[2]                            #returns an array
+    xs1 = datalist[0]                           #returns an array
+    ys1 = datalist[2]                           #returns an array
     ys2 = datalist[3]
     distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
     bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
