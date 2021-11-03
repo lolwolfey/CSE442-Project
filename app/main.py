@@ -75,27 +75,27 @@ def create_figure():
     fig = Figure()
 
     #line graph
-    fig.subplot(2, 1, 1)
+    axis = fig.subplots(2)
     xs = datalist[0]                        #returns array of 7 most recent publish dates
     ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
-    fig.set_title("Total Views of the 7 Most Recent Videos")
-    fig.set_xlabel("Video Dates")
-    fig.set_ylabel("Total Viewership (in millions)")
-    fig.plot(xs, ys, )
+    axis[0].set_title("Total Views of the 7 Most Recent Videos")
+    axis[0].set_xlabel("Video Dates")
+    axis[0].set_ylabel("Total Viewership (in millions)")
+    axis[0].plot(xs, ys)
 
     #bar graph
-    fig.subplot(2, 1, 2)
+    # bars = fig.subplot(2,)
     xs1 = datalist[0]                         #returns an array
     ys1 = datalist[2]                            #returns an array
     ys2 = datalist[3]
     distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
 
-    fig.xticks(distance, xs1)
-    fig.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
-    fig.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
-    fig.set_title("Likes and Dislikes of the 7 Most Recent Videos")
-    fig.set_xlabel("Video Dates")
-    fig.set_ylabel("Tally of Likes and Dislikes (in thousands)")
+    axis[1].xticks(distance, xs1)
+    axis[1].bar(distance - 0.1, ys1, 0.2, label= 'Likes')
+    axis[1].bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
+    axis[1].set_title("Likes and Dislikes of the 7 Most Recent Videos")
+    axis[1].set_xlabel("Video Dates")
+    axis[1].set_ylabel("Tally of Likes and Dislikes (in thousands)")
 
 
 
