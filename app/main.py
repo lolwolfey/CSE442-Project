@@ -36,7 +36,7 @@ def search():
         viewCount = data['items'][0]["statistics"]["viewCount"]
         videoCount = data['items'][0]["statistics"]["videoCount"]
         channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
-        name_to_id(channelID,ytchannel) #writing channelID and channel username to database
+        name_to_id(str(channelID),ytchannel) #writing channelID and channel username to database
         dbCheck = get_channel_id(ytchannel) #used to check if database stores
         infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID,dbCheck)
         channels[0] = infoTuple
