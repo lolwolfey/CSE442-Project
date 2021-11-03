@@ -18,8 +18,9 @@ def create_app():
         DEBUG = True,
         #email settings
         MAIL_SERVER = 'smtp.gmail.com',
-        MAIL_Port = 465,
-        MAIL_USE_SSL = True,
+        MAIL_Port = 587,
+        MAIL_USE_SSL = False,
+        MAIL_USE_TLS = True,
         MAIL_USERNAME = 'redlomansmurf125@gmail.com',
         MAIL_PASSWORD = 'temp_pass',
     )
