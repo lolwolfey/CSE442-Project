@@ -9,7 +9,6 @@ from . import YoutubeStats
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-from matplotlib import pyplot
 import random
 import numpy
 
@@ -72,8 +71,8 @@ def plot_png():
 def create_figure():
     global channels
     # YoutubeStats.WeeklyViewerCount(channels[0][5])
-    datalist = YoutubeStats.WeeklyViewerCount(channels[0][5])
-    fig = pyplot.figure()
+    datalist = YoutubeStats.WeeklyViewerCount('placeholder')
+    fig = Figure()
     #line graph
     axis = fig.add_subplot(1, 1, 1)
     xs = datalist[0]                        #returns array of 7 most recent publish dates
@@ -83,17 +82,16 @@ def create_figure():
     axis.set_ylabel("Total Viewership")
     axis.plot(xs, ys)
 
-    # bar graph 
-    # bars = fig.add_subplot(1, 1, 1)
+    #bar graph
+    # bars = fig.add_subplot(2, 1, 2)
     # xs1 = datalist[0]                         #returns an array
     # ys1 = datalist[2]                            #returns an array
     # ys2 = datalist[3]
     # distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
-    # bars.bar(xs1, ys1, 0.2)
-    # #bars.bar(distance + 0.1, ys2, 0.2)
     # bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
     # bars.set_xlabel("Video Dates")
     # bars.set_ylabel("Tally of Likes and Dislikes")
-
+    # bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
+    # bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
 
     return fig
