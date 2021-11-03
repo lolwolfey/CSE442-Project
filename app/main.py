@@ -10,6 +10,7 @@ import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import random
+import numpy
 
 main = Blueprint('main',__name__)
 
@@ -57,40 +58,42 @@ def stats():
 def settings():
     return render_template('Settings.html')
 
-# @main.route('/barplot.png')       // put all the images under plot.png route
-# @login_required
-# def plot_png():
-#     fig = create_figure()
-#     output = io.BytesIO()
-#     FigureCanvas(fig).print_png(output)
-#     return Response(output.getvalue(), mimetype='image/png')
 
-# def create_figure():
-#     fig = Figure()
-#     axis = fig.add_subplot(1, 1, 1)
-#     xs = range(100)
-#     ys = [random.randint(1, 50) for x in xs]
-#     axis.set_title("Random Noise")
-#     axis.set_xlabel("1 - 100")
-#     axis.set_ylabel("Random #'s (1-50)")
-#     axis.plot(xs, ys, )
-#     return fig
 
-@main.route('/plot.png')
+@main.route('/plot.png')        #both functions required for making graph
 @login_required
-# def plot_png():
-#     fig = create_figure()
-#     output = io.BytesIO()
-#     FigureCanvas(fig).print_png(output)
-#     return Response(output.getvalue(), mimetype='image/png')
+def plot_png():
+    fig = create_figure()
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 def create_figure():
+    global channels
+    # YoutubeStats.WeeklyViewerCount(channels[0][5])
+    datalist = YoutubeStats.WeeklyViewerCount(channels[0][5])
     fig = Figure()
+    #line graph
     axis = fig.add_subplot(1, 1, 1)
-    xs = range(100)
-    ys = [random.randint(1, 50) for x in xs]
-    axis.set_title("Random Noise")
-    axis.set_xlabel("1 - 100")
-    axis.set_ylabel("Random #'s (1-50)")
+    xs = datalist[0]                        #returns array of 7 most recent publish dates
+    ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
+    axis.set_title("Total Views of the 7 Most Recent Videos")
+    axis.set_xlabel("Video Dates")
+    axis.set_ylabel("Total Viewership")
     axis.plot(xs, ys, )
+
+    #bar graph
+    bars = fig.add_axes([0,0,1,1])
+    xs1 = datalist[0]                         #returns an array
+    ys1 = datalist[2]                            #returns an array
+    ys2 = datalist[3]
+    distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+    bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
+    bars.set_xlabel("Video Dates")
+    bars.set_ylabel("Tally of Likes and Dislikes")
+    bars.xticks(distance, xs1)
+    bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
+    bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
+
+
     return fig
