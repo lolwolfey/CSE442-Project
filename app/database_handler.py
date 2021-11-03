@@ -71,9 +71,10 @@ def init():
     # Comment/uncomment this to save/delete users table between test deploys
     delete_bookmarks_table = "DROP TABLE bookmarks"
     delete_user_table = "DROP TABLE users;"
+    delete_relation = "DROP TABLE idtoname;"
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
-
+    cursor.execute(delete_relation)
     create_idtoname_relation = """CREATE TABLE IF NOT EXISTS idtoname(
                                 channel_id VARCHAR(100),
                                 channel_name VARCHAR(100),
