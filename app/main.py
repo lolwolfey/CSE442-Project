@@ -9,6 +9,7 @@ from . import YoutubeStats
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from matplotlib import pyplot
 import random
 import numpy
 
@@ -72,27 +73,27 @@ def create_figure():
     global channels
     # YoutubeStats.WeeklyViewerCount(channels[0][5])
     datalist = YoutubeStats.WeeklyViewerCount(channels[0][5])
-    fig = Figure()
+    fig = pyplot.figure()
     #line graph
-    # axis = fig.add_subplot(1, 1, 1)
-    # xs = datalist[0]                        #returns array of 7 most recent publish dates
-    # ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
-    # axis.set_title("Total Views of the 7 Most Recent Videos")
-    # axis.set_xlabel("Video Dates")
-    # axis.set_ylabel("Total Viewership")
-    # axis.plot(xs, ys, )
+    axis = fig.add_subplot(1, 1, 1)
+    xs = datalist[0]                        #returns array of 7 most recent publish dates
+    ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
+    axis.set_title("Total Views of the 7 Most Recent Videos")
+    axis.set_xlabel("Video Dates")
+    axis.set_ylabel("Total Viewership")
+    axis.plot(xs, ys)
 
-    # bar graph (DEFAULT VALUES FROM TUTORIAL POINT! MUST CHANGE!)
-    bars = fig.add_subplot(1, 1, 1)
-    xs1 = datalist[0]                         #returns an array
-    ys1 = datalist[2]                            #returns an array
-    ys2 = datalist[3]
-    distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
-    bars.bar(xs1, ys1, 0.2)
-    #bars.bar(distance + 0.1, ys2, 0.2)
-    bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
-    bars.set_xlabel("Video Dates")
-    bars.set_ylabel("Tally of Likes and Dislikes")
+    # bar graph 
+    # bars = fig.add_subplot(1, 1, 1)
+    # xs1 = datalist[0]                         #returns an array
+    # ys1 = datalist[2]                            #returns an array
+    # ys2 = datalist[3]
+    # distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+    # bars.bar(xs1, ys1, 0.2)
+    # #bars.bar(distance + 0.1, ys2, 0.2)
+    # bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
+    # bars.set_xlabel("Video Dates")
+    # bars.set_ylabel("Tally of Likes and Dislikes")
 
 
     return fig
