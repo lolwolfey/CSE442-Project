@@ -109,38 +109,19 @@ body {
 </head>
 
 <body>
-  <script>
-    function Email_Function() {
-      textwords = document.getElementById("Email").value;
-        if (textwords.length == 0){
-          alert('No Password Inputted!');
-        }
-        else {
-          if (confirm('Save Password?')){
-              alert('Implement server side functionality to check if passwords match.');
-            };
-        };
-    }
-  </script>
-
   <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
-</div>
-  <br></br>
+  </div>
+
+<br></br>
 
 <br></br>
 
 <div>
     <p>Input Email: </p>
-    <div class = "Mail">
         <form action = "{{url_for('send_mail')}}" method="POST">
-
-          <div class="textf">
             <input type="email" name = "email" placeholder="Email"  required id ="">
-            <span></span>
-          </div>
-       
-      <button type="submit" onclick="Email_Function()" value="Send">Submit</button>
+            <button type="submit" value="Send Message">Submit</button>
         </form>
 </div>
 
