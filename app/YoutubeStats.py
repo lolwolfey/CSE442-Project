@@ -107,15 +107,6 @@ def WeeklyViewerCount(Chann_Id):
 
     print(view_list)
 
-<<<<<<< HEAD
-    return (published, view_list)
-    """
-    plt.plot(published, view_list)
-    plt.ylabel('Viewers (in millions)')
-    plt.xlabel('Videos')
-    plt.savefig('Viewer_count.png')
-    """
-=======
     graphlists = [published, view_list, likelist, dislikelist]
     return graphlists
 
@@ -124,4 +115,3 @@ def WeeklyViewerCount(Chann_Id):
     # plt.ylabel('Viewers (in millions)')
     # plt.xlabel('Videos')
     # plt.savefig('Viewer_count.png')
->>>>>>> upstream/bargraph
