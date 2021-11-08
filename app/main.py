@@ -83,7 +83,7 @@ def create_figure():
     axis.set_title("Total Views of the 7 Most Recent Videos")
     axis.set_xlabel("Last 7 Videos")
     axis.set_xticks([])
-    axis.set_ylabel("Total Viewership (millions)")
+    axis.set_ylabel("Total Viewership (in millions)")
     axis.plot(xs, ys)
 
     #bar graph 
@@ -94,7 +94,7 @@ def create_figure():
     distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
     bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
     bars.set_xlabel("Last 7 Videos")
-    bars.set_ylabel("Likes and Dislikes (millions)")
+    bars.set_ylabel("Likes and Dislikes (in thousands)")
     bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
     bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
 
