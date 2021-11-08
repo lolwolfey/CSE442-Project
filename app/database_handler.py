@@ -75,6 +75,14 @@ def init():
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
     cursor.execute(delete_relation)
+
+    create_private_relation = """ CREATE TABLE IF NOT EXISTS private(
+                                username VARCHAR(100) NOT NULL,
+                                privmode BOOLEAN,
+                                PRIMARY KEY (username)
+                            );  
+                                """
+
     create_idtoname_relation = """CREATE TABLE IF NOT EXISTS idtoname(
                                 channel_id VARCHAR(100),
                                 channel_name VARCHAR(100),
@@ -115,6 +123,7 @@ def init():
     cursor.execute(create_user_table)
     cursor.execute(create_bookmarks_table)
     cursor.execute(create_idtoname_relation)
+    cursor.execute(create_private_relation)
     conn.commit()
     conn.close()
 
@@ -159,8 +168,12 @@ def signup_user(email,username,password):
         insert_user = """INSERT INTO users(email,username,password)
                         VALUES (%s,%s,%s);
                     """
+        insert_private = """INSERT into private(username, privmode)
+                            VALUES (%s,%s);
+                        """
         hashed_pass=generate_password_hash(password, method='sha256')
         cursor.execute(insert_user,(email,username,hashed_pass))
+        cursor.execute(insert_private,(username,False))
         conn.commit()
         conn.close()
         return True #signup good
