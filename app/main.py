@@ -81,9 +81,9 @@ def create_figure():
     xs = datalist[0]                        #returns array of 7 most recent publish dates
     ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
     axis.set_title("Total Views of the 7 Most Recent Videos")
-    axis.set_xlabel("Video Dates")
+    axis.set_xlabel("Last 7 Videos")
     axis.set_xticks([])
-    axis.set_ylabel("Total Viewership")
+    axis.set_ylabel("Total Viewership (millions)")
     axis.plot(xs, ys)
 
     #bar graph 
@@ -93,8 +93,8 @@ def create_figure():
     ys2 = datalist[3]
     distance = numpy.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
     bars.set_title("Likes and Dislikes of the 7 Most Recent Videos")
-    bars.set_xlabel("Video Dates")
-    bars.set_ylabel("Tally of Likes and Dislikes")
+    bars.set_xlabel("Last 7 Videos")
+    bars.set_ylabel("Likes and Dislikes (millions)")
     bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
     bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
 
