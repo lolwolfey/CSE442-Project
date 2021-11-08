@@ -43,23 +43,23 @@ def WeeklyViewerCount(Chann_Id):
     response = request.execute()
 
 
-    channel_stats = response['items']
+    channel_stats = response['items']  # items key here gets channel resources/stats dictionary:  https://developers.google.com/youtube/v3/docs/channels#resource
 
-    #gets the upload id of the youtube account so that we can access their videos
+    #gets the upload id of the youtube account so that we can access their videos: https://developers.google.com/youtube/v3/docs/playlistItems/list
     upload_id = channel_stats[0]['contentDetails']['relatedPlaylists']['uploads']
 
     video_list = []
 
     #requests the 50 most recent videos uploaded by the youtube page using their upload_id. This is limited to 50 ids for request.
-    request = youtube.playlistItems().list(
+    request = youtube.playlistItems().list( #https://developers.google.com/youtube/v3/docs/playlistItems/list
         part="snippet,contentDetails",
         playlistId=upload_id,
-        maxResults = 50
+        maxResults = 7     #50 is max amount per request, suggest changing it to 7
     )
     response = request.execute()
 
     #Gets the videoId of each video so that we can access the data on each video
-    data = response['items']
+    data = response['items'] #https://developers.google.com/youtube/v3/docs/playlistItems#resource 
     for video in data:
         video_id = video['contentDetails']['videoId']
         if video_id not in video_list:
@@ -70,34 +70,44 @@ def WeeklyViewerCount(Chann_Id):
     stats_list = []
 
     #Requests the statistics on each video from our Video_list
-    request = youtube.videos().list(
+    request = youtube.videos().list( #https://developers.google.com/youtube/v3/docs/videos/list
         part = "snippet,contentDetails,statistics",
         id = video_list[0:50]
     )
     data = request.execute()
 
-    for video in data['items']:
-        published = video['snippet']['publishedAt']
-        views = video['statistics'].get('viewCount',0)
+    for video in data['items']: # array of video resources
+        published = video['snippet']['publishedAt'] #get publish date of a video
+        views = video['statistics'].get('viewCount',0) #get total views of a video, if not exist then 0
+        likes = video['statistics'].get('likeCount', 0) #get total likes of a video, if not exist then 0
+        dislikes = video['statistics'].get('dislikeCount', 0) #get total dislikes of a video, if not exist then 0
         stats_dictionary = dict(
             published = published,
-            views = views
+            views = views,
+            likes = likes,
+            dislikes = dislikes
         )
         stats_list.append(stats_dictionary)
     print(stats_list)
 
     view_list = []
     published = []
+    likelist = []
+    dislikelist =[]
     for vid in stats_list:
-        view_list.insert(0,(int(vid['views'])/1000000))
+        view_list.insert(0,(int(vid['views'])/1000000)) #VIEWS, inserted at head
         pub = vid['published']
         pub = pub.split('-')
         month = pub[1]
         day = pub[2].split('T')
         day = day[0]
-        published.insert(0,vid['published'])
+        published.insert(0,vid['published']) #date inserted at head
+        likelist.insert(0,(int(vid['likes'])/1000)) #dislikes amounts
+        dislikelist.insert(0,(int(vid['dislikes'])/1000)) 
+
     print(view_list)
 
+<<<<<<< HEAD
     return (published, view_list)
     """
     plt.plot(published, view_list)
@@ -105,3 +115,13 @@ def WeeklyViewerCount(Chann_Id):
     plt.xlabel('Videos')
     plt.savefig('Viewer_count.png')
     """
+=======
+    graphlists = [published, view_list, likelist, dislikelist]
+    return graphlists
+
+
+    # plt.plot(published, view_list)  #x is published and y is view_list
+    # plt.ylabel('Viewers (in millions)')
+    # plt.xlabel('Videos')
+    # plt.savefig('Viewer_count.png')
+>>>>>>> upstream/bargraph
