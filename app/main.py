@@ -98,4 +98,5 @@ def create_figure():
     bars.bar(distance - 0.1, ys1, 0.2, label= 'Likes')
     bars.bar(distance + 0.1, ys2, 0.2, label= 'Dislikes')
 
+    fig.tight_layout()
     return fig
