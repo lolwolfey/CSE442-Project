@@ -81,8 +81,7 @@ def create_figure():
     xs = datalist[0]                        #returns array of 7 most recent publish dates
     ys = datalist[1]                        #returns an of 7 most recent video's total viewerships
     axis.set_title("Total Views of the 7 Most Recent Videos")
-    axis.set_xlabel("Last 7 Videos")
-    axis.set_xticks(numpy.arange(7), ('1', '2', '3', '4', '5', '6', '7'))
+    axis.set_xticks([])
     axis.set_ylabel("Total Viewership (in millions)")
     axis.plot(xs, ys)
 
