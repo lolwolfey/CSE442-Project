@@ -44,12 +44,12 @@ def SettingPassChange():
         if check_password_hash(password, OldPass):
             valid, error = password_requirements(NewPass)
             if valid:
-                change_pass(user.username,NewPass)
+                # change_pass(user.username,NewPass)
         #     else:
-        #         flash('Invalid new password', 'error')
+                flash('VALID password, everything up to now works!', 'error')
         # else:
         #     flash('Old password is not correct', 'error')
-    return render_template("Login.html")
+    return render_template("Settings.html")
         
 
         
