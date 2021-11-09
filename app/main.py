@@ -7,7 +7,8 @@ from flask_login import login_user, login_required, logout_user, current_user
 from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
-from auth import password_requirements
+from .auth import password_requirements
+
 main = Blueprint('main',__name__)
 
 @main.route('/home')
