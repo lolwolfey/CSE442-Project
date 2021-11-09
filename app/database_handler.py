@@ -268,6 +268,21 @@ def change_pass(username,new_password):
     conn.commit()
     conn.close()
 
+def get_password_by_username(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    password_check = """SELECT password FROM users
+                    WHERE username = %s;
+                """
+    cursor.execute(password_check,(username,))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    conn.commit()
+    conn.close()
+    return row
+
 #save id into database
 def name_to_id(channel_id, channel_name):
     db_config = os.environ['DATABASE_URL']
