@@ -45,11 +45,11 @@ def SettingPassChange():
             valid, error = password_requirements(NewPass)
             if valid:
                 change_pass(user.username,NewPass)
-            else:
-                flash('Invalid new password', 'error')
-        else:
-            flash('Old password is not correct', 'error')
-    return render_template("Settings.html")
+        #     else:
+        #         flash('Invalid new password', 'error')
+        # else:
+        #     flash('Old password is not correct', 'error')
+    return render_template("Login.html")
         
 
         
