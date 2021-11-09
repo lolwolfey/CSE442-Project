@@ -33,7 +33,7 @@ def login():
     return render_template("Login.html")
 
 
-@auth.route("/SettingPassChange", methods = ['POST'])
+@auth.route("/SettingPassChange", methods = ['POST', 'GET'])
 def SettingPassChange():
     if request.method == 'POST':
         # username = request.form['usrname']
