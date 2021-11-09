@@ -36,9 +36,10 @@ def login():
 @auth.route("/SettingPassChange", methods = ['POST', 'GET'])
 def SettingPassChange():
     if request.method == 'POST':
+        username = request.form['usrname']
         OldPass = request.form['oldpw']
         NewPass = request.form['newpw']
-        user = User(None, current_user.username, None)
+        user = User(None, username, None)
         password = user.hashedPassword
         if check_password_hash(password, OldPass):
             valid, error = password_requirements(NewPass)
