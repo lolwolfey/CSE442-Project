@@ -41,7 +41,7 @@ def SettingPassChange():
         NewPass = request.form['newpw']
         user = User(None, username, None)
         password = user.hashedPassword
-        flash('VALID password, everything up to now works!', 'error')
+        flash('VALID password, everything up to now works!')
         # if check_password_hash(password, OldPass):
         #     valid, error = password_requirements(NewPass)
         #     if valid:
