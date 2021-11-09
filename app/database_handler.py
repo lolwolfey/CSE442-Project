@@ -272,7 +272,7 @@ def get_password_by_username(username):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
-    password_check = """SELECT password FROM users
+    password_check = """SELECT * FROM users
                     WHERE username = %s;
                 """
     cursor.execute(password_check,(username,))
@@ -281,7 +281,7 @@ def get_password_by_username(username):
         return False
     conn.commit()
     conn.close()
-    return row
+    return row[3]
 
 #save id into database
 def name_to_id(channel_id, channel_name):
