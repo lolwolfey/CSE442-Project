@@ -71,8 +71,25 @@ def init():
     # Comment/uncomment this to save/delete users table between test deploys
     delete_bookmarks_table = "DROP TABLE bookmarks"
     delete_user_table = "DROP TABLE users;"
+    delete_relation = "DROP TABLE idtoname;"
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
+    cursor.execute(delete_relation)
+
+    create_private_relation = """ CREATE TABLE IF NOT EXISTS private(
+                                username VARCHAR(100) NOT NULL,
+                                privmode BOOLEAN,
+                                PRIMARY KEY (username)
+                            );  
+                                """
+
+    create_idtoname_relation = """CREATE TABLE IF NOT EXISTS idtoname(
+                                channel_id VARCHAR(100),
+                                channel_name VARCHAR(100),
+                                PRIMARY KEY (channel_id),
+                                UNIQUE (channel_name)
+                                );
+                                """
 
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
                         id SERIAL,
@@ -105,6 +122,8 @@ def init():
     cursor.execute(create_test_table) #delete later
     cursor.execute(create_user_table)
     cursor.execute(create_bookmarks_table)
+    cursor.execute(create_idtoname_relation)
+    cursor.execute(create_private_relation)
     conn.commit()
     conn.close()
 
@@ -166,8 +185,12 @@ def signup_user(email,username,password):
         insert_user = """INSERT INTO users(email,username,password)
                         VALUES (%s,%s,%s);
                     """
+        insert_private = """INSERT into private(username, privmode)
+                            VALUES (%s,%s);
+                        """
         hashed_pass=generate_password_hash(password, method='sha256')
         cursor.execute(insert_user,(email,username,hashed_pass))
+        cursor.execute(insert_private,(username,False))
         conn.commit()
         conn.close()
         return True #signup good
@@ -210,7 +233,7 @@ def bookmark_channel(id,channel):
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     #check if bookmark already exists
-    check_command = """ SELECT * FROM test_bm
+    check_command = """ SELECT * FROM bookmarks
                         WHERE id = %s AND channel = %s;
                     """
     cursor.execute(check_command,(id,channel))
@@ -219,13 +242,53 @@ def bookmark_channel(id,channel):
         sys.stderr.write("aborted")
         return False #bookmark already exists, abort
     #otherwise, insert into the bookmarks table
-    bookmark_command = """ INSERT INTO test_bm(id, channel)
+    bookmark_command = """ INSERT INTO bookmarks(id, channel)
                            VALUES (%s,%s);
                         """
     cursor.execute(bookmark_command,(id,channel))
-    cursor.execute("SELECT * FROM test_bm")#Testing Code
+    cursor.execute("SELECT * FROM bookmarks")#Testing Code
     test = str(cursor.fetchall()) #testing
     sys.stderr.write(test)#testing
     conn.commit()
     conn.close()
     return True #returns true for successful bookmark
+
+#can change username paramerter to id if need be
+def change_pass(username,new_password):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    hashed_new_pass = generate_password_hash(new_password,method="sha256")
+    change_pass_command = """ UPDATE users 
+                            SET password = %s
+                            WHERE username = %s;
+                          
+                          """
+    cursor.execute(change_pass_command,(hashed_new_pass,username))
+    conn.commit()
+    conn.close()
+
+#save id into database
+def name_to_id(channel_id, channel_name):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    insert_relation_command = """INSERT INTO idtoname(channel_id, channel_name)
+                                VALUES(%s, %s);
+                                """
+    cursor.execute(insert_relation_command,(channel_id,channel_name))
+    conn.commit()
+    conn.close()
+
+#get id from querying username
+#returns id
+def get_channel_id(channel_name):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    get_id_command = """SELECT channel_id FROM idtoname
+                        WHERE channel_name = %s;
+                    """
+    cursor.execute(get_id_command,(channel_name,))
+    retval = cursor.fetchone()
+    return retval

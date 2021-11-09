@@ -4,7 +4,7 @@ from flask.templating import render_template
 from flask_migrate import Migrate
 from flask_login import LoginManager
 import os
-from .database_handler import bookmark_channel, init, User
+from .database_handler import bookmark_channel, init, User, Check_email
 from flask_mail import Mail, Message
 
 debug = True
@@ -30,10 +30,11 @@ def create_app():
     def send_mail():
         if request.method == "POST":
             email = request.form['email']
-            message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
-            message.body = "testing"
-            mail.send(message)
-            return render_template("Signup.html")
+            if Check_email(email) == False:
+                message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
+                message.body = "testing"
+                mail.send(message)
+                return render_template("Signup.html")
         return render_template("Send_Email.html")
 
     # Initialize the ;login manager for Flask_login
