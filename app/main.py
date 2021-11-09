@@ -22,30 +22,14 @@ def search():
 def stats():
     return render_template('Stats.html')
 
-@main.route('/settings')
+@main.route('/settings', methods = ['POST', 'GET'])
 @login_required
 def settings():
     return render_template('Settings.html')
 
 # @main.route("/SettingPassChange", methods = ['POST'])
-@main.route("/SettingPassChange")
-def SettingPassChange():
-    # if request.method == 'POST':
-        # username = request.form['usrname']
-        # OldPass = request.form['oldpw']
-        # NewPass = request.form['newpw']
-        # user = User(None, username, None)
-        # password = user.hashedPassword
-        # flash('VALID password, everything up to now works!')
-        # if check_password_hash(password, OldPass):
-        #     valid, error = password_requirements(NewPass)
-        #     if valid:
-                # change_pass(user.username,NewPass)
-        #     else:
-                # flash('Invalid Password!', 'error')
-        # else:
-        #     flash('Old password is not correct', 'error')
-    return render_template('Settings.html')
+
+
         
 
 
