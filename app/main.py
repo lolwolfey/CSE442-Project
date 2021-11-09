@@ -28,7 +28,7 @@ def stats():
 @main.route('/settings', methods = ['POST', 'GET'])
 @login_required
 def settings():
-     if request.method == 'POST':
+    if request.method == 'POST':
         username = request.form['usrname']
         OldPass = request.form['oldpw']
         NewPass = request.form['newpw']
