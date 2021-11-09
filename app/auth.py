@@ -33,7 +33,7 @@ def login():
     return render_template("Login.html")
 
 
-@auth.route("/SettingPassChange", methods = ['POST', 'GET'])
+@auth.route("/SettingPassChange", methods = ['POST'])
 def SettingPassChange():
     if request.method == 'POST':
         # username = request.form['usrname']
@@ -50,7 +50,7 @@ def SettingPassChange():
                 # flash('Invalid Password!', 'error')
         # else:
         #     flash('Old password is not correct', 'error')
-    return redirect(url_for('main.settings'))
+    return redirect(url_for('main'))
         
 
         
