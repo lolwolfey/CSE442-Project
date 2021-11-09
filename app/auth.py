@@ -38,7 +38,7 @@ def SettingPassChange():
     if request.method == 'POST':
         OldPass = request.form['oldpw']
         NewPass = request.form['newpw']
-        user = User(None, current_user.name, None)
+        user = User(None, current_user.username, None)
         password = user.hashedPassword
         if check_password_hash(password, OldPass):
             valid, error = password_requirements(NewPass)
