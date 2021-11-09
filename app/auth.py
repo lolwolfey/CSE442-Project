@@ -1,12 +1,12 @@
 from flask import *
 #from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 #from .models import User
 import sys
 import psycopg2
 import os
-from .database_handler import bookmark_channel, init, signup_user, user_login, User #delete when merging
+from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass #delete when merging
 
 auth = Blueprint('auth', __name__)
 
@@ -32,6 +32,26 @@ def login():
 
     return render_template("Login.html")
 
+
+@auth.route("/SettingPassChange", methods = ['POST', 'GET'])
+def SettingPassChange():
+    if request.method == 'POST':
+        OldPass = request.form['oldpw']
+        NewPass = request.form['newpw']
+        user = User(None, current_user.__name, None)
+        password = user.hashedPassword
+        if check_password_hash(password, OldPass):
+            valid, error = password_requirements(NewPass)
+            if valid:
+                change_pass(user.username,NewPass)
+            else:
+                flash('Invalid new password', 'error')
+        else:
+            flash('Old password is not correct', 'error')
+    return render_template("Settings.html")
+        
+
+        
 
 @auth.route("/signup", methods=['POST','GET'])
 def signup():

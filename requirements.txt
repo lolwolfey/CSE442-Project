@@ -4,4 +4,8 @@ Flask-SQLAlchemy
 Flask-Login
 Flask-Migrate
 Flask-Login
+<<<<<<< HEAD
 Flask-Mail
+=======
+requests==2.26.0
+>>>>>>> 7d21c007219498c04502b4cc43fc5ff31b066d24
