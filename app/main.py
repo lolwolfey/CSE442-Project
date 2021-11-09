@@ -33,9 +33,9 @@ def settings():
         # username = request.form['usrname']
         OldPass = request.form['oldpw']
         NewPass = request.form['newpw']
-        user = User(None, current_user.username, None)
-        password = user.hashedPassword
-        flash('VALID password, everything up to now works!')
+        # user = User(None, current_user.username, None)
+        # password = user.hashedPassword
+        flash('VALID password, everything up to now works!'+ str(OldPass) + str(NewPass) + str(current_user.username))
         # if check_password_hash(password, OldPass):
         #      valid, error = password_requirements(NewPass)
         #      if valid:
