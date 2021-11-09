@@ -50,7 +50,7 @@ def SettingPassChange():
                 # flash('VALID password, everything up to now works!', 'error')
         # else:
         #     flash('Old password is not correct', 'error')
-    return render_template(".html")
+    return render_template("Settings.html")
         
 
         
