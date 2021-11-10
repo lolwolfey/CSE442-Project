@@ -144,19 +144,30 @@ body {
 
 <div>
     <p>Change Password: </p>
-    <div class = "pw">
+    <div class = "SettingPassChange">
         <form method="post">
           <div class="textf">
-            <input id="oldpw" type="text" placeholder="Old Password" required>
+            <input type="text" name="oldpw" placeholder="Old Password" required>
             <span></span>
           </div>
           <div class="textf">
-            <input id="newpw" type="text" placeholder="New Password" required>
+            <input type="text" name="newpw" placeholder="New Password" required>
             <span></span>
           </div>
        
-      <button type="submit" onclick="pwFunction()" value="reset_password">Submit</button>
+          <input type="submit" value="SettingPassChange">
         </form>
+        <div class = "flashes">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <ul>
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+          </div>
 </div>
 
 <br></br>

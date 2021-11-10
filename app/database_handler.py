@@ -71,8 +71,25 @@ def init():
     # Comment/uncomment this to save/delete users table between test deploys
     delete_bookmarks_table = "DROP TABLE bookmarks"
     delete_user_table = "DROP TABLE users;"
+    delete_relation = "DROP TABLE idtoname;"
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
+    cursor.execute(delete_relation)
+
+    create_private_relation = """ CREATE TABLE IF NOT EXISTS private(
+                                username VARCHAR(100) NOT NULL,
+                                privmode INTEGER,
+                                PRIMARY KEY (username)
+                            );  
+                                """
+
+    create_idtoname_relation = """CREATE TABLE IF NOT EXISTS idtoname(
+                                channel_id VARCHAR(100),
+                                channel_name VARCHAR(100),
+                                PRIMARY KEY (channel_id),
+                                UNIQUE (channel_name)
+                                );
+                                """
 
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
                         id SERIAL,
@@ -105,6 +122,8 @@ def init():
     cursor.execute(create_test_table) #delete later
     cursor.execute(create_user_table)
     cursor.execute(create_bookmarks_table)
+    cursor.execute(create_idtoname_relation)
+    cursor.execute(create_private_relation)
     conn.commit()
     conn.close()
 
@@ -128,6 +147,23 @@ def user_login(username,password):
     conn.close()
     return True
 
+def Check_email(email):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if email already exists
+    email_check = """SELECT * FROM users
+                     WHERE email = %s;
+                """
+    cursor.execute(email_check,(email,))
+    returnemail = cursor.fetchone()
+
+    if returnemail != None:
+        return True
+    conn.commit()
+    conn.close()
+    return False
+
 def signup_user(email,username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
@@ -149,8 +185,12 @@ def signup_user(email,username,password):
         insert_user = """INSERT INTO users(email,username,password)
                         VALUES (%s,%s,%s);
                     """
+        insert_private = """INSERT into private(username, privmode)
+                            VALUES (%s,%s);
+                        """
         hashed_pass=generate_password_hash(password, method='sha256')
         cursor.execute(insert_user,(email,username,hashed_pass))
+        cursor.execute(insert_private,(username,0))
         conn.commit()
         conn.close()
         return True #signup good
@@ -228,3 +268,42 @@ def change_pass(username,new_password):
     conn.commit()
     conn.close()
 
+def get_password_by_username(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    password_check = """SELECT * FROM users
+                    WHERE username = %s;
+                """
+    cursor.execute(password_check,(username,))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    conn.commit()
+    conn.close()
+    return row[3]
+
+#save id into database
+def name_to_id(channel_id, channel_name):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    insert_relation_command = """INSERT INTO idtoname(channel_id, channel_name)
+                                VALUES(%s, %s);
+                                """
+    cursor.execute(insert_relation_command,(channel_id,channel_name))
+    conn.commit()
+    conn.close()
+
+#get id from querying username
+#returns id
+def get_channel_id(channel_name):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    get_id_command = """SELECT channel_id FROM idtoname
+                        WHERE channel_name = %s;
+                    """
+    cursor.execute(get_id_command,(channel_name,))
+    retval = cursor.fetchone()
+    return retval
