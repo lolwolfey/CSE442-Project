@@ -147,7 +147,8 @@ body {
     padding: 5px 10px;
     display: flex;
     grid-template-columns: 3fr 1fr;
-    grid-template-areas: 'name';
+    grid-template-areas:
+        'name'
     text-align: center;
 }
 
@@ -158,16 +159,15 @@ body {
 
 .channelBoxes {
   width: 850px;
-  height: 150px;
-  border: 1px solid red; 
+  height: 200px;
   margin: 0 auto;
-  transform: translate(-20%,20%);
+  transform: translate(-40%,20%);
   font-size: 30px;
 }
 
 .col {
-  width: 200px;
-  height: 75px;
+  width: 100px;
+  height: 80px;
   background-color: red;
   float: left;
   border: 2px solid black;
@@ -176,6 +176,11 @@ body {
   font-size: 30px;
   text-align: center;
 }
+
+.submit_popular {
+  width: 100%;
+  height: 100%
+}
 </style>
 <head>
   <title>Search</title>
@@ -183,6 +188,7 @@ body {
 <body>
 <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
+    <a href="/stats"><i>Stats</i></a>
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
@@ -203,11 +209,13 @@ body {
     </form>
 <br>
 <div style = "font-size: 25px; width: 400px;"> <h1> Popular YouTube Channels </h1> </div>
-<div class="channelBoxes">
-  <div class="col"><p>PewDiePie</p></div>
-  <div class="col"><p>MrBeast</p></div>
-  <div class="col"><p>VanossGaming</p></div>
-</div>
-
+<form method="POST">
+  <div class="channelBoxes">
+    <input type="submit" name="col" id="userName" value="PewDiePie" />
+    <input type="submit" name="col" id="pop2" value="MrBeast6000" />
+    <input type="submit" name="col" id="pop3" value="VanossGaming" />
+    <input type="submit" name="col" id="pop4" value="DrDisRespect" />
+  </div>
+</form>
 </body>
 </html>
