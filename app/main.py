@@ -4,8 +4,6 @@ import os
 import sys
 import requests
 #from . import db
-import os
-import sys
 from flask_login import login_user, login_required, logout_user, current_user
 from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username
 from werkzeug.security import generate_password_hash, check_password_hash
