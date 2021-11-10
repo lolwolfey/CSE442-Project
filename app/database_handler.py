@@ -72,9 +72,11 @@ def init():
     delete_bookmarks_table = "DROP TABLE bookmarks"
     delete_user_table = "DROP TABLE users;"
     delete_relation = "DROP TABLE idtoname;"
+    delete_private_table = "DROP TABLE private;"
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
     cursor.execute(delete_relation)
+    cursor.execute(delete_private_table)
 
     create_private_relation = """ CREATE TABLE IF NOT EXISTS private(
                                 username VARCHAR(100) NOT NULL,
