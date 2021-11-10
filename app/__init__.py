@@ -1,6 +1,7 @@
 from logging import DEBUG
 from flask import Flask, request
 from flask.templating import render_template
+from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 import os
