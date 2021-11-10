@@ -51,7 +51,7 @@ def login():
 #         # else:
 #         #     flash('Old password is not correct', 'error')
 #     return redirect(url_for('main'))
-        
+#     save this code for later when resetting via forgotten password
 
         
 
