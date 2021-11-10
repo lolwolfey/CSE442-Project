@@ -31,11 +31,11 @@ def create_app():
     def send_mail():
         if request.method == "POST":
             email = request.form['email']
-            if Check_email(email) == False:
-                message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
-                message.body = "testing"
-                mail.send(message)
-                return render_template("Signup.html")
+            # if Check_email(email) == False:
+            message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
+            message.body = "testing"
+            mail.send(message)
+            return render_template("Signup.html")
         return render_template("Send_Email.html")
 
     # Initialize the ;login manager for Flask_login
