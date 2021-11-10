@@ -12,7 +12,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -90%);
+    transform: translate(-50%, -50%);
     width: 400px;
     background: #BDBDBD;
     border-radius: px;
@@ -156,8 +156,26 @@ body {
     color: #FFFFFF;
 }
 
+.channelBoxes {
+  width: 850px;
+  height: 150px;
+  border: 1px solid red; 
+  margin: 0 auto;
+  transform: translate(-20%,20%);
+  font-size: 30px;
+}
 
-
+.col {
+  width: 200px;
+  height: 75px;
+  background-color: red;
+  float: left;
+  border: 2px solid black;
+  padding: 40px;
+  margin: 40px;
+  font-size: 30px;
+  text-align: center;
+}
 </style>
 <head>
   <title>Search</title>
@@ -171,57 +189,25 @@ body {
     <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
   <br></br>
-
   <div class="search">
     <h1>Search</h1>
     <br/>
-    <form method="post">
+    <form method="POST">
       <div class="textf">
-        <input type="text" name="useridyt" id="userid" placeholder="Enter the username of YouTuber!" required>
-        <span></span>
+        <input type="text" name="userName" id="userName" placeholder="Enter the username of YouTuber!" required>
       </div>
-      <button type="button" onclick = "getInputVal()"> Search </button>
+      <input
+          type="submit"
+          value="Search"
+        />
     </form>
-  <script> 
-    var api_key = 'AIzaSyCrIwhrMNtHT0TX7HOJKhuMhWpKHvNjkXM';
-    var useridd;
-    function getInputVal()
-    {
-      
-      useridd = document.getElementById("userid").value;
-      console.log(x);
-    }
-    function authenticate() {
-      return gapi.auth2.getAuthInstance()
-        .signIn({scope: "https://www.googleapis.com/auth/youtube.readonly"})
-        .then(function() { console.log("Sign-in successful"); },
-              function(err) { console.error("Error signing in", err); });
-  }
-  function loadClient() {
-    gapi.client.setApiKey(api_key);
-    return gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
-        .then(function() { console.log("GAPI client loaded for API"); },
-              function(err) { console.error("Error loading GAPI client for API", err); });
-  }
-  // Make sure the client is loaded and sign-in is complete before calling this method.
-  function execute() {
-    return gapi.client.youtube.channels.list({
-      "part": [
-        "statistics"
-      ],
-      "forUsername": useridd
-    })
-        .then(function(response) {
-                // Handle the results here (response.result has the parsed body).
-                console.log("Response", response);
-              },
-              function(err) { console.error("Execute error", err); });
-  }
-  gapi.load("client:auth2", function() {
-    gapi.auth2.init({client_id: "YOUR_CLIENT_ID"});
-  });
-};
+<br>
+<div style = "font-size: 25px; width: 400px;"> <h1> Popular YouTube Channels </h1> </div>
+<div class="channelBoxes">
+  <div class="col"><p>PewDiePie</p></div>
+  <div class="col"><p>MrBeast</p></div>
+  <div class="col"><p>VanossGaming</p></div>
+</div>
 
-  </script>
 </body>
 </html>

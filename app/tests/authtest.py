@@ -1,4 +1,5 @@
 import sqlite3
+#from sqlite3.dbapi2 import Cursor
 import psycopg2
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -127,13 +128,38 @@ def local_bookmark_channel(id,channel):
     conn.close()
     return True #returns true for successful bookmark
 
+def local_change_pass(username,new_password):
+    #db_config = os.environ['DATABASE_URL']
+    conn = sqlite3.connect("tests/testing.db")
+    cursor = conn.cursor()
+    hashed_new_pass = generate_password_hash(new_password,method="sha256")
+    change_pass_command = """ UPDATE users 
+                            SET password = ?
+                            WHERE username = ?;
+                          
+                          """
+    cursor.execute(change_pass_command,(hashed_new_pass,username))
+    conn.commit()
+    conn.close()
+
+def print_select_all():
+    conn = sqlite3.connect("tests/testing.db")
+    cursor = conn.cursor()
+    command = "SELECT * FROM users"
+    cursor.execute(command)
+    print(cursor.fetchall())
+
 def main():
     local_initialize()
     assert local_signup_user("hi@gmail.com","testuser","123456") == False
-    assert local_login_user("testuser", "123456") == True
+    #assert local_login_user("testuser", "123456") == True
     local_signup_user("hi2@liquid.com","matthewpatel","4561abc")
     local_bookmark_channel(1,"veritasium")
     assert local_bookmark_channel(1,"veritasium") == False
-    
+    print_select_all()
+    local_change_pass("testuser","abc1548974549")
+    print_select_all()
+    assert local_login_user("testuser","abc1548974549") == True
+
 if __name__ == '__main__':
     main()
