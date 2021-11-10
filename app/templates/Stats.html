@@ -8,6 +8,7 @@
     box-sizing: border-box;
     font-family: "Rancho", cursive;
   }
+  
   .login{
     position: absolute;
     top: 50%;
@@ -27,11 +28,7 @@
     padding: 0 100px;
     box-sizing: border-box;
   }
-  form .textf{
-    position: relative;
-    border-bottom: 2px solid #adadad;
-    margin: 10px 0;
-  }
+
   .textf input{
     width: 100%;
     padding: 0 30px;
@@ -49,22 +46,7 @@
   .pass:hover{
     text-decoration: underline;
   }
-  input[type="submit"]{
-    width: 50%;
-    height: 30px;
-    border: 1px solid;
-    background: red;
-    border-radius: 25px;
-    font-size: 18px;
-    color: #e9f4fb;
-    font-weight: 700;
-    cursor: pointer;
-    outline: 5px;
-  }
-  input[type="submit"]:hover{
-    border-color: black;
-    transition: .5s;
-  }
+
 body {
   background-color: #BDBDBD;
   border: 0;
@@ -73,16 +55,6 @@ body {
   font-weight: bold;
   text-align: center;
   font-size: 50px;
-}
-
-.signup {
-  position: relative;
-  border: 0;
-  margin: 0;
-  font-family: 'Rancho', cursive;
-  text-align: center;
-  font-size: 25px;
-  white-space: nowrap;
 }
 
 .topnav { 
@@ -108,9 +80,24 @@ body {
   color: black;
 }
 
-i.VerticalLine{
-    border-right: solid rgb(0, 0, 0);
+.leftPhoto {
+  font-size: 30px;
+  align-content: left;
+  align-self: left;
+  align-items: center;
+  text-align: left;
+  margin-left: 150px;
+  margin-top: -50px;
 }
+
+.channelName {
+  font-size: 30px;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 0px;
+}
+
 form.example button {
   float: left;
   width: 20%;
@@ -122,19 +109,44 @@ form.example button {
   border-left: none;
   cursor: pointer;
 }
+
+.channelStats {
+  font-size: 50px;
+  text-align: center;
+  transform: translate(0%,-150%);
+  margin-top: 40px;
+}
+.channel_card {
+  width: 50%;
+  background-color: white;
+  padding: 5px 10px;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+}
+
+img.rounded-corners {
+  border-radius: 50%;
+}
+
 .sidebar{
     float:left;
     width:20%;
-    padding:20px;
+    padding:10px;
+    padding-top: 5%;
     text-align: center;
 }
 
 .main{
     float:right;
+    font-size:50px; 
+    font-family: "Rancho", cursive; 
     width:80%;
-    padding:20px;
-    padding-top: 7.5%;
+    text-align: center;
+    margin-top: 200px;
+    transform: translate(0%,-80%);
 }
+
 .image_circle{
       width: 100px;
       height: 100px;
@@ -148,41 +160,38 @@ form.example button {
 }
 
 </style>
+
 <head>
-  <title>Stats</title>
+  <title>{{Other_User}}'s Page</title>
 </head>
+
 <body>
-<div class="topnav">
-    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
-    <a href="/stats"><i>Stats</i></a>
+  <div class="topnav">
+    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
-    <a onclick="document.getElementById('logoutbutton').submit();"><i>Log Out</i></a>
+    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
-  <div>
-      <div class= "main" style="font-family: Arial; font-size:x-large; text-align: left;" >
+<br></br>
 
-            Sub Count:
-            <br>
-            Total Videos:
-            <br>
-            Bookmark This Channel
-            <br><br>
-            Bar graph showing daily viewership in the past week
-            <br>
-            
-            <br>
-            Line graph showing daily subscriber growth in the past week
-            <br>
+<div class="leftPhoto">
+  <img src="{{thumbNail}}" class="rounded-corners" />
+  <h1> <b>{{Other_User}}</b> </h1>
+  <a href="https://www.youtube.com/channel/{{Youtube_Id}}">link to channel</a>
+</div>
+<div class="channelStats">
+  <p>Subscriber Count: {{subCounter}}</p>
+  <p>Viewer Count: {{viewCounter}}</p>
+  <p>Video Count: {{videoCounter}}</p>
+  <p> <i> <a href="#bookmarks">Bookmark this Channel</a></i></p> 
+</div>
 
 
-      </div>
-      <aside class="sidebar">
-        <div class="image_circle">yes</div>
-        <div style="font-size: x-large; font-family: Arial;">Account</div>
-        <a href="https://www.google.com/" style="font-size: large; font-family: Arial;">link to channel</a>
-      </aside>
-  </div>
+<div class= "main">
+  <br>
+  <img src='/plot.png' width='840' height='630' alt ='{{ Other_User }}s Statistics.''>
+  <br>
+</div>
 </body>
 </html>

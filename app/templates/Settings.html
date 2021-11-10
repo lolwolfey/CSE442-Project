@@ -8,24 +8,17 @@
     box-sizing: border-box;
     font-family: "Rancho", cursive;
   }
-  .login{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
+  .pw{
+    position: center;
+    width: 500px;
     background: #BDBDBD;
     border-radius: px;
     
   }
-  .login h1{
-    text-align: center;
-    padding: 5px 0;
-    border-bottom: 1px solid silver;
-  }
-  .login form{
+  
+  .pw form{
     padding: 0 100px;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
   }
   form .textf{
     position: relative;
@@ -33,11 +26,10 @@
     margin: 10px 0;
   }
   .textf input{
-    transform: translate(-15%, -50%);
-    width: 150%;
+    width: 100%;
     padding: 0 30px;
     height: 40px;
-    font-size: 22px;
+    font-size: 25px;
     border: none;
     background: white;
     outline: 5px;
@@ -50,8 +42,7 @@
   .pass:hover{
     text-decoration: underline;
   }
-  input[type="submit"]{
-    transform: translate(0%,-60%);
+  button[type="submit"]{
     width: 50%;
     height: 30px;
     border: 1px solid;
@@ -63,7 +54,7 @@
     cursor: pointer;
     outline: 5px;
   }
-  input[type="submit"]:hover{
+  button[type="submit"]:hover{
     border-color: black;
     transition: .5s;
   }
@@ -75,16 +66,6 @@ body {
   font-weight: bold;
   text-align: center;
   font-size: 50px;
-}
-
-.signup {
-  position: relative;
-  border: 0;
-  margin: 0;
-  font-family: 'Rancho', cursive;
-  text-align: center;
-  font-size: 25px;
-  white-space: nowrap;
 }
 
 .topnav { 
@@ -110,24 +91,81 @@ body {
   color: black;
 }
 
+.channel_card {
+  width: 50%;
+  background-color: white;
+  padding: 5px 10px;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+}
+
 </style>
+
+
+
 <head>
-  <title>Settings</title>
+  <title>Settings Page</title>
 </head>
+
 <body>
-<div class="topnav">
+  <script>
+    function pwFunction() {
+      textwords = document.getElementById("newpw").value;
+        if (textwords.length == 0){
+          alert('No Password Inputted!');
+        }
+        else {
+          if (confirm('Save Password?')){
+              alert('Implement server side functionality to check if passwords match.');
+            };
+        };
+    }
+  </script>
+
+  <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
-    <a href="/stats"><i>Stats</i></a>
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
-    <a onclick="document.getElementById('logoutbutton').submit();"><i>Log Out</i></a>
+    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
   <br></br>
-      <div class = "login">
-        {% if current_user.is_authenticated %}
-            <h1>{{ current_user.username }}'s Settings Page</h1>
-        {% endif %}
-  </div>
+
+<div>
+    <h1> Settings</h1>
+</div>
+<br></br>
+
+<div>
+    <p>Set Account to Private:</p>
+    <button type="submit" onclick="confirm('This will make your account (hidden_from/visible_to) search. Continue?')" value="privacy_toggle"> Turn On </button> <!--This is a place holder that will update in the backend-->
+</div>
+
+<div>
+    <p>Change Password: </p>
+    <div class = "pw">
+        <form method="post">
+          <div class="textf">
+            <input id="oldpw" type="text" placeholder="Old Password" required>
+            <span></span>
+          </div>
+          <div class="textf">
+            <input id="newpw" type="text" placeholder="New Password" required>
+            <span></span>
+          </div>
+       
+      <button type="submit" onclick="pwFunction()" value="reset_password">Submit</button>
+        </form>
+</div>
+
+<br></br>
+
+<div>
+    <button type="submit" onclick="confirm('Account will be deleted. Continue?')" value="Delete_Account">Delete Account</p> 
+</div>
+<br></br>
+
+
 </body>
 </html>
