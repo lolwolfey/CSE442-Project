@@ -129,8 +129,9 @@ form.example button {
 .main{
     float:right;
     width:80%;
-    padding:20px;
-    padding-top: 7.5%;
+    text-align: center;
+    margin-top: 200px;
+    transform: translate(0%,-80%);
 }
 .image_circle{
       width: 100px;
@@ -151,35 +152,30 @@ form.example button {
 <body>
   <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
-    <a href="/stats"><i>Stats</i></a>
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
     <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
-  <div>
-      <div class= "main" style="font-family: Arial; font-size:x-large; text-align: left;" >
+<br></br>
 
-            Sub Count:
-            <br>
-            Total Videos:
-            <br>
-            Bookmark This Channel
-            <br><br>
-            Bar graph showing daily viewership in the past week
-            <br>
-            
-            <br>
-            Line graph showing daily subscriber growth in the past week
-            <br>
+<div class="leftPhoto">
+  <img src="{{thumbNail}}" class="rounded-corners" />
+  <h1> <b>{{Other_User}}</b> </h1>
+  <a href="https://www.youtube.com/channel/{{Youtube_Id}}">link to channel</a>
+</div>
+<div class="channelStats">
+  <p>Subscriber Count: {{subCounter}}</p>
+  <p>Viewer Count: {{viewCounter}}</p>
+  <p>Video Count: {{videoCounter}}</p>
+  <p> <i> <a href="#bookmarks">Bookmark this Channel</a></i></p> 
+</div>
 
 
-      </div>
-      <aside class="sidebar">
-        <div class="image_circle">yes</div>
-        <div style="font-size: x-large; font-family: Arial;">Account</div>
-        <a href="https://www.google.com/" style="font-size: large; font-family: Arial;">link to channel</a>
-      </aside>
-  </div>
+<div class= "main">
+  <br>
+  <img src='/plot.png' width='840' height='630' alt ='{{ Other_User }}s Statistics.''>
+  <br>
+</div>
 </body>
 </html>

@@ -6,3 +6,7 @@ Flask-Migrate
 Flask-Login
 Flask-Mail
 requests==2.26.0
+matplotlib
+requests
+google-api-python-client
+pyparsing==2.4.7
