@@ -4,3 +4,8 @@ Flask-SQLAlchemy
 Flask-Login
 Flask-Migrate
 Flask-Login
+Flask-Mail
+requests==2.26.0
+matplotlib
+google-api-python-client
+pyparsing==2.4.7

@@ -8,22 +8,15 @@
     box-sizing: border-box;
     font-family: "Rancho", cursive;
   }
-  .login{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
+  .pw{
+    position: center;
+    width: 500px;
     background: #BDBDBD;
     border-radius: px;
     
   }
-  .login h1{
-    text-align: center;
-    padding: 5px 0;
-    border-bottom: 1px solid silver;
-  }
-  .login form{
+  
+  .pw form{
     padding: 0 100px;
     /* box-sizing: border-box; */
   }
@@ -49,7 +42,7 @@
   .pass:hover{
     text-decoration: underline;
   }
-  input[type="submit"]{
+  button[type="submit"]{
     width: 50%;
     height: 30px;
     border: 1px solid;
@@ -61,7 +54,7 @@
     cursor: pointer;
     outline: 5px;
   }
-  input[type="submit"]:hover{
+  button[type="submit"]:hover{
     border-color: black;
     transition: .5s;
   }
@@ -109,36 +102,29 @@ body {
 
 </style>
 
+
+
 <head>
-  <title>Home Page</title>
+  <title>Send Email</title>
 </head>
 
 <body>
-<div class="topnav">
+  <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
-    <a href="/search"><i>Search</i></a>
-    <a href="/settings"><i>Settings</i></a>
-    <form id="logoutbutton" method="post" action="/logout"></form>
-    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
-</div>
-  <br></br>
+  </div>
+
+<br></br>
+
+<br></br>
 
 <div>
-    {% if current_user.is_authenticated %}
-    <h1>Welcome {{ current_user.username }}!</h1>
-    {% endif %}
-    <br></br>
-    <h1> Bookmarked Channels </h1>
+    <p>Input Email: </p>
+        <form action = "send_mail" method="POST">
+            <input type="email" name = "email" placeholder="Email">
+            <button type="submit" value="Send Email">Submit</button>
+        </form>
 </div>
-<br></br>
 
-<!--{{start_loop}}-->
-<div class="channel_card">
-    <b href="{{Channel_Stats_Page}}" onclick="confirm('Redirect to {{Channel_Name}} stats page. Continue?')">{{Channel_Name}}, {{Channel_Subscribers}}</b>
-    <p type="button" onclick="confirm('Bookmark will be deleted. Continue?')">Delete Bookmark</p> 
-</div>
-<br></br>
-<!--{{end_loop}}-->
 
 </body>
 </html>
