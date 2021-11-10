@@ -78,7 +78,7 @@ def init():
 
     create_private_relation = """ CREATE TABLE IF NOT EXISTS private(
                                 username VARCHAR(100) NOT NULL,
-                                privmode BOOLEAN,
+                                privmode INTEGER,
                                 PRIMARY KEY (username)
                             );  
                                 """
@@ -190,7 +190,7 @@ def signup_user(email,username,password):
                         """
         hashed_pass=generate_password_hash(password, method='sha256')
         cursor.execute(insert_user,(email,username,hashed_pass))
-        cursor.execute(insert_private,(username,False))
+        cursor.execute(insert_private,(username,0))
         conn.commit()
         conn.close()
         return True #signup good
