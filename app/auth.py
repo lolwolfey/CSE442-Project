@@ -6,7 +6,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 import sys
 import psycopg2
 import os
-from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass #delete when merging
+from .database_handler import bookmark_channel, init, signup_user, user_login, User, get_user_by_email, change_pass, confirm_reset_token, delete_reset_token #delete when merging
 
 auth = Blueprint('auth', __name__)
 
@@ -33,25 +33,28 @@ def login():
     return render_template("Login.html")
 
 # @auth.route("/settings", methods = ['POST'])
-# @auth.route("/SettingPassChange", methods = ['POST'])
-# def SettingPassChange():
-#     if request.method == 'POST':
-#         # username = request.form['usrname']
-#         # OldPass = request.form['oldpw']
-#         # NewPass = request.form['newpw']
-#         # user = User(None, username, None)
-#         # password = user.hashedPassword
-#         flash('VALID password, everything up to now works!')
-#         # if check_password_hash(password, OldPass):
-#         #     valid, error = password_requirements(NewPass)
-#         #     if valid:
-#                 # change_pass(user.username,NewPass)
-#         #     else:
-#                 # flash('Invalid Password!', 'error')
-#         # else:
-#         #     flash('Old password is not correct', 'error')
-#     return redirect(url_for('main'))
-#     save this code for later when resetting via forgotten password
+@auth.route('/reset_pw', methods = ['POST', 'GET'])
+def SettingPassChange():
+    #remember to add additional edge cases to make sure email is valid and linked to an existing account in db
+    if request.method == 'POST':
+        useremail = request.form['user_email']
+        token = request.form['reset_token']
+        NewPass = request.form['newpw']
+        if confirm_reset_token(useremail, token) == True:
+            valid, error = password_requirements(NewPass)
+            if valid:
+                userrow = get_user_by_email(useremail)
+                username = userrow[2]
+                change_pass(username, NewPass)
+                delete_reset_token(useremail, token)
+                flash('Password changed', 'info')
+                return redirect(url_for('auth.login'))
+            else:
+                for err in error:
+                    flash(err, 'error')
+        else:
+            flash('email or token is incorrect', 'error')
+    return render_template('reset_password.html')
 
         
 

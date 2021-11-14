@@ -179,6 +179,22 @@ def Check_email(email):
     conn.close()
     return False
 
+def get_user_by_email(email):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if email already exists
+    email_check = """SELECT * FROM users
+                     WHERE email = %s;
+                """
+    cursor.execute(email_check,(email,))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    conn.commit()
+    conn.close()
+    return row
+
 def signup_user(email,username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')

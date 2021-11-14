@@ -36,7 +36,7 @@ def create_app():
             token = generate_reset_token(email)
             message.body = "This is the reset token: " + token
             mail.send(message)
-            return render_template("Signup.html")
+            return render_template("reset_password.html")
         return render_template("Send_Email.html")
 
     # Initialize the ;login manager for Flask_login
