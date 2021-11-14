@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 import os
-from .database_handler import bookmark_channel, init, User, Check_email
+from .database_handler import bookmark_channel, init, User, Check_email, generate_reset_token, confirm_reset_token, delete_reset_token
 from flask_mail import Mail, Message
 
 debug = True
@@ -33,7 +33,8 @@ def create_app():
             email = request.form['email']
             # if Check_email(email) == False:
             message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
-            message.body = "testing"
+            token = generate_reset_token(email)
+            message.body = "This is the reset token: " + token
             mail.send(message)
             return render_template("Signup.html")
         return render_template("Send_Email.html")

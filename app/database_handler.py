@@ -1,6 +1,8 @@
 import sys
 import psycopg2
 import os
+import random
+import string
 from werkzeug.security import generate_password_hash, check_password_hash
 class User:
     user_id = None
@@ -73,10 +75,20 @@ def init():
     delete_user_table = "DROP TABLE users;"
     delete_relation = "DROP TABLE idtoname;"
     delete_private_table = "DROP TABLE private;"
+    delete_token_table = "DROP TABLE token;"
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
     cursor.execute(delete_relation)
     cursor.execute(delete_private_table)
+    cursor.execute(delete_token_table)
+
+    create_token_relation = """ CREATE TABLE IF NOT EXISTS token(
+                                email VARCHAR(100) NOT NULL,
+                                user_reset_token VARCHAR(100),
+                                PRIMARY KEY (email)
+                                UNIQUE (email, user_reset_token)
+                            );  
+                                """
 
     create_private_relation = """ CREATE TABLE IF NOT EXISTS private(
                                 username VARCHAR(100) NOT NULL,
@@ -126,6 +138,7 @@ def init():
     cursor.execute(create_bookmarks_table)
     cursor.execute(create_idtoname_relation)
     cursor.execute(create_private_relation)
+    cursor.execute(create_token_relation)
     conn.commit()
     conn.close()
 
@@ -309,3 +322,64 @@ def get_channel_id(channel_name):
     cursor.execute(get_id_command,(channel_name,))
     retval = cursor.fetchone()
     return retval
+
+#generate reset token for forgotten password reset by taking in a email
+#returns a long string of gibberish as token
+#reference for token generation: https://www.geeksforgeeks.org/python-generate-random-string-of-given-length/
+def generate_reset_token(user_email):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #generate a token using uppercase and lowercase letters and numbers
+    token = str(''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k = 10)))
+    #look into token database for user email and fetch row that has it
+    check_sent_email_command = """ SELECT * FROM token
+                            WHERE email = %s;
+                            """
+    cursor.execute(check_sent_email_command, (user_email,))
+    row = cursor.fetchone()
+    #check if any pre-existing token with inputted email is in db via row
+    if row == None: #if none, insert token and email into db
+        insert_token_command = """ INSERT INTO token(email, user_reset_token)
+                                VALUES(%s, %s);
+                            """
+        cursor.execute(insert_token_command,(user_email, token))
+    else:   # if exist, update token linked to email in db
+        update_token_command = """ UPDATE token
+                                SET user_reset_token = %s
+                                WHERE email = %s;
+                            """
+        cursor.execute(update_token_command,(token, user_email))
+    conn.commit()
+    conn.close()
+    return token
+
+#check if the inputted reset token from forgotten password reset page matches token in the db.
+#returns False if they do not match, returns True if they do match.
+def confirm_reset_token(user_email, input_token):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    check_reset_token_command = """ SELECT * FROM token
+                            WHERE email = %s;
+                            """
+    cursor.execute(check_reset_token_command,(user_email,))
+    row = cursor.fetchone()
+    if row[1] != input_token:
+        return False
+    conn.commit()
+    conn.close()
+    return True
+
+#deletes user email and corresponding reset token from thetoken database
+#returns nothing
+def delete_reset_token(user_email, input_token):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    delete_token_command = """DELETE FROM token
+                            WHERE email = %s;
+                        """
+    cursor.execute(delete_token_command,(user_email,))
+    conn.commit()
+    conn.close()
