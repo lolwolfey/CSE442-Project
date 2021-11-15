@@ -262,7 +262,7 @@ def bookmark_channel(id,channel,channel_id):
     bookmark_command = """ INSERT INTO bookmarks(id, channel, channel_id)
                            VALUES (%s,%s,%s);
                         """
-    cursor.execute(bookmark_command,(id,channel))
+    cursor.execute(bookmark_command,(id,channel, channel_id))
     cursor.execute("SELECT * FROM bookmarks")#Testing Code
     test = str(cursor.fetchall()) #testing
     sys.stderr.write(test)#testing
