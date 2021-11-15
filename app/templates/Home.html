@@ -132,7 +132,7 @@ body {
     <form method = 'POST' action='/search_id'>
     {% for bookmark in bookmarks %}
       <button name='channel_id' value='{{ bookmark[2] }}' type="submit">{{ bookmark[1] }}</button>
-    {% end for %}
+    {% endfor %}
     </form>
 </div>
 <br></br>
