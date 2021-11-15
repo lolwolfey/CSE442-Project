@@ -85,7 +85,7 @@ def init():
     create_token_relation = """ CREATE TABLE IF NOT EXISTS token(
                                 email VARCHAR(100) NOT NULL,
                                 user_reset_token VARCHAR(100),
-                                PRIMARY KEY (email)
+                                PRIMARY KEY (email),
                                 UNIQUE (email, user_reset_token)
                             );  
                                 """
