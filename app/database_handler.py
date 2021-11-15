@@ -83,10 +83,11 @@ def init():
     cursor.execute(delete_token_table)
 
     create_token_relation = """ CREATE TABLE IF NOT EXISTS token(
+                                id SERIAL,
                                 email VARCHAR(100) NOT NULL,
                                 user_reset_token VARCHAR(100) NOT NULL,
-                                PRIMARY KEY (email),
-                                UNIQUE (email, user_reset_token)
+                                PRIMARY KEY (id),
+                                UNIQUE (id, email, user_reset_token)
                             );  
                                 """
 
@@ -381,11 +382,14 @@ def confirm_reset_token(user_email, input_token):
                             """
     cursor.execute(check_reset_token_command,(user_email,))
     row = cursor.fetchone()
-    if row == None:
+    #potential issue here with row being nonetype
+    # if row == None:
+    #     return False
+    # else:
+        # if row[1] != input_token:
+        #     return False
+    if row[2] != input_token:
         return False
-    else:
-        if row[1] != input_token:
-            return False
     conn.commit()
     conn.close()
     return True
