@@ -1,9 +1,14 @@
+from flask import Flask
 from flask import *
 import os
 import sys
 import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
+from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username
+from werkzeug.security import generate_password_hash, check_password_hash
+import psycopg2
+from .auth import password_requirements
 import json
 from . import YoutubeStats
 import io
@@ -31,7 +36,7 @@ def search():
         url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&forUsername={ytchannel}&key={api_key}"
         json_url = requests.get(url) #get the json data from url
         data = json.loads(json_url.text)
-        
+
         sys.stderr.write(str(data))
         channelID = data['items'][0]["id"] #channelID to use for plotting
         subCount = data['items'][0]["statistics"]["subscriberCount"]
@@ -43,7 +48,7 @@ def search():
         return redirect(url_for('main.stats'))
         #print(channels)
 
-    #print(request.form.get()) 
+    #print(request.form.get())
     return render_template('Search.html')
 
 @main.route('/stats')
@@ -54,11 +59,27 @@ def stats():
     # return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
     return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
 
-@main.route('/settings')
+@main.route('/settings', methods = ['POST', 'GET'])
 @login_required
 def settings():
+    if request.method == 'POST':
+        # username = request.form['usrname']
+        OldPass = request.form['oldpw']
+        NewPass = request.form['newpw']
+        # user = User(None, current_user.username, None)
+        pwhash = get_password_by_username(current_user.username)
+        flash('VALID password, everything up to now works!'+ str(OldPass) + str(NewPass) + str(current_user.username))
+        if check_password_hash(pwhash, OldPass): #check if old password is correct
+             valid, error = password_requirements(NewPass)  #check if new password meets requirements
+             if valid:
+                change_pass(current_user.username,NewPass)      #if it means requirements update password
+             else:
+                flash('Invalid NEW Password!', 'error')         #if not, generate error saying it did not
+        else:
+            flash('Old password is not correct', 'error')
     return render_template('Settings.html')
 
+# @main.route("/SettingPassChange", methods = ['POST'])
 
 
 @main.route('/plot.png')        #both functions required for making graph

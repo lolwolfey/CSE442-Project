@@ -160,6 +160,6 @@ def main():
     local_change_pass("testuser","abc1548974549")
     print_select_all()
     assert local_login_user("testuser","abc1548974549") == True
-    
+
 if __name__ == '__main__':
     main()
