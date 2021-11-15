@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html>
+<script>
+  already_bookmarked = '{{ already_bookmarked }}';
+  if(already_bookmarked == '1') {
+    bookmark = document.getElementById('bookmark');
+    bookmark.checked = true;
+  }
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
 *{
@@ -186,8 +193,8 @@ img.rounded-corners {
   <p>Video Count: {{videoCounter}}</p>
   <p> <i> <a href="#bookmarks">Bookmark this Channel</a></i></p>
   <form>
-    <input type = 'radio' id = 'bookmark' name = 'bookmark'>
-    <label for='bookmaer'>Bookmark this Channel</label>
+    <input type = 'checkbox' id = 'bookmark' name = 'bookmark'>
+    <label for='bookmark'>Bookmark this Channel</label>
   </form>
   
 </div>
