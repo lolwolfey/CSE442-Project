@@ -80,7 +80,7 @@ def stats():
     3. pass already_bookmarked to render_template
     """
 
-    already_bookmarked = has_bookmark(current_user.id, channels[0][0], channels[0][5])
+    already_bookmarked = has_bookmark(current_user.user_id, channels[0][0], channels[0][5])
     if already_bookmarked:
         already_bookmarked = 1
     else:
@@ -164,7 +164,7 @@ TO DO:
 @login_required
 def add_bookmark(channel, id):
     sys.stderr.write('added: channel = ' + channel + ', id =' + id)
-    return bookmark_channel(current_user.id,channel,id)
+    return bookmark_channel(current_user.user_id,channel,id)
 
 @main.route('/remove_bookmark')
 @login_required
