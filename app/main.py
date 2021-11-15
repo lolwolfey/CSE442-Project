@@ -54,7 +54,7 @@ def search():
 @main.route('/stats', methods=['POST', 'GET'])
 @login_required
 def stats():
-    """
+    
     if request.method == 'POST':
         add_remove= request.form['add_remove']
         channel = request.form['channel_name']
@@ -63,7 +63,6 @@ def stats():
             remove_bookmark(channel, id)
         else:
             add_bookmark(channel, id)
-    """
     # global channels
     # YoutubeStats.WeeklyViewerCount(channels[0][5])
     # return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
@@ -131,6 +130,7 @@ def create_figure():
     fig.tight_layout()
     return fig
 
+"""
 @main.route('/bookmark', methods=['POST'])
 @login_required
 def bookmark():
@@ -141,6 +141,7 @@ def bookmark():
         remove_bookmark(channel, id)
     else:
         add_bookmark(channel, id)
+"""
 
 @main.route('/add_bookmark')
 @login_required

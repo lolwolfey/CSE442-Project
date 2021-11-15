@@ -200,7 +200,7 @@ img.rounded-corners {
   <p>Viewer Count: {{viewCounter}}</p>
   <p>Video Count: {{videoCounter}}</p>
   <p> <i> <a href="#bookmarks">Bookmark this Channel</a></i></p>
-  <form action = '/bookmark', method ='POST'>
+  <form method ='POST'>
     <input type = 'checkbox' id = 'bookmark' name = 'bookmark' onchange='this.form.submit()'>
     <label for='bookmark'>Bookmark this Channel</label>
     <input type= 'hidden' id = 'add_remove' name = 'add_remove' value='add'>
