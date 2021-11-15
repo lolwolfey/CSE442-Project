@@ -237,13 +237,13 @@ def has_bookmark(id,channel,channel_id):
     cursor = conn.cursor()
     #check if bookmark already exists
     check_command = """ SELECT * FROM bookmarks
-                        WHERE id = %s AND channel = %s;
+                        WHERE id = %s AND channel = %s AND channel_id = %s;
                     """
-    cursor.execute(check_command,(id,channel))
+    cursor.execute(check_command,(id,channel, channel_id))
     row = cursor.fetchone()
     if row == None:
-        return True
-    return False
+        return False
+    return True
 
 def bookmark_channel(id,channel,channel_id):
     db_config = os.environ['DATABASE_URL']
@@ -251,16 +251,16 @@ def bookmark_channel(id,channel,channel_id):
     cursor = conn.cursor()
     #check if bookmark already exists
     check_command = """ SELECT * FROM bookmarks
-                        WHERE id = %s AND channel = %s;
+                        WHERE id = %s AND channel = %s AND channel_id = %s;
                     """
-    cursor.execute(check_command,(id,channel))
+    cursor.execute(check_command,(id,channel,channel_id))
     row = cursor.fetchone()
     if row != None:
         sys.stderr.write("aborted")
         return False #bookmark already exists, abort
     #otherwise, insert into the bookmarks table
-    bookmark_command = """ INSERT INTO bookmarks(id, channel)
-                           VALUES (%s,%s);
+    bookmark_command = """ INSERT INTO bookmarks(id, channel, channel_id)
+                           VALUES (%s,%s,%s);
                         """
     cursor.execute(bookmark_command,(id,channel))
     cursor.execute("SELECT * FROM bookmarks")#Testing Code
