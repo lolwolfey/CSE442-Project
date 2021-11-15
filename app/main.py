@@ -56,9 +56,9 @@ def search():
 def stats():
     
     if request.method == 'POST':
-        add_remove= request.form['add_remove']
-        channel = request.form['channel_name']
-        id = request.form['channel_id']
+        add_remove = request.form.get('add_remove')
+        channel = request.form.get('channel_name')
+        id = request.form.get('channel_id')
         if add_remove == 'remove':
             remove_bookmark(channel, id)
         else:
@@ -146,10 +146,6 @@ def bookmark():
 @main.route('/add_bookmark')
 @login_required
 def add_bookmark(channel, id):
-    jsdata = request.form['channel_info']
-    channel_info = json.loads(jsdata)[0]
-    channel = channel_info['channel']
-    id = channel_info['id']
     sys.stderr('added: channel = ' + channel + ', id =' + id)
     return # Call bookmark_channel(id,channel) function.
 
