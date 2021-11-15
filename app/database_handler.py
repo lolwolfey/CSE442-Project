@@ -245,7 +245,7 @@ def has_bookmark(id,channel,channel_id):
         return False
     return True
 
-def remove_bookmark(id,channel,channel_id):
+def delete_bookmark(id,channel,channel_id):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()

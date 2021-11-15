@@ -5,7 +5,7 @@ import sys
 import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username, has_bookmark, remove_bookmark
+from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username, has_bookmark, delete_bookmark
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 from .auth import password_requirements
@@ -170,4 +170,4 @@ def add_bookmark(channel, id):
 @login_required
 def remove_bookmark(channel, id):
     sys.stderr.write('removed: channel = ' + channel + ', id =' + id)
-    return remove_bookmark(current_user.user_id,channel,id)
+    return delete_bookmark(current_user.user_id,channel,id)
