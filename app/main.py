@@ -120,3 +120,21 @@ def create_figure():
     bars.legend()
     fig.tight_layout()
     return fig
+
+@main.route('/add_bookmark', methods=['POST'])
+@login_required
+def add_bookmark():
+    jsdata = request.form['channel_info']
+    channel_info = json.loads(jsdata)[0]
+    channel = channel_info['channel']
+    id = channel_info['id']
+    return # Call bookmark_channel(id,channel) function.
+
+@main.route('/remove_bookmark', methods=['POST'])
+@login_required
+def remove_bookmark():
+    jsdata = request.form['channel_info']
+    channel_info = json.loads(jsdata)[0]
+    channel = channel_info['channel']
+    id = channel_info['id']
+    return # Create remove_bookmark(id, channel) function, and call it here.

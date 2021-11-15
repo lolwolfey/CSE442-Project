@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html>
 <script>
-  already_bookmarked = '{{ already_bookmarked }}';
-  if(already_bookmarked == '1') {
-    bookmark = document.getElementById('bookmark');
-    bookmark.checked = true;
+  function already_bookmarked()
+  {
+    already_bookmarked = '{{ already_bookmarked }}';
+    if(already_bookmarked == '1') {
+      document.getElementById('bookmark').checked = true;
+    }
+  }
+  function bookmark()
+  {
+    bookmark = document.getElementById('bookmark').checked;
+    if(bookmark){
+      //Add to bookmarks list
+      $.post('add_bookmark',{
+        channel_info: {'channel': '{{Other_User}}', 'id': '{{Youtube_Id}}'}
+      });
+    }
+    else{
+      //Remove from bookmars list
+      $.post('remove_bookmark',{
+        channel_info: {'channel': '{{Other_User}}', 'id': '{{Youtube_Id}}'}
+      });
+    }
   }
 </script>
 <style>
@@ -172,7 +190,7 @@ img.rounded-corners {
   <title>{{Other_User}}'s Page</title>
 </head>
 
-<body>
+<body onload="already_bookmarked();">
   <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
     <a href="/search"><i>Search</i></a>
@@ -193,7 +211,7 @@ img.rounded-corners {
   <p>Video Count: {{videoCounter}}</p>
   <p> <i> <a href="#bookmarks">Bookmark this Channel</a></i></p>
   <form>
-    <input type = 'checkbox' id = 'bookmark' name = 'bookmark'>
+    <input type = 'checkbox' id = 'bookmark' name = 'bookmark' onclick='cookmark();'>
     <label for='bookmark'>Bookmark this Channel</label>
   </form>
   
