@@ -254,6 +254,8 @@ def delete_bookmark(id,channel,channel_id):
                         WHERE id = %s AND channel = %s AND channel_id = %s;
                     """
     cursor.execute(check_command,(id,channel,channel_id))
+    conn.comit()
+    conn.close()
     return
 
 def bookmark_channel(id,channel,channel_id):
