@@ -75,7 +75,7 @@ def init():
     delete_user_table = "DROP TABLE users;"
     delete_relation = "DROP TABLE idtoname;"
     delete_private_table = "DROP TABLE private;"
-    delete_token_table = "DROP TABLE token;"
+    delete_token_table = "DROP TABLE IF EXISTS token;"
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
     cursor.execute(delete_relation)
