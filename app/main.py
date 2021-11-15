@@ -5,7 +5,7 @@ import sys
 import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username, has_bookmark, delete_bookmark
+from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username, has_bookmark, delete_bookmark, get_bookmarks
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 from .auth import password_requirements
@@ -23,6 +23,9 @@ channels = [()]
 @main.route('/home')
 @login_required
 def home():
+
+    bookmarks = get_bookmarks(current_user.user_id)
+
     """
     TO DO:
     1. bookmarks = bookmarks table from current_user
@@ -32,7 +35,15 @@ def home():
 
     *5. Add delete bookmark functionality possibly later (technically exist on stats page itself)
     """
-    return render_template('Home.html')
+    return render_template('Home.html', bookmarks=bookmarks)
+
+@main.route('/search_id', methods = ['POST'])
+@login_required
+def search_id():
+    channel_id = request.form.get('channel_id')
+    return
+
+
 
 @main.route('/search',methods = ["GET","POST"])
 @login_required
@@ -72,13 +83,6 @@ def stats():
             remove_bookmark(channel, id)
         else:
             add_bookmark(channel, id)
-
-    """
-    TO DO:
-    1. Query the bookmarks table for channel and id
-    2. if bookmark exists set already bookmared = 1
-    3. pass already_bookmarked to render_template
-    """
 
     already_bookmarked = has_bookmark(current_user.user_id, channels[0][0], channels[0][5])
     if already_bookmarked:
@@ -151,14 +155,6 @@ def create_figure():
     bars.legend()
     fig.tight_layout()
     return fig
-
-"""
-TO DO:
-1. Fiugure out how bookmark_channel function works, how does it know which user's bookmarks?
-2. implement bookmark_channel in /add_bookmark
-3. create a remove_bookmark function (should be simple once I know how bookmark_channel works)
-4. implement remove_bookmark in /remove_bookmark
-"""
 
 @main.route('/add_bookmark')
 @login_required

@@ -258,6 +258,21 @@ def delete_bookmark(id,channel,channel_id):
     conn.close()
     return
 
+def get_bookmarks(id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if bookmark already exists
+    check_command = """ SELECT * FROM bookmarks
+                        WHERE id = %s;
+                    """
+    cursor.execute(check_command,(id))
+    bookmarks = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return bookmarks
+
+
 def bookmark_channel(id,channel,channel_id):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
