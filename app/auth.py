@@ -39,7 +39,7 @@ def SettingPassChange():
     if request.method == 'POST':
         useremail = request.form['user_email']
         token = request.form['reset_token']
-        NewPass = request.form['newpw']
+        NewPass = request.form['new_pass']
         if confirm_reset_token(useremail, token) == True:
             valid, error = password_requirements(NewPass)
             if valid:
