@@ -266,7 +266,7 @@ def get_bookmarks(id):
     check_command = """ SELECT * FROM bookmarks
                         WHERE id = %s;
                     """
-    cursor.execute(check_command,(id))
+    cursor.execute(check_command,(id,))
     bookmarks = cursor.fetchall()
     conn.commit()
     conn.close()
