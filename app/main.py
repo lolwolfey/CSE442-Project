@@ -131,7 +131,7 @@ def create_figure():
     fig.tight_layout()
     return fig
 
-@main.route('/bookmark')
+@main.route('/bookmark', methods=['POST'])
 @login_required
 def bookmark():
     add_remove= request.form['add_remove']
