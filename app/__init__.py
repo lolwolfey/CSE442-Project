@@ -23,7 +23,7 @@ def create_app():
         MAIL_USE_SSL = False,
         MAIL_USE_TLS = True,
         MAIL_USERNAME = 'redlomansmurf125@gmail.com',
-        MAIL_PASSWORD = 'temp_pass',
+        MAIL_PASSWORD = 'wimjzfqkutwpclzt',
     )
     mail = Mail(app)
 
