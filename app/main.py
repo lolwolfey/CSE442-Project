@@ -128,6 +128,7 @@ def add_bookmark():
     channel_info = json.loads(jsdata)[0]
     channel = channel_info['channel']
     id = channel_info['id']
+    sys.stdett('added: channel = ' + channel + ', id =' + id)
     return # Call bookmark_channel(id,channel) function.
 
 @main.route('/remove_bookmark', methods=['POST'])
@@ -137,4 +138,5 @@ def remove_bookmark():
     channel_info = json.loads(jsdata)[0]
     channel = channel_info['channel']
     id = channel_info['id']
+    sys.stdett('removed: channel = ' + channel + ', id =' + id)
     return # Create remove_bookmark(id, channel) function, and call it here.
