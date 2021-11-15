@@ -107,7 +107,7 @@ def init():
     create_bookmarks_table = """ CREATE TABLE IF NOT EXISTS bookmarks(
                             id INTEGER ,
                             channel TEXT,
-                            channel_id,
+                            channel_id TEXT,
                             CONSTRAINT fk_users
                                 FOREIGN KEY (id)
                                     REFERENCES users(id)
