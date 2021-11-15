@@ -51,9 +51,17 @@ def search():
     #print(request.form.get())
     return render_template('Search.html')
 
-@main.route('/stats')
+@main.route('/stats', methods=['POST', 'GET'])
 @login_required
 def stats():
+    if request.method == 'POST':
+        add_remove= request.form['add_remove']
+        channel = request.form['channel_name']
+        id = request.form['channel_id']
+        if add_remove == 'remove':
+            remove_bookmark(channel, id)
+        else:
+            add_bookmark(channel, id)
     # global channels
     # YoutubeStats.WeeklyViewerCount(channels[0][5])
     # return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
@@ -121,9 +129,9 @@ def create_figure():
     fig.tight_layout()
     return fig
 
-@main.route('/add_bookmark', methods=['POST'])
+@main.route('/add_bookmark')
 @login_required
-def add_bookmark():
+def add_bookmark(channel, id):
     jsdata = request.form['channel_info']
     channel_info = json.loads(jsdata)[0]
     channel = channel_info['channel']
@@ -131,12 +139,8 @@ def add_bookmark():
     sys.stdett('added: channel = ' + channel + ', id =' + id)
     return # Call bookmark_channel(id,channel) function.
 
-@main.route('/remove_bookmark', methods=['POST'])
+@main.route('/remove_bookmark')
 @login_required
-def remove_bookmark():
-    jsdata = request.form['channel_info']
-    channel_info = json.loads(jsdata)[0]
-    channel = channel_info['channel']
-    id = channel_info['id']
+def remove_bookmark(channel, id):
     sys.stdett('removed: channel = ' + channel + ', id =' + id)
     return # Create remove_bookmark(id, channel) function, and call it here.
