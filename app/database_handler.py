@@ -250,7 +250,7 @@ def delete_bookmark(id,channel,channel_id):
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     #check if bookmark already exists
-    check_command = """ DELETE * FROM bookmarks
+    check_command = """ DELETE FROM bookmarks
                         WHERE id = %s AND channel = %s AND channel_id = %s;
                     """
     cursor.execute(check_command,(id,channel,channel_id))
