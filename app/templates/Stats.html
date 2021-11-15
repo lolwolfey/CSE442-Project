@@ -13,13 +13,13 @@
     bookmark = document.getElementById('bookmark').checked;
     if(bookmark){
       //Add to bookmarks list
-      $.post('add_bookmark',{
+      $.post('/add_bookmark',{
         channel_info: {'channel': '{{Other_User}}', 'id': '{{Youtube_Id}}'}
       });
     }
     else{
       //Remove from bookmars list
-      $.post('remove_bookmark',{
+      $.post('/remove_bookmark',{
         channel_info: {'channel': '{{Other_User}}', 'id': '{{Youtube_Id}}'}
       });
     }
