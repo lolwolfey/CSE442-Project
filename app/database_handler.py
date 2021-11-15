@@ -107,6 +107,7 @@ def init():
     create_bookmarks_table = """ CREATE TABLE IF NOT EXISTS bookmarks(
                             id INTEGER ,
                             channel TEXT,
+                            channel_id,
                             CONSTRAINT fk_users
                                 FOREIGN KEY (id)
                                     REFERENCES users(id)
@@ -230,7 +231,21 @@ def get_user_by_id(id):
     conn.close()
     return row
 
-def bookmark_channel(id,channel):
+def has_bookmark(id,channel,channel_id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if bookmark already exists
+    check_command = """ SELECT * FROM bookmarks
+                        WHERE id = %s AND channel = %s;
+                    """
+    cursor.execute(check_command,(id,channel))
+    row = cursor.fetchone()
+    if row == None:
+        return True
+    return False
+
+def bookmark_channel(id,channel,channel_id):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
