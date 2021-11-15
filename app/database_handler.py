@@ -357,7 +357,7 @@ def generate_reset_token(user_email):
     #check if any pre-existing token with inputted email is in db via row
     if row == None: #if none, insert token and email into db
         insert_token_command = """ INSERT INTO token(email, user_reset_token)
-                                VALUES(%s, %s);
+                                VALUES (%s, %s);
                             """
         cursor.execute(insert_token_command,(user_email, token))
     else:   # if exist, update token linked to email in db
@@ -381,8 +381,11 @@ def confirm_reset_token(user_email, input_token):
                             """
     cursor.execute(check_reset_token_command,(user_email,))
     row = cursor.fetchone()
-    if row[1] != input_token:
+    if row == None:
         return False
+    else:
+        if row[1] != input_token:
+            return False
     conn.commit()
     conn.close()
     return True
