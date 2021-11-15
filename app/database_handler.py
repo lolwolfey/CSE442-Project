@@ -2,18 +2,85 @@ import sys
 import psycopg2
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
+class User:
+    user_id = None
+    email = None
+    username = None
+    hashedPassword = None
+    authenticated = False
+
+   # A user object can be made in 2 ways, username and password or user id. the other values should be none.
+    def __init__(self, user_id, username, password):
+        if user_id == None:
+            user = get_user_by_username(username)
+            if user:
+                if check_password_hash(user[3], password):
+                    self.email = user[1]
+                    self.username = user[2]
+                    self.hashedPassword = user[3]
+                    self.user_id = user[0]
+                    self.authenticated = True
+
+        # Exccpets a unicode ID, must return None id an invalid Id is provided.
+        elif username == None and password == None:
+            try:
+                user_id = int(user_id)
+            except ValueError:
+                return None
+            user = get_user_by_id(user_id)
+            if not user:
+                return None
+            self.email = user[1]
+            self.username = user[2]
+            self.hashedPassword = user[3]
+            self.user_id = user[0]
+            self.authenticated = True
+
+        else:
+            return None
+
+    def login(self, username, password):
+        if user_login(username, password):
+            self.authenticated = True
+        return self.authenticated
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    # This is a required method for Flask_login functionality.
+    # for now it always returns true, but if we add functionality to ban/suspend users would change this.
+    def is_active(self):
+        return True
+    
+    def get_username(self):
+        return self.username
+    
+    # similar to is_active, required for Flask_login
+    def is_anonymous(self):
+        return False
+
+    # returns unicode user_id
+    def get_id(self):
+        return str(self.user_id).encode()
 
 def init():
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
+
+    # Comment/uncomment this to save/delete users table between test deploys
+    delete_bookmarks_table = "DROP TABLE bookmarks"
+    delete_user_table = "DROP TABLE users;"
+    cursor.execute(delete_bookmarks_table)
+    cursor.execute(delete_user_table)
+
     create_user_table = """CREATE TABLE IF NOT EXISTS users( 
                         id SERIAL,
                         email TEXT NOT NULL,
                         username VARCHAR(100) NOT NULL,
                         password VARCHAR(100) NOT NULL,
                         PRIMARY KEY (id),
-                        UNIQUE (email,username)
+                        UNIQUE (id, email, username)
                         );
                         """
     #serial auto increments ID
@@ -52,8 +119,10 @@ def user_login(username,password):
     cursor.execute(login_command,(username,))
     row = cursor.fetchone()
     #then check if password is correct
+    if row == None:
+        return False
     db_password = row[3]
-    if row == None or not check_password_hash(db_password, password):
+    if not check_password_hash(db_password, password):
         return False
     conn.commit()
     conn.close()
@@ -89,12 +158,42 @@ def signup_user(email,username,password):
     conn.close()
     return False #signup failed
 
+def get_user_by_username(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    username_check = """SELECT * FROM users
+                    WHERE username = %s;
+                """
+    cursor.execute(username_check,(username,))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    conn.commit()
+    conn.close()
+    return row
+
+def get_user_by_id(id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    id_check = """SELECT * FROM users
+                    WHERE id = %s;
+                """
+    cursor.execute(id_check,(id,))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    conn.commit()
+    conn.close()
+    return row
+
 def bookmark_channel(id,channel):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     #check if bookmark already exists
-    check_command = """ SELECT * FROM test_bm
+    check_command = """ SELECT * FROM bookmarks
                         WHERE id = %s AND channel = %s;
                     """
     cursor.execute(check_command,(id,channel))
@@ -103,13 +202,29 @@ def bookmark_channel(id,channel):
         sys.stderr.write("aborted")
         return False #bookmark already exists, abort
     #otherwise, insert into the bookmarks table
-    bookmark_command = """ INSERT INTO test_bm(id, channel)
+    bookmark_command = """ INSERT INTO bookmarks(id, channel)
                            VALUES (%s,%s);
                         """
     cursor.execute(bookmark_command,(id,channel))
-    cursor.execute("SELECT * FROM test_bm")#Testing Code
+    cursor.execute("SELECT * FROM bookmarks")#Testing Code
     test = str(cursor.fetchall()) #testing
     sys.stderr.write(test)#testing
     conn.commit()
     conn.close()
     return True #returns true for successful bookmark
+
+#can change username paramerter to id if need be
+def change_pass(username,new_password):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    hashed_new_pass = generate_password_hash(new_password,method="sha256")
+    change_pass_command = """ UPDATE users 
+                            SET password = %s
+                            WHERE username = %s;
+                          
+                          """
+    cursor.execute(change_pass_command,(hashed_new_pass,username))
+    conn.commit()
+    conn.close()
+

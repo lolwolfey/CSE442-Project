@@ -16,7 +16,7 @@
     width: 400px;
     background: #BDBDBD;
     border-radius: px;
-    
+    z-index: 0
   }
   .login h1{
     text-align: center;
@@ -84,12 +84,28 @@ body {
   font-size: 25px;
   white-space: nowrap;
 }
+.flashes {
+  position: relative;
+  border: 0;
+  margin: 0;
+  font-family: 'Rancho', cursive;
+  text-align: center;
+  list-style-position: inside;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.error {
+  color: red;
+}
+.info {
+  color: green;
+}
 
 .topnav { 
   overflow: hidden;
   background-color: rgb(146, 23, 23);
   font-family: 'Rancho', cursive;
-  
+  z-index: 1;
 }
 
 .topnav a {
@@ -114,7 +130,7 @@ body {
 </head>
 <body>
 <div class="topnav">
-    <a class="active" href="#home"><i>Boom Boom Sauce</i></a>
+    <a class="active" href="/login"><i>Boom Boom Sauce</i></a>
 </div>
   <br></br>
       <div class = "login">
@@ -125,12 +141,23 @@ body {
             <span></span>
           </div>
           <div class="textf">
-            <input type="text" name='password' placeholder="Password" required>
+            <input type="password" name='password' placeholder="Password" required>
             <span></span>
           </div>
       <input type="submit" value="Login">
         </form>
       <div class = "signup">Don't have an account yet? <a href="/signup"> Sign up</a></div>
+      <div class = "flashes">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      </div>
   </div>
 </body>
 </html>

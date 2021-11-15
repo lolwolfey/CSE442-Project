@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Rancho", cursive;
+  }
+  
+  .login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: #BDBDBD;
+    border-radius: px;
+    
+  }
+  .login h1{
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid silver;
+  }
+  .login form{
+    padding: 0 100px;
+    box-sizing: border-box;
+  }
+
+  .textf input{
+    width: 100%;
+    padding: 0 30px;
+    height: 40px;
+    font-size: 25px;
+    border: none;
+    background: white;
+    outline: 5px;
+  }
+  .pass{
+    margin: -5px 0 20px 5px;
+    color: #a6a6a6;
+    cursor: pointer;
+  }
+  .pass:hover{
+    text-decoration: underline;
+  }
+
+body {
+  background-color: #BDBDBD;
+  border: 0;
+  margin: 0;
+  font-family: 'Rancho', cursive;
+  font-weight: bold;
+  text-align: center;
+  font-size: 50px;
+}
+
+.topnav { 
+  overflow: hidden;
+  background-color: rgb(146, 23, 23);
+  font-family: 'Rancho', cursive;
+  
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: 'Rancho', cursive;
+  font-weight: bold;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.leftPhoto {
+  font-size: 30px;
+  align-content: left;
+  align-self: left;
+  align-items: center;
+  text-align: left;
+  margin-left: 150px;
+  margin-top: -50px;
+}
+
+.channelName {
+  font-size: 30px;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 0px;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #eff0f1;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+.channelStats {
+  font-size: 50px;
+  text-align: center;
+  transform: translate(0%,-150%);
+  margin-top: 40px;
+}
+.channel_card {
+  width: 50%;
+  background-color: white;
+  padding: 5px 10px;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+}
+
+img.rounded-corners {
+  border-radius: 50%;
+}
+
+.sidebar{
+    float:left;
+    width:20%;
+    padding:10px;
+    padding-top: 5%;
+    text-align: center;
+}
+
+.main{
+    float:right;
+    font-size:50px; 
+    font-family: "Rancho", cursive; 
+    width:80%;
+    text-align: center;
+    margin-top: 200px;
+    transform: translate(0%,-80%);
+}
+
+.image_circle{
+      width: 100px;
+      height: 100px;
+      -webkit-border-radius: 50px;
+      -moz-border-radius: 50px;
+      border-radius: 50px;
+      background: rgb(248, 246, 246);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+}
+
+</style>
+
+<head>
+  <title>{{Other_User}}'s Page</title>
+</head>
+
+<body>
+  <div class="topnav">
+    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
+    <a href="/search"><i>Search</i></a>
+    <a href="/settings"><i>Settings</i></a>
+    <form id="logoutbutton" method="post" action="/logout"></form>
+    <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
+</div>
+<br></br>
+
+<div class="leftPhoto">
+  <img src="{{thumbNail}}" class="rounded-corners" />
+  <h1> <b>{{Other_User}}</b> </h1>
+  <a href="https://www.youtube.com/channel/{{Youtube_Id}}">link to channel</a>
+</div>
+<div class="channelStats">
+  <p>Subscriber Count: {{subCounter}}</p>
+  <p>Viewer Count: {{viewCounter}}</p>
+  <p>Video Count: {{videoCounter}}</p>
+  <p> <i> <a href="#bookmarks">Bookmark this Channel</a></i></p> 
+</div>
+
+
+<div class= "main">
+  <br>
+  <img src='/plot.png' width='840' height='630' alt ='{{ Other_User }}s Statistics.''>
+  <br>
+</div>
+</body>
+</html>
