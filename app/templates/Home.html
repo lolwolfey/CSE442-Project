@@ -167,20 +167,10 @@ body {
     {% for bookmark in bookmarks %}
       <form method = 'POST' action='/search_id'>
           <button style="background-color: rgb(146, 23, 23);color: #f2f2f2;text-align: center;padding: 14px 16px;text-decoration: none;font-size: 25px;font-family: 'Rancho', cursive;font-weight: bold;" onMouseOver="this.style.color='black';this.stye.backgroundColor='#ddd'" onMouseOut="this.style.color='#f2f2f2';this.stye.backgroundColor='rgb(146, 23, 23)'"name='bookmark_button' id='bookmark_button' value='{{ bookmark[2] }}' type='submit'>{{ bookmark[1] }}</button>
-          <button style="background-color: rgb(146, 23, 23);color: #f2f2f2;text-align: center;padding: 3.5px 4px;text-decoration: none;font-size: 25px;font-family: 'Rancho', cursive;font-weight: bold;" onMouseOver="this.style.color='black';this.stye.backgroundColor='#ddd'" onMouseOut="this.style.color='#f2f2f2';this.stye.backgroundColor='rgb(146, 23, 23)'" name='bookmark_delete' id='bookmark_delete' value='{{ bookmark[2] }}' type='submit'>X</button>
+          <button style="background-color: rgb(146, 23, 23);color: #f2f2f2;text-align: center;padding: 3.5px 4px;text-decoration: none;font-size: 25px;font-family: 'Rancho', cursive;font-weight: bold;" onMouseOver="this.style.color='black';this.stye.backgroundColor='#ddd'" onMouseOut="this.style.color='#f2f2f2';this.stye.backgroundColor='rgb(146, 23, 23)'" name='bookmark_delete' id='bookmark_delete' value='{{ bookmark[2] }}' onClick="if(confirm('Bookmark will be deleted. Continue?')){ this.form.submit() }">X</button>
       </form>
     {% endfor %}
     </div>
 </div>
-<br></br>
-
-<!--{{start_loop}}-->
-<div class="channel_card">
-    <b href="{{Channel_Stats_Page}}" onclick="confirm('Redirect to {{Channel_Name}} stats page. Continue?')">{{Channel_Name}}, {{Channel_Subscribers}}</b>
-    <p type="button" onclick="confirm('Bookmark will be deleted. Continue?')">Delete Bookmark</p> 
-</div>
-<br></br>
-<!--{{end_loop}}-->
-
 </body>
 </html>
