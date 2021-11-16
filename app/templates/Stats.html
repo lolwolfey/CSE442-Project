@@ -1,12 +1,5 @@
 <!DOCTYPE html>
 <html>
-<script>
-  already_bookmarked = '{{ already_bookmarked }}';
-  if(already_bookmarked == '1') {
-    document.getElementById('bookmark').checked = true;
-    document.getElementById('add_remove').value='remove';
-  }
-</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
 *{
@@ -223,4 +216,11 @@ img.rounded-corners {
   <br>
 </div>
 </body>
+<script>
+  already_bookmarked = '{{ already_bookmarked }}';
+  if(already_bookmarked == '1') {
+    document.getElementById('bookmark').checked = true;
+    document.getElementById('add_remove').value='remove';
+  }
+</script>
 </html>
