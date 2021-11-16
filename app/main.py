@@ -40,7 +40,7 @@ def home():
 @main.route('/search_id', methods = ['POST'])
 @login_required
 def search_id():
-    channel_id = request.form.get('channel_id')
+    channel_id = request.form.get('bookmark_button')
     return
 
 
