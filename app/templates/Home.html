@@ -167,7 +167,7 @@ body {
     {% for bookmark in bookmarks %}
       <form method = 'POST' action='/remove_bookmark_home'>
           <button class='bookmark_button' name='bookmark_button' id='bookmark_button' value='{{ bookmark[2] }}' type='submit' formaction="search_id">{{ bookmark[1] }}</button>
-          <button class='bookmark_delete' name='bookmark_delete' id='bookmark_delete' value='{{ bookmark[2] }}' onClick="if(confirm('Bookmark will be deleted. Continue?')){ this.form.submit() }">X</button>
+          <button class='bookmark_delete' name='bookmark_delete' id='bookmark_delete' value='{{ bookmark[2] }}' onclick="results=confirm('Bookmark will be deleted. Continue?');if(results){this.form.submit()};">X</button>
       </form>     
     {% endfor %}
     </div>
