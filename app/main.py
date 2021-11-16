@@ -38,7 +38,7 @@ def home():
     return render_template('Home.html', bookmarks=bookmarks)
 
 @main.route('/remove_bookmark_home', methods = ['POST'])
-@login.required
+@login_required
 def remove_bookmark_home():
     id = request.form.get('bookmark_delete')
     delete_bookmark(current_user.user_id,id)
