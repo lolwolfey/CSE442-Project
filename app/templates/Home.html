@@ -107,6 +107,37 @@ body {
   align-items: center;
 }
 
+.bookmark_button{
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: 'Rancho', cursive;
+  font-weight: bold;
+}
+
+.bookmark_button:hover{
+  background-color: #ddd;
+  color: black;
+}
+
+.bookmark_delete{
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 3.5px 4px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: 'Rancho', cursive;
+  font-weight: bold;
+}
+.bookmark_delete:hover{
+  background-color: #ddd;
+  color: black;
+}
+
 </style>
 
 <head>
@@ -129,11 +160,12 @@ body {
     {% endif %}
     <br></br>
     <h1> Bookmarked Channels </h1>
-    <form method = 'POST' action='/search_id'>
     {% for bookmark in bookmarks %}
-      <button name='channel_id' value='{{ bookmark[2] }}' type="submit">{{ bookmark[1] }}</button>
+      <form method = 'POST' action='/search_id'>
+          <button name='channel_id' id='bookmark_button' value='{{ bookmark[2] }}' type='submit'>{{ bookmark[1] }}</button>
+          <button name='bookmark_delete' id='bookmark_delete' value='{{ bookmark[2] }}' type='submit'>(X)</button>
+      </form>
     {% endfor %}
-    </form>
 </div>
 <br></br>
 
