@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <script>
+  $(window).on('load', function() {
+   $("#cover").hide();
+  });
+
   function already_bookmarked()
   {
     already_bookmarked = '{{ already_bookmarked }}';
@@ -188,6 +192,7 @@ img.rounded-corners {
   content: "\2605";
 }
 
+#cover {position: fixed; height: 100%; width: 100%; top:0; left: 0; background: #000; z-index:9999;}
 </style>
 
 <head>
@@ -195,6 +200,7 @@ img.rounded-corners {
 </head>
 
 <body onload="already_bookmarked();">
+  <div id="cover"></div>
   <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
     <a href="/search"><i>Search</i></a>
