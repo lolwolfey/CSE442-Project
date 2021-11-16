@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html>
 <script>
-  function already_bookmarked()
-  {
-    already_bookmarked = '{{ already_bookmarked }}';
-    if(already_bookmarked == '1') {
-      document.getElementById('bookmark').checked = true;
-      document.getElementById('add_remove').value='remove';
-    }
+  already_bookmarked = '{{ already_bookmarked }}';
+  if(already_bookmarked == '1') {
+    document.getElementById('bookmark').checked = true;
+    document.getElementById('add_remove').value='remove';
   }
-  function bookmark()
-  {
-    
-  }
-  
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
@@ -195,7 +187,7 @@ img.rounded-corners {
   <title>{{Other_User}}'s Page</title>
 </head>
 
-<body onload="already_bookmarked();">
+<body>
   <div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a> 
     <a href="/search"><i>Search</i></a>
