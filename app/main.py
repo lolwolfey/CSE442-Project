@@ -37,11 +37,18 @@ def home():
     """
     return render_template('Home.html', bookmarks=bookmarks)
 
+@main.route('/remove_bookmark_home', methods = ['POST'])
+@login.required
+def remove_bookmark_home():
+    id = request.form.get('bookmark_delete')
+    delete_bookmark(current_user.user_id,id)
+    return redirect('/home')
+
 @main.route('/search_id', methods = ['POST'])
 @login_required
 def search_id():
     channel_id = request.form.get('bookmark_button')
-    return
+    return redirect('/stats')
 
 
 
@@ -166,4 +173,4 @@ def add_bookmark(channel, id):
 @login_required
 def remove_bookmark(channel, id):
     sys.stderr.write('removed: channel = ' + channel + ', id =' + id)
-    return delete_bookmark(current_user.user_id,channel,id)
+    return delete_bookmark(current_user.user_id,id)
