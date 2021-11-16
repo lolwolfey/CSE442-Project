@@ -251,7 +251,7 @@ def delete_bookmark(id,channel_id):
     cursor = conn.cursor()
     #check if bookmark already exists
     check_command = """ DELETE FROM bookmarks
-                        WHERE id = %s AND AND channel_id = %s;
+                        WHERE id = %s AND channel_id = %s;
                     """
     cursor.execute(check_command,(id,channel_id))
     conn.commit()
