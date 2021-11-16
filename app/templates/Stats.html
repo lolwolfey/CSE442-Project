@@ -215,7 +215,9 @@ img.rounded-corners {
   <p> <i> <a href="#bookmarks">Bookmark this Channel</a></i></p>
   <form method ='POST'>
     <input class='star' type = 'checkbox' id = 'bookmark' name = 'bookmark' onchange='this.form.submit()'>
-    <label for='bookmark'>Bookmark this Channel</label>
+    <label style="padding:'20px';" for='bookmark'>Bookmark</label>
+    <br>
+    <label style="padding:'40px';"for='bookmark'>this Channel</label>
     <input type= 'hidden' id = 'add_remove' name = 'add_remove' value='add'>
     <input type = 'hidden' id = 'channel_name' name = 'channel_name' value='{{Other_User}}''>
     <input type = 'hidden' id = 'channel_id' name = 'channel_id' value='{{Youtube_Id}}'>
