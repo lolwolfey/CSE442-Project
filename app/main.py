@@ -23,18 +23,7 @@ channels = [()]
 @main.route('/home')
 @login_required
 def home():
-
     bookmarks = get_bookmarks(current_user.user_id)
-
-    """
-    TO DO:
-    1. bookmarks = bookmarks table from current_user
-    2. pass bookmarks into render template
-    3. for loop in Home.html that adds all bookmarks to a value of a form.
-    4. onclick='submit', action = /search_id --> looks up a channel by id and redirects to stats.
-
-    *5. Add delete bookmark functionality possibly later (technically exist on stats page itself)
-    """
     return render_template('Home.html', bookmarks=bookmarks)
 
 @main.route('/remove_bookmark_home', methods = ['POST'])
@@ -44,13 +33,15 @@ def remove_bookmark_home():
     delete_bookmark(current_user.user_id,id)
     return redirect('/home')
 
+"""
+TO DO:
+Make this load the proper stats page based on button you cicked.
+"""
 @main.route('/search_id', methods = ['POST'])
 @login_required
 def search_id():
     channel_id = request.form.get('bookmark_button')
     return redirect('/stats')
-
-
 
 @main.route('/search',methods = ["GET","POST"])
 @login_required

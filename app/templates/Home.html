@@ -161,15 +161,16 @@ body {
     <h1>Welcome {{ current_user.username }}!</h1>
     {% endif %}
     <br></br>
-    <h1> Bookmarked Channels </h1>
+    {% if bookmarks|length > 0 %} 
+      <h1> Bookmarked Channels </h1>
+    {% endif %}
     <div id='bookmarks' name='bookmarks'>
     <!--Sorry about this disgusting inline CSS :/ Couldn't get the jiinja CSS to work.-->
     {% for bookmark in bookmarks %}
       <form method = 'POST' action='/remove_bookmark_home'>
-          <button style="background-color: rgb(146, 23, 23);color: #f2f2f2;text-align: center;padding: 14px 16px;text-decoration: none;font-size: 25px;font-family: 'Rancho', cursive;font-weight: bold;" onMouseOver="this.style.color='black';this.stye.backgroundColor='#ddd';" onMouseOut="this.style.color='#f2f2f2';this.stye.backgroundColor='rgb(146, 23, 23)';"name='bookmark_button' id='bookmark_button' value='{{ bookmark[2] }}' type='submit' formaction="search_id">{{ bookmark[1] }}</button>
-          <button style="background-color: rgb(146, 23, 23);color: #f2f2f2;text-align: center;padding: 3.5px 4px;text-decoration: none;font-size: 25px;font-family: 'Rancho', cursive;font-weight: bold;" onMouseOver="this.style.color='black';this.stye.backgroundColor='#ddd';" onMouseOut="this.style.color='#f2f2f2';this.stye.backgroundColor='rgb(146, 23, 23)';" name='bookmark_delete' id='bookmark_delete' value='{{ bookmark[2] }}' onClick="if(confirm('Bookmark will be deleted. Continue?')){ this.form.submit() }">X</button>
-      </form>
-          
+          <button class='bookmark_button' name='bookmark_button' id='bookmark_button' value='{{ bookmark[2] }}' type='submit' formaction="search_id">{{ bookmark[1] }}</button>
+          <button class='bookmark_delete' name='bookmark_delete' id='bookmark_delete' value='{{ bookmark[2] }}' onClick="if(confirm('Bookmark will be deleted. Continue?')){ this.form.submit() }">X</button>
+      </form>     
     {% endfor %}
     </div>
 </div>
