@@ -75,8 +75,8 @@ def searchuser():
             if searchName in elem:
                 output.append(elem)
         print(output)
-        return render_template("searchuser.html",searchedUsers=output,len=len(output))
-    return render_template("searchuser.html")
+        return render_template("SearchUser.html",searchedUsers=output,len=len(output))
+    return render_template("SearchUser.html")
         
 @main.route('/stats')
 @login_required
