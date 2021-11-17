@@ -329,5 +329,4 @@ def get_users_list():
     getUsers_command = """SELECT username FROM private WHERE privmode = 0;"""
     cursor.execute(getUsers_command)
     retval = cursor.fetchall()
-    print(f"GETUSERSLIST: {retval}")
     return retval

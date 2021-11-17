@@ -67,8 +67,13 @@ def searchuser():
     if(request.method == "POST"):
         searchName = request.form.get("userName")
         #print(searchName)
-        listUser = get_users_list()
-        print(f"LISTUSERSORT: {listUser}")
+        userRetval = get_users_list()
+        print(f"USER RETURN VALUE: {userRetval}")
+        sys.stdout.flush()
+        listUser = []
+        for elem in userRetval:
+            listUser.append(elem[0])
+        print(f"LISTUSER: {listUser}")
         sys.stdout.flush()
     # create result list
         output = []
