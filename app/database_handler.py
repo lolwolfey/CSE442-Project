@@ -317,7 +317,7 @@ def channel_exists(channel_id):
     get_id_command = """SELECT channel_id FROM idtoname
                         WHERE channel_id = %s;
                     """
-    cursor.execute(get_id_command,(channel_id))
+    cursor.execute(get_id_command,(channel_id,))
     retval = cursor.fetchone()
     return retval
     
@@ -331,6 +331,8 @@ def get_users_list():
     retval = cursor.fetchall()
     return retval
 
+#0 is public
+#1 is private
 def updatePrivacy(username):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
@@ -340,6 +342,6 @@ def updatePrivacy(username):
                             WHERE username = %s;
                           
                           """
-    cursor.execute(change_priv_command,(username))
+    cursor.execute(change_priv_command,(username,))
     conn.commit()
     conn.close()
