@@ -31,12 +31,12 @@ def create_app():
     def send_mail():
         if request.method == "POST":
             email = request.form['email']
-            # if Check_email(email) == False:
-            message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
-            token = generate_reset_token(email)
-            message.body = "This is the reset token: " + token
-            mail.send(message)
-            return render_template("reset_password.html")
+            if Check_email(email) == True:
+                message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
+                token = generate_reset_token(email)
+                message.body = "This is the reset token: " + token
+                mail.send(message)
+                return render_template("reset_password.html")
         return render_template("Send_Email.html")
 
     # Initialize the ;login manager for Flask_login
