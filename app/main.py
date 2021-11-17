@@ -66,15 +66,17 @@ def search():
 def searchuser():
     if(request.method == "POST"):
         searchName = request.form.get("userName")
-        print(searchName)
+        #print(searchName)
         listUser = get_users_list()
         print(f"LISTUSERSORT: {listUser}")
+        sys.stdout.flush()
     # create result list
         output = []
         for elem in listUser:
             if searchName in elem:
                 output.append(elem)
-        print(output)
+        print(f"search suggestions: {output}")
+        sys.stdout.flush()
         return render_template("SearchUser.html",searchedUsers=output,len=len(output))
     return render_template("SearchUser.html")
         
