@@ -5,7 +5,7 @@ import sys
 import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username, name_to_id, get_channel_id
+from .database_handler import bookmark_channel, channel_exists, init, signup_user, user_login, User, change_pass, get_password_by_username, name_to_id, get_channel_id, get_users_list, channel_exists
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 from .auth import password_requirements
@@ -14,6 +14,7 @@ from . import YoutubeStats
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from tkinter import *
 import random
 import numpy
 
@@ -48,7 +49,8 @@ def search():
         viewCount = data['items'][0]["statistics"]["viewCount"]
         videoCount = data['items'][0]["statistics"]["videoCount"]
         channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
-        name_to_id(str(channelID),ytchannel) #writing channelID and channel username to database
+        if(channel_exists(channelID)!= None):
+            name_to_id(str(channelID),ytchannel) #writing channelID and channel username to database
         dbCheck = get_channel_id(ytchannel) #used to check if database stores
         infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID,dbCheck)
         channels[0] = infoTuple
@@ -59,6 +61,23 @@ def search():
     #print(request.form.get())
     return render_template('Search.html')
 
+@main.route('/searchuser',methods = ["GET","POST"])
+@login_required
+def searchuser():
+    if(request.method == "POST"):
+        searchName = request.form.get("userName")
+        print(searchName)
+        listUser = get_users_list()
+        print(f"LISTUSERSORT: {listUser}")
+    # create result list
+        output = []
+        for elem in listUser:
+            if searchName in elem:
+                output.append(elem)
+        print(output)
+        return render_template("searchuser.html",searchedUsers=output,len=len(output))
+    return render_template("searchuser.html")
+        
 @main.route('/stats')
 @login_required
 def stats():

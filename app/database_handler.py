@@ -192,7 +192,7 @@ def signup_user(email,username,password):
                         """
         hashed_pass=generate_password_hash(password, method='sha256')
         cursor.execute(insert_user,(email,username,hashed_pass))
-        cursor.execute(insert_private,(username,0))
+        cursor.execute(insert_private,(username,0)) #public by default is 0
         conn.commit()
         conn.close()
         return True #signup good
@@ -308,4 +308,26 @@ def get_channel_id(channel_name):
                     """
     cursor.execute(get_id_command,(channel_name,))
     retval = cursor.fetchone()
+    return retval
+
+def channel_exists(channel_id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    get_id_command = """SELECT channel_id FROM idtoname
+                        WHERE channel_id = %s;
+                    """
+    cursor.execute(get_id_command,(channel_id))
+    retval = cursor.fetchone()
+    return retval
+    
+
+def get_users_list():
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config,sslmode='require')
+    cursor = conn.cursor()
+    getUsers_command = """SELECT username FROM private WHERE privmode = 0;"""
+    cursor.execute(getUsers_command)
+    retval = cursor.fetchone()
+    print(f"GETUSERSLIST: {retval}")
     return retval
