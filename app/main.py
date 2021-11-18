@@ -41,6 +41,7 @@ Make this load the proper stats page based on button you cicked.
 @main.route('/search_id', methods = ['POST'])
 @login_required
 def search_id():
+    api_key = 'AIzaSyCrIwhrMNtHT0TX7HOJKhuMhWpKHvNjkXM'
     channelID = request.form.get('bookmark_button')
     url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&forid={channelID}&key={api_key}"
     json_url = requests.get(url) #get the json data from url
