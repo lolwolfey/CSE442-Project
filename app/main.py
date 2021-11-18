@@ -43,7 +43,7 @@ Make this load the proper stats page based on button you cicked.
 def search_id():
     api_key = 'AIzaSyCrIwhrMNtHT0TX7HOJKhuMhWpKHvNjkXM'
     channelID = request.form.get('bookmark_button')
-    url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&forid={channelID}&key={api_key}"
+    url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&id={channelID}&key={api_key}"
     json_url = requests.get(url) #get the json data from url
     data = json.loads(json_url.text)
 
@@ -56,7 +56,6 @@ def search_id():
     infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID) #adds all the info into tuple and adds tuple to array
     channels[0] = infoTuple
     return redirect(url_for('main.stats'))
-    return redirect('/stats')
 
 @main.route('/search',methods = ["GET","POST"])
 @login_required
