@@ -114,9 +114,11 @@ def settings():
         if(request.form['privacy_button'] == "private_toggle"):
             private_update(current_user.username) #make private
             print(f"AFTER MAKING USER of {current_user.username} private: {get_privacy(current_user.username)}")
+            sys.stdout.flush()
         if(request.form['privacy_button'] == "public_toggle"):
             public_update(current_user.username) #make public
             print(f"AFTER MAKING USER of {current_user.username} public: {get_privacy(current_user.username)}")
+            sys.stdout.flush()
         
     return render_template('Settings.html')
 
