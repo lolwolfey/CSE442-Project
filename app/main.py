@@ -47,7 +47,7 @@ def search_id():
     data = json.loads(json_url.text)
 
     sys.stderr.write(str(data))
-    ytchannel = data['items'][0]["snippit"]["localized"]["title"] 
+    ytchannel = data['items'][0]["snippet"]["localized"]["title"] 
     subCount = data['items'][0]["statistics"]["subscriberCount"]
     viewCount = data['items'][0]["statistics"]["viewCount"]
     videoCount = data['items'][0]["statistics"]["videoCount"]
@@ -70,7 +70,7 @@ def search():
         data = json.loads(json_url.text)
 
         sys.stderr.write(str(data))
-        ytchannel = ytchannel = data['items'][0]["snippit"]["localized"]["title"] 
+        ytchannel = ytchannel = data['items'][0]["snippet"]["localized"]["title"] 
         channelID = data['items'][0]["id"] #channelID to use for plotting
         subCount = data['items'][0]["statistics"]["subscriberCount"]
         viewCount = data['items'][0]["statistics"]["viewCount"]
