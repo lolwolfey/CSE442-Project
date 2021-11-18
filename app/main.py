@@ -111,12 +111,12 @@ def settings():
                 flash('Invalid NEW Password!', 'error')         #if not, generate error saying it did not
         else:
             flash('Old password is not correct', 'error')
-        if(request.form['privacy_button'] == "private_toggle"):
+        if(request.form.get["col"] == "private_toggle"):
             print(f"CURRENT USERNAME: {current_user.username}")
             private_update(current_user.username) #make private
             print(f"AFTER MAKING USER of {current_user.username} private: {get_privacy(current_user.username)}")
             sys.stdout.flush()
-        if(request.form['privacy_button'] == "public_toggle"):
+        if(request.form.get["col"] == "public_toggle"):
             print(f"CURRENT USERNAME: {current_user.username}")
             public_update(current_user.username) #make public
             print(f"AFTER MAKING USER of {current_user.username} public: {get_privacy(current_user.username)}")

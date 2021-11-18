@@ -99,6 +99,17 @@ body {
   align-content: center;
   align-items: center;
 }
+.col {
+  width: 100px;
+  height: 80px;
+  background-color: red;
+  float: left;
+  border: 2px solid black;
+  padding: 40px;
+  margin: 40px;
+  font-size: 30px;
+  text-align: center;
+}
 
 </style>
 
@@ -140,8 +151,8 @@ body {
 <form method="POST">
   <div>
     <p>Choose Account Privacy:</p>
-    <button type="submit" onclick="confirm('This will make your account private. Would you like to continue?')" name = "privacy_button" value="private_toggle"> PRIVATE </button>
-    <button type="submit" onclick="confirm('This will make your account public. Would you like to continue?')" name = "privacy_button" value="public_toggle"> PUBLIC </button>
+    <input type="submit" onclick="confirm('This will make your account private. Would you like to continue?')" name = "col" value="private_toggle"> PRIVATE </input>
+    <input type="submit" onclick="confirm('This will make your account public. Would you like to continue?')" name = "col" value="public_toggle"> PUBLIC </input>
   </div>
 </form>
 
