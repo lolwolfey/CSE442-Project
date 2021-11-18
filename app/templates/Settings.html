@@ -137,11 +137,13 @@ body {
 </div>
 <br></br>
 
-<div>
+<form method="POST">
+  <div>
     <p>Choose Account Privacy:</p>
-    <button type="submit" onclick="confirm('This will make your account private. Would you like to continue?')" name = "privacy_button" value="private_toggle"> Click on button to make account PRIVATE </button>
-    <button type="submit" onclick="confirm('This will make your account public. Would you like to continue?')" name = "privacy_button" value="public_toggle"> Click on button to make account PRIVATE </button>
-</div>
+    <button type="submit" onclick="confirm('This will make your account private. Would you like to continue?')" name = "privacy_button" value="private_toggle"> PRIVATE </button>
+    <button type="submit" onclick="confirm('This will make your account public. Would you like to continue?')" name = "privacy_button" value="public_toggle"> PUBLIC </button>
+  </div>
+</form>
 
 <div>
     <p>Change Password: </p>
