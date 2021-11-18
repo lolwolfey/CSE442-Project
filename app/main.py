@@ -33,6 +33,7 @@ def remove_bookmark_home():
     delete_bookmark(current_user.user_id,id)
     return redirect('/home')
 
+
 """
 TO DO:
 Make this load the proper stats page based on button you cicked.
@@ -40,7 +41,20 @@ Make this load the proper stats page based on button you cicked.
 @main.route('/search_id', methods = ['POST'])
 @login_required
 def search_id():
-    channel_id = request.form.get('bookmark_button')
+    channelID = request.form.get('bookmark_button')
+    url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&forid={channelID}&key={api_key}"
+    json_url = requests.get(url) #get the json data from url
+    data = json.loads(json_url.text)
+
+    sys.stderr.write(str(data))
+    ytchannel = data['items'][0]["localized"]["title"] 
+    subCount = data['items'][0]["statistics"]["subscriberCount"]
+    viewCount = data['items'][0]["statistics"]["viewCount"]
+    videoCount = data['items'][0]["statistics"]["videoCount"]
+    channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
+    infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID) #adds all the info into tuple and adds tuple to array
+    channels[0] = infoTuple
+    return redirect(url_for('main.stats'))
     return redirect('/stats')
 
 @main.route('/search',methods = ["GET","POST"])
@@ -56,6 +70,7 @@ def search():
         data = json.loads(json_url.text)
 
         sys.stderr.write(str(data))
+        ytchannel = ytchannel = data['items'][0]["localized"]["title"] 
         channelID = data['items'][0]["id"] #channelID to use for plotting
         subCount = data['items'][0]["statistics"]["subscriberCount"]
         viewCount = data['items'][0]["statistics"]["viewCount"]
