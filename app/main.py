@@ -5,7 +5,7 @@ import sys
 import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-from .database_handler import bookmark_channel, channel_exists, init, signup_user, user_login, User, updatePrivacy, change_pass, get_password_by_username, name_to_id, get_channel_id, get_users_list, channel_exists
+from .database_handler import bookmark_channel, channel_exists, get_privacy, init, signup_user, user_login, User, private_update, public_update, change_pass, get_password_by_username, name_to_id, get_channel_id, get_users_list, channel_exists
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 from .auth import password_requirements
@@ -111,8 +111,13 @@ def settings():
                 flash('Invalid NEW Password!', 'error')         #if not, generate error saying it did not
         else:
             flash('Old password is not correct', 'error')
-        if(request.form['privacy_button'] == "privacy_toggle"):
-            updatePrivacy(current_user.username) #make private
+        if(request.form['privacy_button'] == "private_toggle"):
+            private_update(current_user.username) #make private
+            print(f"AFTER MAKING USER of {current_user.username} private: {get_privacy(current_user.username)}")
+        if(request.form['privacy_button'] == "public_toggle"):
+            public_update(current_user.username) #make public
+            print(f"AFTER MAKING USER of {current_user.username} public: {get_privacy(current_user.username)}")
+        
     return render_template('Settings.html')
 
 # @main.route("/SettingPassChange", methods = ['POST'])

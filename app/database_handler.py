@@ -333,7 +333,7 @@ def get_users_list():
 
 #0 is public
 #1 is private
-def updatePrivacy(username):
+def private_update(username):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
@@ -345,3 +345,25 @@ def updatePrivacy(username):
     cursor.execute(change_priv_command,(username,))
     conn.commit()
     conn.close()
+    
+def public_update(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    change_priv_command = """ UPDATE private 
+                            SET privmode = 0
+                            WHERE username = %s;
+                          
+                          """
+    cursor.execute(change_priv_command,(username,))
+    conn.commit()
+    conn.close()
+    
+def get_privacy(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config,sslmode='require')
+    cursor = conn.cursor()
+    getPrivacy_command = """SELECT privmode FROM private WHERE username = %s;"""
+    cursor.execute(getPrivacy_command,(username,))
+    retval = cursor.fetchall()
+    return retval
