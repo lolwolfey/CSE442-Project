@@ -98,19 +98,19 @@ def stats():
 def settings():
     if request.method == 'POST':
         # username = request.form['usrname']
-        OldPass = request.form['oldpw']
-        NewPass = request.form['newpw']
+        #OldPass = request.form['oldpw']
+        #NewPass = request.form['newpw']
         # user = User(None, current_user.username, None)
-        pwhash = get_password_by_username(current_user.username)
-        flash('VALID password, everything up to now works!'+ str(OldPass) + str(NewPass) + str(current_user.username))
-        if check_password_hash(pwhash, OldPass): #check if old password is correct
-             valid, error = password_requirements(NewPass)  #check if new password meets requirements
-             if valid:
-                change_pass(current_user.username,NewPass)      #if it means requirements update password
-             else:
-                flash('Invalid NEW Password!', 'error')         #if not, generate error saying it did not
-        else:
-            flash('Old password is not correct', 'error')
+        #pwhash = get_password_by_username(current_user.username)
+        #flash('VALID password, everything up to now works!'+ str(OldPass) + str(NewPass) + str(current_user.username))
+        #if check_password_hash(pwhash, OldPass): #check if old password is correct
+        #     valid, error = password_requirements(NewPass)  #check if new password meets requirements
+        #     if valid:
+        #        change_pass(current_user.username,NewPass)      #if it means requirements update password
+        #      else:
+        #         flash('Invalid NEW Password!', 'error')         #if not, generate error saying it did not
+        # else:
+        #     flash('Old password is not correct', 'error')
         if(request.form.get("col") == "private_toggle"):
             print(f"CURRENT USERNAME: {current_user.username}")
             private_update(current_user.username) #make private
