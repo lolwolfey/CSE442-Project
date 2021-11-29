@@ -32,10 +32,9 @@ def login():
 
     return render_template("Login.html")
 
-# @auth.route("/settings", methods = ['POST'])
+#reset password using token for forgotten password (not logged in) version:
 @auth.route('/reset_pw', methods = ['POST', 'GET'])
 def SettingPassChange():
-    #remember to add additional edge cases to make sure email is valid and linked to an existing account in db
     if request.method == 'POST':
         useremail = request.form['user_email']
         token = request.form['reset_token']
@@ -69,11 +68,15 @@ def signup():
         if password1 == password2:
             valid, error = password_requirements(password1)
             if valid:
-                if signup_user(email, username, password1):
-                    flash('Account created', 'info')
-                    return redirect(url_for('auth.login'))
+                email_req_check = email_requirements(email)
+                if email_req_check == True:
+                    if signup_user(email, username, password1):
+                        flash('Account created', 'info')
+                        return redirect(url_for('auth.login'))
+                    else:
+                        flash('That username/email address is already attached to an account.', 'error')
                 else:
-                    flash('That username/email address is already attached to an account.', 'error')
+                    flash('Email is of invalid type, try again.', 'error')
             else:
                 for err in error:
                     flash(err, 'error')
@@ -123,6 +126,12 @@ def password_requirements(password):
     
     return valid, error
 
+#add email requirements
+def email_requirements(email):
+    if '@' in email and '.com' in email:
+        return True
+    else:
+        return False
 
 
 @auth.route("/logout", methods=['POST'])

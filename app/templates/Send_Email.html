@@ -123,6 +123,17 @@ body {
             <input type="email" name = "email" placeholder="Email" size="50"><br>
             <button type="submit" value="Send Email">Submit</button>
         </form>
+        <div class = "flashes">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <ul>
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+          </div>
 </div>
 
 

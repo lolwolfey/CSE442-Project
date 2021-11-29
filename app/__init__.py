@@ -37,6 +37,8 @@ def create_app():
                 message.body = "This is the reset token: " + token
                 mail.send(message)
                 return render_template("reset_password.html")
+            else:
+                flash('An error occured! Make sure your inputted email is correct and try again.', 'error')
         return render_template("Send_Email.html")
 
     # Initialize the ;login manager for Flask_login
