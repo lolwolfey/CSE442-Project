@@ -99,6 +99,15 @@ body {
   align-content: center;
   align-items: center;
 }
+
+.channelBoxes {
+  width: 850px;
+  height: 200px;
+  margin: 0 auto;
+  transform: translate(-40%,20%);
+  font-size: 30px;
+}
+
 .col {
   width: 100px;
   height: 80px;
@@ -149,10 +158,10 @@ body {
 <br></br>
 
 <form method="POST">
-  <div>
-    <p>Choose Account Privacy:</p>
-    <input type="submit" onclick="confirm('This will make your account private. Would you like to continue?')" name = "col" value="private_toggle"> PRIVATE </input>
-    <input type="submit" onclick="confirm('This will make your account public. Would you like to continue?')" name = "col" value="public_toggle"> PUBLIC </input>
+  <div class="channelBoxes">
+    <p> Choose account privacy: </p>
+    <input type="submit" name="col" id="userName" value="private_toggle" />
+    <input type="submit" name="col" id="pop2" value="public_toggle" />
   </div>
 </form>
 
