@@ -5,7 +5,7 @@ import sys
 import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username
+from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username, has_bookmark, delete_bookmark, get_bookmarks
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 from .auth import password_requirements
@@ -23,7 +23,39 @@ channels = [()]
 @main.route('/home')
 @login_required
 def home():
-    return render_template('Home.html')
+    bookmarks = get_bookmarks(current_user.user_id)
+    return render_template('Home.html', bookmarks=bookmarks)
+
+@main.route('/remove_bookmark_home', methods = ['POST'])
+@login_required
+def remove_bookmark_home():
+    id = request.form.get('bookmark_delete')
+    delete_bookmark(current_user.user_id,id)
+    return redirect('/home')
+
+
+"""
+TO DO:
+Make this load the proper stats page based on button you cicked.
+"""
+@main.route('/search_id', methods = ['POST'])
+@login_required
+def search_id():
+    api_key = 'AIzaSyCrIwhrMNtHT0TX7HOJKhuMhWpKHvNjkXM'
+    channelID = request.form.get('bookmark_button')
+    url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&id={channelID}&key={api_key}"
+    json_url = requests.get(url) #get the json data from url
+    data = json.loads(json_url.text)
+
+    sys.stderr.write(str(data))
+    ytchannel = data['items'][0]["snippet"]["localized"]["title"] 
+    subCount = data['items'][0]["statistics"]["subscriberCount"]
+    viewCount = data['items'][0]["statistics"]["viewCount"]
+    videoCount = data['items'][0]["statistics"]["videoCount"]
+    channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
+    infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID) #adds all the info into tuple and adds tuple to array
+    channels[0] = infoTuple
+    return redirect(url_for('main.stats'))
 
 @main.route('/search',methods = ["GET","POST"])
 @login_required
@@ -38,6 +70,7 @@ def search():
         data = json.loads(json_url.text)
 
         sys.stderr.write(str(data))
+        ytchannel = ytchannel = data['items'][0]["snippet"]["localized"]["title"] 
         channelID = data['items'][0]["id"] #channelID to use for plotting
         subCount = data['items'][0]["statistics"]["subscriberCount"]
         viewCount = data['items'][0]["statistics"]["viewCount"]
@@ -51,13 +84,28 @@ def search():
     #print(request.form.get())
     return render_template('Search.html')
 
-@main.route('/stats')
+@main.route('/stats', methods=['POST', 'GET'])
 @login_required
 def stats():
+    
+    if request.method == 'POST':
+        add_remove = request.form.get('add_remove')
+        channel = request.form.get('channel_name')
+        id = request.form.get('channel_id')
+        if add_remove == 'remove':
+            remove_bookmark(channel, id)
+        else:
+            add_bookmark(channel, id)
+
+    already_bookmarked = has_bookmark(current_user.user_id, channels[0][0], channels[0][5])
+    if already_bookmarked:
+        already_bookmarked = 1
+    else:
+        already_bookmarked = 0
     # global channels
     # YoutubeStats.WeeklyViewerCount(channels[0][5])
     # return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
-    return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
+    return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5],already_bookmarked=already_bookmarked)
 
 @main.route('/settings', methods = ['POST', 'GET'])
 @login_required
@@ -120,3 +168,15 @@ def create_figure():
     bars.legend()
     fig.tight_layout()
     return fig
+
+@main.route('/add_bookmark')
+@login_required
+def add_bookmark(channel, id):
+    sys.stderr.write('added: channel = ' + channel + ', id =' + id)
+    return bookmark_channel(current_user.user_id,channel,id)
+
+@main.route('/remove_bookmark')
+@login_required
+def remove_bookmark(channel, id):
+    sys.stderr.write('removed: channel = ' + channel + ', id =' + id)
+    return delete_bookmark(current_user.user_id,id)

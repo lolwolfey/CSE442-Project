@@ -107,6 +107,37 @@ body {
   align-items: center;
 }
 
+.bookmark_button{
+  background-color: rgb(146, 23, 23);
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: 'Rancho', cursive;
+  font-weight: bold;
+}
+
+.bookmark_button:hover{
+  background-color: #ddd;
+  color: black;
+}
+
+.bookmark_delete{
+  background-color: rgb(146, 23, 23);
+  color: #f2f2f2;
+  text-align: center;
+  padding: 3.5px 4px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: 'Rancho', cursive;
+  font-weight: bold;
+}
+.bookmark_delete:hover{
+  background-color: #ddd;
+  color: black;
+}
+
 </style>
 
 <head>
@@ -128,17 +159,18 @@ body {
     <h1>Welcome {{ current_user.username }}!</h1>
     {% endif %}
     <br></br>
-    <h1> Bookmarked Channels </h1>
+    {% if bookmarks|length > 0 %} 
+      <h2> Bookmarked Channels:</h1>
+    {% endif %}
+    <div id='bookmarks' name='bookmarks'>
+    <!--Sorry about this disgusting inline CSS :/ Couldn't get the jiinja CSS to work.-->
+    {% for bookmark in bookmarks %}
+      <form method = 'POST' action='/remove_bookmark_home'>
+          <button class='bookmark_button' name='bookmark_button' id='bookmark_button' value='{{ bookmark[2] }}' type='submit' formaction="/search_id">{{ bookmark[1] }}</button>
+          <button class='bookmark_delete' name='bookmark_delete' id='bookmark_delete' value='{{ bookmark[2] }}' onclick="results=confirm('Bookmark will be deleted. Continue?');if(results){this.form.submit()};">X</button>
+      </form>     
+    {% endfor %}
+    </div>
 </div>
-<br></br>
-
-<!--{{start_loop}}-->
-<div class="channel_card">
-    <b href="{{Channel_Stats_Page}}" onclick="confirm('Redirect to {{Channel_Name}} stats page. Continue?')">{{Channel_Name}}, {{Channel_Subscribers}}</b>
-    <p type="button" onclick="confirm('Bookmark will be deleted. Continue?')">Delete Bookmark</p> 
-</div>
-<br></br>
-<!--{{end_loop}}-->
-
 </body>
 </html>
