@@ -8,6 +8,31 @@
     box-sizing: border-box;
     font-family: "Rancho", cursive;
   }
+  .search{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    width: 400px;
+    background: #BDBDBD;
+    border-radius: px;
+    
+  }
+  
+  .search a{
+    transform: translate(0%,-50%);
+    font-size: 30px;
+  }
+  .search h1{
+    transition: transform(-50%,-50%);
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid silver;
+  }
+  .search form{
+    padding: 0 100px;
+    box-sizing: border-box;
+  }
   .pw{
     position: center;
     width: 500px;
@@ -106,6 +131,7 @@ body {
   margin: 0 auto;
   transform: translate(-40%,20%);
   font-size: 30px;
+  background-color: 
 }
 
 .col {
@@ -158,10 +184,10 @@ body {
 <br></br>
 
 <form method="POST">
-  <div class="channelBoxes">
-    <p> Choose account privacy: </p>
-    <input type="submit" name="col" id="userName" value="private_toggle" />
-    <input type="submit" name="col" id="pop2" value="public_toggle" />
+  <p> Choose account privacy: </p>
+  <div class=".channelBoxes">
+    <input type="submit" onclick="confirm('Your account will be made private. Continue?')" name="col" id="userName" value="PRIVATE"/>
+    <input type="submit" onclick="confirm('Your account will be made private. Continue?')" name="col" id="pop2" value="PUBLIC"/>
   </div>
 </form>
 
