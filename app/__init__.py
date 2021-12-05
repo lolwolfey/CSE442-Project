@@ -4,6 +4,7 @@ from flask.templating import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask import *
 import os
 from .database_handler import bookmark_channel, init, User, Check_email, generate_reset_token, confirm_reset_token, delete_reset_token
 from flask_mail import Mail, Message
