@@ -42,26 +42,26 @@ def search():
         url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&forUsername={ytchannel}&key={api_key}"
         json_url = requests.get(url) #get the json data from url
         data = json.loads(json_url.text)
-        print(f"json.loads: {data} and json_url: {json_url}")
+        print(f"data['pageInfo'] = {data['pageInfo']} and data['PageInfo']['totalResults]= {data['PageInfo']['totalResults']}")
         sys.stdout.flush()
-        channelID = data['items'][0]["id"] #channelID to use in linking to the YT channel
-        #print(channelID)
-        subCount = data['items'][0]["statistics"]["subscriberCount"]
-        viewCount = data['items'][0]["statistics"]["viewCount"]
-        videoCount = data['items'][0]["statistics"]["videoCount"]
-        channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
-        if(channel_exists(channelID)!= None):
-            name_to_id(str(channelID),ytchannel) #writing channelID and channel username to database
-        dbCheck = get_channel_id(ytchannel) #used to check if database stores
-        infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID,dbCheck)
-        channels[0] = infoTuple
-        print(channels)
-        return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
+        if(data['pageInfo']['totalResults']!=0):
+            channelID = data['items'][0]["id"] #channelID to use in linking to the YT channel
+            #print(channelID)
+            subCount = data['items'][0]["statistics"]["subscriberCount"]
+            viewCount = data['items'][0]["statistics"]["viewCount"]
+            videoCount = data['items'][0]["statistics"]["videoCount"]
+            channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
+            if(channel_exists(channelID)!= None):
+                name_to_id(str(channelID),ytchannel) #writing channelID and channel username to database
+            dbCheck = get_channel_id(ytchannel) #used to check if database stores
+            infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID,dbCheck)
+            channels[0] = infoTuple
+            print(channels)
+            return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
         #print(channels)
-
-    #print(request.form.get())
-    return render_template('Search.html')
-
+        else:
+            return render_template('Search.html',noYTuser="No such YouTuber found, check username and try again")
+    return render_template('Search.html',noYTuser="")
 @main.route('/searchuser',methods = ["GET","POST"])
 @login_required
 def searchuser():
