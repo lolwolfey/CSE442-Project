@@ -43,6 +43,7 @@ def search():
         json_url = requests.get(url) #get the json data from url
         data = json.loads(json_url.text)
         print(f"json.loads: {data} and json_url: {json_url}")
+        sys.stdout.flush()
         channelID = data['items'][0]["id"] #channelID to use in linking to the YT channel
         #print(channelID)
         subCount = data['items'][0]["statistics"]["subscriberCount"]
