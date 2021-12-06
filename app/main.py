@@ -42,7 +42,7 @@ def search():
         url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&forUsername={ytchannel}&key={api_key}"
         json_url = requests.get(url) #get the json data from url
         data = json.loads(json_url.text)
-        print(f"data['pageInfo'] = {data['pageInfo']} and data['PageInfo']['totalResults]= {data['PageInfo']['totalResults']}")
+        print(f"data['pageInfo'] = {data['pageInfo']} and data['PageInfo']['totalResults]= {data['pageInfo']['totalResults']}")
         sys.stdout.flush()
         if(data['pageInfo']['totalResults']!=0):
             channelID = data['items'][0]["id"] #channelID to use in linking to the YT channel
@@ -62,6 +62,7 @@ def search():
         else:
             return render_template('Search.html',noYTuser="No such YouTuber found, check username and try again")
     return render_template('Search.html',noYTuser="")
+
 @main.route('/searchuser',methods = ["GET","POST"])
 @login_required
 def searchuser():
