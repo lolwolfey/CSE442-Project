@@ -5,7 +5,7 @@ import sys
 import requests
 #from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass, get_password_by_username
+from .database_handler import bookmark_channel, channel_exists, get_privacy, init, signup_user, user_login, User, private_update, public_update, change_pass, get_password_by_username, name_to_id, get_channel_id, get_users_list, channel_exists
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 from .auth import password_requirements
@@ -14,6 +14,7 @@ from . import YoutubeStats
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from tkinter import *
 import random
 import numpy
 
@@ -30,27 +31,62 @@ def home():
 def search():
     api_key = 'AIzaSyCrIwhrMNtHT0TX7HOJKhuMhWpKHvNjkXM'
     if request.method == "POST":
-        #print(request.form)
+        print(f"Request Form: {request.form}")
+        ytchannel = request.form.get("userName")
+        print(ytchannel)
+        #rint(f"REQ:{request.form['col']}")
+        if (request.form.get("col")):
+            ytchannel = request.form.get("col")
         #print(request.form.get("username"))
-        ytchannel = request.form.get("userName") #get the username field of form in search page
+        #ytchannel = request.form.get("userName") #get the username field of form in search page
         url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&forUsername={ytchannel}&key={api_key}"
         json_url = requests.get(url) #get the json data from url
         data = json.loads(json_url.text)
-
-        sys.stderr.write(str(data))
-        channelID = data['items'][0]["id"] #channelID to use for plotting
-        subCount = data['items'][0]["statistics"]["subscriberCount"]
-        viewCount = data['items'][0]["statistics"]["viewCount"]
-        videoCount = data['items'][0]["statistics"]["videoCount"]
-        channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
-        infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID) #adds all the info into tuple and adds tuple to array
-        channels[0] = infoTuple
-        return redirect(url_for('main.stats'))
+        print(f"data['pageInfo'] = {data['pageInfo']} and data['PageInfo']['totalResults]= {data['pageInfo']['totalResults']}")
+        sys.stdout.flush()
+        if(data['pageInfo']['totalResults']!=0):
+            channelID = data['items'][0]["id"] #channelID to use in linking to the YT channel
+            #print(channelID)
+            subCount = data['items'][0]["statistics"]["subscriberCount"]
+            viewCount = data['items'][0]["statistics"]["viewCount"]
+            videoCount = data['items'][0]["statistics"]["videoCount"]
+            channelPic = data['items'][0]["snippet"]["thumbnails"]["medium"]["url"]
+            if(channel_exists(channelID)!= None):
+                name_to_id(str(channelID),ytchannel) #writing channelID and channel username to database
+            dbCheck = get_channel_id(ytchannel) #used to check if database stores
+            infoTuple = (ytchannel,subCount,viewCount,videoCount,channelPic,channelID,dbCheck)
+            channels[0] = infoTuple
+            print(channels)
+            return render_template("Stats.html",Other_User=channels[0][0],subCounter=channels[0][1],viewCounter=channels[0][2],videoCounter=channels[0][3],thumbNail=channels[0][4],Youtube_Id=channels[0][5])
         #print(channels)
+        else:
+            return render_template('Search.html',noYTuser="No such YouTuber found, check username and try again")
+    return render_template('Search.html',noYTuser="")
 
-    #print(request.form.get())
-    return render_template('Search.html')
-
+@main.route('/searchuser',methods = ["GET","POST"])
+@login_required
+def searchuser():
+    if(request.method == "POST"):
+        searchName = request.form.get("userName")
+        #print(searchName)
+        userRetval = get_users_list()
+        print(f"USER RETURN VALUE: {userRetval}")
+        sys.stdout.flush()
+        listUser = []
+        for elem in userRetval:
+            listUser.append(elem[0])
+        print(f"LISTUSER: {listUser}")
+        sys.stdout.flush()
+    # create result list
+        output = []
+        for elem in listUser:
+            if searchName in elem and elem != current_user.username:
+                output.append(elem)
+        print(f"search suggestions: {output}")
+        sys.stdout.flush()
+        return render_template("SearchUser.html",searchedUsers=output,len=len(output))
+    return render_template("SearchUser.html")
+        
 @main.route('/stats')
 @login_required
 def stats():
@@ -63,20 +99,31 @@ def stats():
 @login_required
 def settings():
     if request.method == 'POST':
-        # username = request.form['usrname']
-        OldPass = request.form['oldpw']
-        NewPass = request.form['newpw']
-        # user = User(None, current_user.username, None)
-        pwhash = get_password_by_username(current_user.username)
-        flash('VALID password, everything up to now works!'+ str(OldPass) + str(NewPass) + str(current_user.username))
-        if check_password_hash(pwhash, OldPass): #check if old password is correct
-             valid, error = password_requirements(NewPass)  #check if new password meets requirements
-             if valid:
-                change_pass(current_user.username,NewPass)      #if it means requirements update password
-             else:
-                flash('Invalid NEW Password!', 'error')         #if not, generate error saying it did not
-        else:
-            flash('Old password is not correct', 'error')
+        if(request.form.get("oldpw") and request.form.get("newpw")):
+            OldPass = request.form.get("oldpw")
+            NewPass = request.form.get("newpw")
+            # user = User(None, current_user.username, None)
+            pwhash = get_password_by_username(current_user.username)
+            flash('VALID password, everything up to now works!'+ str(OldPass) + str(NewPass) + str(current_user.username))
+            if check_password_hash(pwhash, OldPass): #check if old password is correct
+                valid, error = password_requirements(NewPass)  #check if new password meets requirements
+                if valid:
+                    change_pass(current_user.username,NewPass)      #if it means requirements update password
+                else:
+                    flash('Invalid NEW Password!', 'error')         #if not, generate error saying it did not
+            else:
+                flash('Old password is not correct', 'error')
+        if(request.form.get("col") == "PRIVATE"):
+            print(f"CURRENT USERNAME: {current_user.username}")
+            private_update(current_user.username) #make private
+            print(f"AFTER MAKING USER of {current_user.username} private: {get_privacy(current_user.username)}")
+            sys.stdout.flush()
+        if(request.form.get("col") == "PUBLIC"):
+            print(f"CURRENT USERNAME: {current_user.username}")
+            public_update(current_user.username) #make public
+            print(f"AFTER MAKING USER of {current_user.username} public: {get_privacy(current_user.username)}")
+            sys.stdout.flush()
+        
     return render_template('Settings.html')
 
 # @main.route("/SettingPassChange", methods = ['POST'])

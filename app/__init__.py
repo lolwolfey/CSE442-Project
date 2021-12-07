@@ -4,8 +4,9 @@ from flask.templating import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask import *
 import os
-from .database_handler import bookmark_channel, init, User, Check_email
+from .database_handler import bookmark_channel, init, User, Check_email, generate_reset_token, confirm_reset_token, delete_reset_token
 from flask_mail import Mail, Message
 
 debug = True
@@ -23,7 +24,7 @@ def create_app():
         MAIL_USE_SSL = False,
         MAIL_USE_TLS = True,
         MAIL_USERNAME = 'redlomansmurf125@gmail.com',
-        MAIL_PASSWORD = 'temp_pass',
+        MAIL_PASSWORD = 'wimjzfqkutwpclzt',
     )
     mail = Mail(app)
 
@@ -31,11 +32,14 @@ def create_app():
     def send_mail():
         if request.method == "POST":
             email = request.form['email']
-            # if Check_email(email) == False:
-            message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
-            message.body = "testing"
-            mail.send(message)
-            return render_template("Signup.html")
+            if Check_email(email) == True:
+                message = Message(sender="redlomansmurf125@gmail.com", recipients=[email])
+                token = generate_reset_token(email)
+                message.body = "This is the reset token: " + token
+                mail.send(message)
+                return render_template("reset_password.html")
+            else:
+                flash('An error occured! Make sure your inputted email is correct and try again.', 'error')
         return render_template("Send_Email.html")
 
     # Initialize the ;login manager for Flask_login

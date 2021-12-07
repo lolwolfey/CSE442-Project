@@ -6,7 +6,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 import sys
 import psycopg2
 import os
-from .database_handler import bookmark_channel, init, signup_user, user_login, User, change_pass #delete when merging
+from .database_handler import bookmark_channel, init, signup_user, user_login, User, get_user_by_email, change_pass, confirm_reset_token, delete_reset_token #delete when merging
 
 auth = Blueprint('auth', __name__)
 
@@ -32,26 +32,28 @@ def login():
 
     return render_template("Login.html")
 
-# @auth.route("/settings", methods = ['POST'])
-# @auth.route("/SettingPassChange", methods = ['POST'])
-# def SettingPassChange():
-#     if request.method == 'POST':
-#         # username = request.form['usrname']
-#         # OldPass = request.form['oldpw']
-#         # NewPass = request.form['newpw']
-#         # user = User(None, username, None)
-#         # password = user.hashedPassword
-#         flash('VALID password, everything up to now works!')
-#         # if check_password_hash(password, OldPass):
-#         #     valid, error = password_requirements(NewPass)
-#         #     if valid:
-#                 # change_pass(user.username,NewPass)
-#         #     else:
-#                 # flash('Invalid Password!', 'error')
-#         # else:
-#         #     flash('Old password is not correct', 'error')
-#     return redirect(url_for('main'))
-#     save this code for later when resetting via forgotten password
+#reset password using token for forgotten password (not logged in) version:
+@auth.route('/reset_pw', methods = ['POST', 'GET'])
+def SettingPassChange():
+    if request.method == 'POST':
+        useremail = request.form['user_email']
+        token = request.form['reset_token']
+        NewPass = request.form['new_pass']
+        if confirm_reset_token(useremail, token) == True:
+            valid, error = password_requirements(NewPass)
+            if valid:
+                userrow = get_user_by_email(useremail)
+                username = userrow[2]
+                change_pass(username, NewPass)
+                delete_reset_token(useremail, token)
+                flash('Password changed', 'info')
+                return redirect(url_for('auth.login'))
+            else:
+                for err in error:
+                    flash(err, 'error')
+        else:
+            flash('email or token is incorrect', 'error')
+    return render_template('reset_password.html')
 
         
 
@@ -66,11 +68,15 @@ def signup():
         if password1 == password2:
             valid, error = password_requirements(password1)
             if valid:
-                if signup_user(email, username, password1):
-                    flash('Account created', 'info')
-                    return redirect(url_for('auth.login'))
+                email_req_check = email_requirements(email)
+                if email_req_check == True:
+                    if signup_user(email, username, password1):
+                        flash('Account created', 'info')
+                        return redirect(url_for('auth.login'))
+                    else:
+                        flash('That username/email address is already attached to an account.', 'error')
                 else:
-                    flash('That username/email address is already attached to an account.', 'error')
+                    flash('Email is of invalid type, try again.', 'error')
             else:
                 for err in error:
                     flash(err, 'error')
@@ -120,6 +126,12 @@ def password_requirements(password):
     
     return valid, error
 
+#add email requirements
+def email_requirements(email):
+    if '@' in email and '.com' in email:
+        return True
+    else:
+        return False
 
 
 @auth.route("/logout", methods=['POST'])
