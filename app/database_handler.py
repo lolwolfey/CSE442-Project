@@ -120,6 +120,7 @@ def init():
     create_bookmarks_table = """ CREATE TABLE IF NOT EXISTS bookmarks(
                             id INTEGER ,
                             channel TEXT,
+                            channel_id TEXT,
                             CONSTRAINT fk_users
                                 FOREIGN KEY (id)
                                     REFERENCES users(id)
@@ -260,24 +261,66 @@ def get_user_by_id(id):
     conn.close()
     return row
 
-def bookmark_channel(id,channel):
+def has_bookmark(id,channel,channel_id):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     #check if bookmark already exists
     check_command = """ SELECT * FROM bookmarks
-                        WHERE id = %s AND channel = %s;
+                        WHERE id = %s AND channel = %s AND channel_id = %s;
                     """
-    cursor.execute(check_command,(id,channel))
+    cursor.execute(check_command,(id,channel, channel_id))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    return True
+
+def delete_bookmark(id,channel_id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if bookmark already exists
+    check_command = """ DELETE FROM bookmarks
+                        WHERE id = %s AND channel_id = %s;
+                    """
+    cursor.execute(check_command,(id,channel_id))
+    conn.commit()
+    conn.close()
+    return
+
+def get_bookmarks(id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if bookmark already exists
+    check_command = """ SELECT * FROM bookmarks
+                        WHERE id = %s;
+                    """
+    cursor.execute(check_command,(id,))
+    bookmarks = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return bookmarks
+
+
+def bookmark_channel(id,channel,channel_id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if bookmark already exists
+    check_command = """ SELECT * FROM bookmarks
+                        WHERE id = %s AND channel = %s AND channel_id = %s;
+                    """
+    cursor.execute(check_command,(id,channel,channel_id))
     row = cursor.fetchone()
     if row != None:
         sys.stderr.write("aborted")
         return False #bookmark already exists, abort
     #otherwise, insert into the bookmarks table
-    bookmark_command = """ INSERT INTO bookmarks(id, channel)
-                           VALUES (%s,%s);
+    bookmark_command = """ INSERT INTO bookmarks(id, channel, channel_id)
+                           VALUES (%s,%s,%s);
                         """
-    cursor.execute(bookmark_command,(id,channel))
+    cursor.execute(bookmark_command,(id,channel, channel_id))
     cursor.execute("SELECT * FROM bookmarks")#Testing Code
     test = str(cursor.fetchall()) #testing
     sys.stderr.write(test)#testing
