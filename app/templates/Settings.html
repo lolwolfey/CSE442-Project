@@ -8,6 +8,31 @@
     box-sizing: border-box;
     font-family: "Rancho", cursive;
   }
+  .search{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    width: 400px;
+    background: #BDBDBD;
+    border-radius: px;
+    
+  }
+  
+  .search a{
+    transform: translate(0%,-50%);
+    font-size: 30px;
+  }
+  .search h1{
+    transition: transform(-50%,-50%);
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid silver;
+  }
+  .search form{
+    padding: 0 100px;
+    box-sizing: border-box;
+  }
   .pw{
     position: center;
     width: 500px;
@@ -100,6 +125,27 @@ body {
   align-items: center;
 }
 
+.channelBoxes {
+  width: 850px;
+  height: 200px;
+  margin: 0 auto;
+  transform: translate(-40%,20%);
+  font-size: 30px;
+  background-color: 
+}
+
+.col {
+  width: 100px;
+  height: 80px;
+  background-color: red;
+  float: left;
+  border: 2px solid black;
+  padding: 40px;
+  margin: 40px;
+  font-size: 30px;
+  text-align: center;
+}
+
 </style>
 
 
@@ -137,21 +183,24 @@ body {
 </div>
 <br></br>
 
-<div>
-    <p>Set Account to Private:</p>
-    <button type="submit" onclick="confirm('This will make your account (hidden_from/visible_to) search. Continue?')" value="privacy_toggle"> Turn On </button> <!--This is a place holder that will update in the backend-->
-</div>
+<form method="POST">
+  <p> Choose account privacy: </p>
+  <div class=".channelBoxes">
+    <input type="submit" onclick="confirm('Your account will be made private. Continue?')" name="col" id="userName" value="PRIVATE"/>
+    <input type="submit" onclick="confirm('Your account will be made private. Continue?')" name="col" id="pop2" value="PUBLIC"/>
+  </div>
+</form>
 
 <div>
     <p>Change Password: </p>
     <div class = "SettingPassChange">
         <form method="post">
           <div class="textf">
-            <input type="text" name="oldpw" placeholder="Old Password" required>
+            <input type="text" name="oldpw" id="oldpw" placeholder="Old Password" required>
             <span></span>
           </div>
           <div class="textf">
-            <input type="text" name="newpw" placeholder="New Password" required>
+            <input type="text" name="newpw" id="newpw" placeholder="New Password" required>
             <span></span>
           </div>
        

@@ -1,6 +1,8 @@
 import sys
 import psycopg2
 import os
+import random
+import string
 from werkzeug.security import generate_password_hash, check_password_hash
 class User:
     user_id = None
@@ -73,10 +75,21 @@ def init():
     delete_user_table = "DROP TABLE users;"
     delete_relation = "DROP TABLE idtoname;"
     delete_private_table = "DROP TABLE private;"
+    delete_token_table = "DROP TABLE IF EXISTS token;"
     cursor.execute(delete_bookmarks_table)
     cursor.execute(delete_user_table)
     cursor.execute(delete_relation)
     cursor.execute(delete_private_table)
+    cursor.execute(delete_token_table)
+
+    create_token_relation = """ CREATE TABLE IF NOT EXISTS token(
+                                id SERIAL,
+                                email VARCHAR(100) NOT NULL,
+                                user_reset_token VARCHAR(100) NOT NULL,
+                                PRIMARY KEY (id),
+                                UNIQUE (id, email, user_reset_token)
+                            );  
+                                """
 
     create_private_relation = """ CREATE TABLE IF NOT EXISTS private(
                                 username VARCHAR(100) NOT NULL,
@@ -107,6 +120,7 @@ def init():
     create_bookmarks_table = """ CREATE TABLE IF NOT EXISTS bookmarks(
                             id INTEGER ,
                             channel TEXT,
+                            channel_id TEXT,
                             CONSTRAINT fk_users
                                 FOREIGN KEY (id)
                                     REFERENCES users(id)
@@ -126,6 +140,7 @@ def init():
     cursor.execute(create_bookmarks_table)
     cursor.execute(create_idtoname_relation)
     cursor.execute(create_private_relation)
+    cursor.execute(create_token_relation)
     conn.commit()
     conn.close()
 
@@ -166,6 +181,22 @@ def Check_email(email):
     conn.close()
     return False
 
+def get_user_by_email(email):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if email already exists
+    email_check = """SELECT * FROM users
+                     WHERE email = %s;
+                """
+    cursor.execute(email_check,(email,))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    conn.commit()
+    conn.close()
+    return row
+
 def signup_user(email,username,password):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
@@ -192,7 +223,7 @@ def signup_user(email,username,password):
                         """
         hashed_pass=generate_password_hash(password, method='sha256')
         cursor.execute(insert_user,(email,username,hashed_pass))
-        cursor.execute(insert_private,(username,0))
+        cursor.execute(insert_private,(username,0)) #public by default is 0
         conn.commit()
         conn.close()
         return True #signup good
@@ -230,24 +261,66 @@ def get_user_by_id(id):
     conn.close()
     return row
 
-def bookmark_channel(id,channel):
+def has_bookmark(id,channel,channel_id):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')
     cursor = conn.cursor()
     #check if bookmark already exists
     check_command = """ SELECT * FROM bookmarks
-                        WHERE id = %s AND channel = %s;
+                        WHERE id = %s AND channel = %s AND channel_id = %s;
                     """
-    cursor.execute(check_command,(id,channel))
+    cursor.execute(check_command,(id,channel, channel_id))
+    row = cursor.fetchone()
+    if row == None:
+        return False
+    return True
+
+def delete_bookmark(id,channel_id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if bookmark already exists
+    check_command = """ DELETE FROM bookmarks
+                        WHERE id = %s AND channel_id = %s;
+                    """
+    cursor.execute(check_command,(id,channel_id))
+    conn.commit()
+    conn.close()
+    return
+
+def get_bookmarks(id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if bookmark already exists
+    check_command = """ SELECT * FROM bookmarks
+                        WHERE id = %s;
+                    """
+    cursor.execute(check_command,(id,))
+    bookmarks = cursor.fetchall()
+    conn.commit()
+    conn.close()
+    return bookmarks
+
+
+def bookmark_channel(id,channel,channel_id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #check if bookmark already exists
+    check_command = """ SELECT * FROM bookmarks
+                        WHERE id = %s AND channel = %s AND channel_id = %s;
+                    """
+    cursor.execute(check_command,(id,channel,channel_id))
     row = cursor.fetchone()
     if row != None:
         sys.stderr.write("aborted")
         return False #bookmark already exists, abort
     #otherwise, insert into the bookmarks table
-    bookmark_command = """ INSERT INTO bookmarks(id, channel)
-                           VALUES (%s,%s);
+    bookmark_command = """ INSERT INTO bookmarks(id, channel, channel_id)
+                           VALUES (%s,%s,%s);
                         """
-    cursor.execute(bookmark_command,(id,channel))
+    cursor.execute(bookmark_command,(id,channel, channel_id))
     cursor.execute("SELECT * FROM bookmarks")#Testing Code
     test = str(cursor.fetchall()) #testing
     sys.stderr.write(test)#testing
@@ -309,3 +382,128 @@ def get_channel_id(channel_name):
     cursor.execute(get_id_command,(channel_name,))
     retval = cursor.fetchone()
     return retval
+
+def channel_exists(channel_id):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    get_id_command = """SELECT channel_id FROM idtoname
+                        WHERE channel_id = %s;
+                    """
+    cursor.execute(get_id_command,(channel_id,))
+    retval = cursor.fetchone()
+    return retval
+    
+
+def get_users_list():
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config,sslmode='require')
+    cursor = conn.cursor()
+    getUsers_command = """SELECT username FROM private WHERE privmode = 0;"""
+    cursor.execute(getUsers_command)
+    retval = cursor.fetchall()
+    return retval
+
+#0 is public
+#1 is private
+def private_update(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    change_priv_command = """ UPDATE private 
+                            SET privmode = 1
+                            WHERE username = %s;
+                          
+                          """
+    cursor.execute(change_priv_command,(username,))
+    conn.commit()
+    conn.close()
+    
+def public_update(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    change_priv_command = """ UPDATE private 
+                            SET privmode = 0
+                            WHERE username = %s;
+                          
+                          """
+    cursor.execute(change_priv_command,(username,))
+    conn.commit()
+    conn.close()
+    
+def get_privacy(username):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config,sslmode='require')
+    cursor = conn.cursor()
+    getPrivacy_command = """SELECT privmode FROM private WHERE username = %s;"""
+    cursor.execute(getPrivacy_command,(username,))
+    retval = cursor.fetchall()
+    return retval
+#generate reset token for forgotten password reset by taking in a email
+#returns a long string of gibberish as token
+#reference for token generation: https://www.geeksforgeeks.org/python-generate-random-string-of-given-length/
+def generate_reset_token(user_email):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    #generate a token using uppercase and lowercase letters and numbers
+    token = str(''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k = 10)))
+    #look into token database for user email and fetch row that has it
+    check_sent_email_command = """ SELECT * FROM token
+                            WHERE email = %s;
+                            """
+    cursor.execute(check_sent_email_command, (user_email,))
+    row = cursor.fetchone()
+    #check if any pre-existing token with inputted email is in db via row
+    if row == None: #if none, insert token and email into db
+        insert_token_command = """ INSERT INTO token(email, user_reset_token)
+                                VALUES (%s, %s);
+                            """
+        cursor.execute(insert_token_command,(user_email, token))
+    else:   # if exist, update token linked to email in db
+        update_token_command = """ UPDATE token
+                                SET user_reset_token = %s
+                                WHERE email = %s;
+                            """
+        cursor.execute(update_token_command,(token, user_email))
+    conn.commit()
+    conn.close()
+    return token
+
+#check if the inputted reset token from forgotten password reset page matches token in the db.
+#returns False if they do not match, returns True if they do match.
+def confirm_reset_token(user_email, input_token):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    check_reset_token_command = """ SELECT * FROM token
+                            WHERE email = %s;
+                            """
+    cursor.execute(check_reset_token_command,(user_email,))
+    row = cursor.fetchone()
+    #potential issue here with row being nonetype
+    #fixed; if row is nonetype, return false. Prior issue is a non-issue generated by inserting username instead of email
+    if row == None:
+        return False
+    else:
+        if row[2] != input_token:
+            return False
+    # if row[2] != input_token:
+    #     return False
+    conn.commit()
+    conn.close()
+    return True
+
+#deletes user email and corresponding reset token from thetoken database
+#returns nothing
+def delete_reset_token(user_email, input_token):
+    db_config = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cursor = conn.cursor()
+    delete_token_command = """DELETE FROM token
+                            WHERE email = %s;
+                        """
+    cursor.execute(delete_token_command,(user_email,))
+    conn.commit()
+    conn.close()
