@@ -4,6 +4,16 @@ import psycopg2
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 import sys
+
+# """
+# Reference Links:
+# sqlite3: https://docs.python.org/3/library/sqlite3.html
+# psycopg2: https://www.psycopg.org/docs/, https://www.psycopg.org/docs/cursor.html, https://www.psycopg.org/docs/connection.html
+# sys: https://docs.python.org/3/library/sys.html
+# os: https://docs.python.org/3/library/os.html
+# Werkzeug.security: https://werkzeug.palletsprojects.com/en/2.0.x/utils/
+# """
+
 #from ..database_handler import login_user,signup_user,bookmark_channel
 #conn = sqlite3.connect("test.db")
 #cur = conn.cursor
