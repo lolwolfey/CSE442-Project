@@ -4,6 +4,20 @@ import os
 import random
 import string
 from werkzeug.security import generate_password_hash, check_password_hash
+
+# """
+# Reference Links
+# --------------------------------------------------------------------------------------------------------------
+# Werkzeug.security: https://werkzeug.palletsprojects.com/en/2.0.x/utils/
+# psycopg2: https://www.psycopg.org/docs/, https://www.psycopg.org/docs/cursor.html, https://www.psycopg.org/docs/connection.html
+# sys: https://docs.python.org/3/library/sys.html
+# os: https://docs.python.org/3/library/os.html
+# random: https://docs.python.org/3/library/random.html
+# string: https://docs.python.org/3/library/string.html
+# flask-login: https://flask-login.readthedocs.io/en/latest/
+# postgresql: https://www.postgresql.org/docs/current/
+# """
+
 class User:
     user_id = None
     email = None

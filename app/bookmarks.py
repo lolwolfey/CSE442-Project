@@ -2,6 +2,15 @@ import sys
 import psycopg2
 import os
 
+# """
+# Reference Links
+# --------------------------------------------------------------------------------------------------------------
+# psycopg2: https://www.psycopg.org/docs/, https://www.psycopg.org/docs/cursor.html, https://www.psycopg.org/docs/connection.html
+# sys: https://docs.python.org/3/library/sys.html
+# os: https://docs.python.org/3/library/os.html
+# """
+
+
 def bookmark_channel(id,channel):
     db_config = os.environ['DATABASE_URL']
     conn = psycopg2.connect(db_config, sslmode='require')

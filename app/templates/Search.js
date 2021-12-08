@@ -20,7 +20,7 @@ function getInputValue(){
     // Displaying the value
     console.log(inputVal);
 }
-
+// Overview and reference for using youtube search: https://developers.google.com/youtube/v3/docs/search
 const loadCharacters = async () => {
     try {
         //var forme1 = document.forms.searchform;

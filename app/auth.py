@@ -8,6 +8,18 @@ import psycopg2
 import os
 from .database_handler import bookmark_channel, init, signup_user, user_login, User, get_user_by_email, change_pass, confirm_reset_token, delete_reset_token #delete when merging
 
+# """
+# Reference Links
+# --------------------------------------------------------------------------------------------------------------
+# Werkzeug.security: https://werkzeug.palletsprojects.com/en/2.0.x/utils/
+# flask: flask: https://flask.palletsprojects.com/en/2.0.x/
+# flask message flashing: https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/ 
+# flask-login: https://flask-login.readthedocs.io/en/latest/
+# psycopg2: https://www.psycopg.org/docs/, https://www.psycopg.org/docs/cursor.html, https://www.psycopg.org/docs/connection.html
+# sys: https://docs.python.org/3/library/sys.html
+# os: https://docs.python.org/3/library/os.html
+# """
+
 auth = Blueprint('auth', __name__)
 
 

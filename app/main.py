@@ -19,6 +19,26 @@ from tkinter import *
 import random
 import numpy
 
+# """
+# Reference Links
+# --------------------------------------------------------------------------------------------------------------
+# Werkzeug.security: https://werkzeug.palletsprojects.com/en/2.0.x/utils/
+# flask: flask: https://flask.palletsprojects.com/en/2.0.x/ 
+# flask-login: https://flask-login.readthedocs.io/en/latest/
+# psycopg2: https://www.psycopg.org/docs/
+# sys: https://docs.python.org/3/library/sys.html
+# os: https://docs.python.org/3/library/os.html
+# random: https://docs.python.org/3/library/random.html
+# string: https://docs.python.org/3/library/string.html
+# numpy: https://www.w3schools.com/python/numpy
+# tkinter: https://docs.python.org/3/library/tkinter.html
+# io: https://docs.python.org/3/library/io.html
+# json: https://docs.python.org/3/library/json.html
+# matplotlib.backends.backend_agg: https://matplotlib.org/3.5.0/api/backend_agg_api.html
+# matplotlib.figure: https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure
+# requests: https://docs.python-requests.org/en/latest/
+# """
+
 main = Blueprint('main',__name__)
 
 channels = [()]
@@ -154,7 +174,7 @@ def settings():
             NewPass = request.form.get("newpw")
             # user = User(None, current_user.username, None)
             pwhash = get_password_by_username(current_user.username)
-            flash('VALID password, everything up to now works!'+ str(OldPass) + str(NewPass) + str(current_user.username))
+            flash('VALID password, everything up to now works!')
             if check_password_hash(pwhash, OldPass): #check if old password is correct
                 valid, error = password_requirements(NewPass)  #check if new password meets requirements
                 if valid:

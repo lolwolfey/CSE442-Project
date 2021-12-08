@@ -9,6 +9,21 @@ import os
 from .database_handler import bookmark_channel, init, User, Check_email, generate_reset_token, confirm_reset_token, delete_reset_token
 from flask_mail import Mail, Message
 
+# """
+# Reference Links
+# --------------------------------------------------------------------------------------------------------
+# logging: https://docs.python.org/3/library/logging.html
+# flask: https://flask.palletsprojects.com/en/2.0.x/
+# flask message flashing: https://flask.palletsprojects.com/en/2.0.x/patterns/flashing/ 
+# flask.templating: https://flask.palletsprojects.com/en/2.0.x/api/#flask.render_template
+# flask_sqlalchemy: https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application
+# flask_migrate: https://flask-migrate.readthedocs.io/en/latest/
+# flask_login: https://flask-login.readthedocs.io/en/latest/
+# flask_mail: https://flask-mail.readthedocs.io/en/latest/
+# os: https://docs.python.org/3/library/os.html
+# smtp gmail server: https://support.google.com/a/answer/176600?hl=en#zippy=%2Cuse-the-gmail-smtp-server
+# """
+
 debug = True
 
 def create_app():
