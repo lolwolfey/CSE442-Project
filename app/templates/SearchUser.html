@@ -12,14 +12,14 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, -50%);
     width: 400px;
     background: #BDBDBD;
     border-radius: px;
     
   }
-  
-  .search a{
+
+  .search a {
     transform: translate(0%,-50%);
     font-size: 30px;
   }
@@ -33,28 +33,17 @@
     padding: 0 100px;
     box-sizing: border-box;
   }
-  .pw{
-    position: center;
-    width: 500px;
-    background: #BDBDBD;
-    border-radius: px;
-    
-  }
-  
-  .pw form{
-    padding: 0 100px;
-    /* box-sizing: border-box; */
-  }
   form .textf{
     position: relative;
     border-bottom: 2px solid #adadad;
     margin: 10px 0;
   }
   .textf input{
-    width: 100%;
+    transform: translate(-15%, -50%);
+    width: 150%;
     padding: 0 30px;
     height: 40px;
-    font-size: 25px;
+    font-size: 22px;
     border: none;
     background: white;
     outline: 5px;
@@ -67,7 +56,8 @@
   .pass:hover{
     text-decoration: underline;
   }
-  button[type="submit"]{
+  input[type="submit"]{
+    transform: translate(0%,-60%);
     width: 50%;
     height: 30px;
     border: 1px solid;
@@ -79,7 +69,7 @@
     cursor: pointer;
     outline: 5px;
   }
-  button[type="submit"]:hover{
+  input[type="submit"]:hover{
     border-color: black;
     transition: .5s;
   }
@@ -91,6 +81,16 @@ body {
   font-weight: bold;
   text-align: center;
   font-size: 50px;
+}
+
+.signup {
+  position: relative;
+  border: 0;
+  margin: 0;
+  font-family: 'Rancho', cursive;
+  text-align: center;
+  font-size: 25px;
+  white-space: nowrap;
 }
 
 .topnav { 
@@ -116,13 +116,50 @@ body {
   color: black;
 }
 
-.channel_card {
-  width: 50%;
-  background-color: white;
-  padding: 5px 10px;
-  align-self: center;
-  align-content: center;
-  align-items: center;
+#searchBar {
+    transform: translate(0%,-100%);
+    top: 100px;
+    width: 100%;
+    height: 32px;
+    border-radius: 3px;
+    border: 1px solid #eaeaea;
+    padding: 5px 10px;
+    font-size: 25px;
+    text-align: center;
+}
+
+#searchWrapper {
+    position: relative;
+}
+
+#searchWrapper::after {
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+
+#charactersList {
+    padding-inline-start: 0;
+    display: flex;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 20px;
+}
+
+.character {
+    list-style-type: none;
+    background-color: rgb(146, 23, 23);
+    border-radius: 3px;
+    padding: 5px 10px;
+    display: flex;
+    grid-template-columns: 3fr 1fr;
+    grid-template-areas:
+        'name'
+    text-align: center;
+}
+
+.character > h2 {
+    margin-bottom: 0px;
+    color: #FFFFFF;
 }
 
 .channelBoxes {
@@ -131,7 +168,6 @@ body {
   margin: 0 auto;
   transform: translate(-40%,20%);
   font-size: 30px;
-  background-color: 
 }
 
 .col {
@@ -146,86 +182,44 @@ body {
   text-align: center;
 }
 
+.submit_popular {
+  width: 100%;
+  height: 100%
+}
 </style>
-
-
-
 <head>
-  <title>Settings Page</title>
+  <title>Search</title>
 </head>
-
 <body>
-  <script>
-    function pwFunction() {
-      textwords = document.getElementById("newpw").value;
-        if (textwords.length == 0){
-          alert('No Password Inputted!');
-        }
-        else {
-          if (confirm('Save Password?')){
-              alert('Implement server side functionality to check if passwords match.');
-            };
-        };
-    }
-  </script>
-
-  <div class="topnav">
+<div class="topnav">
     <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
+    <!-- <a href="/stats"><i>Stats</i></a> -->
     <a href="/search"><i>Search</i></a>
     <a href="/settings"><i>Settings</i></a>
     <form id="logoutbutton" method="post" action="/logout"></form>
     <a onclick="results=confirm('Account will be logged out. Continue?');if(results){document.getElementById('logoutbutton').submit()};"><i>Log Out</i></a>
 </div>
   <br></br>
-
-<div>
-    <h1> Settings</h1>
-</div>
-<br></br>
-
-<form method="POST">
-  <p> Choose account privacy: </p>
-  <div class=".channelBoxes">
-    <input type="submit" onclick="confirm('Your account will be made private. Continue?')" name="col" id="userName" value="PRIVATE"/>
-    <input type="submit" onclick="confirm('Your account will be made public. Continue?')" name="col" id="pop2" value="PUBLIC"/>
-  </div>
-</form>
-
-<div>
-    <p>Change Password: </p>
-    <div class = "SettingPassChange">
-        <form method="post">
-          <div class="textf">
-            <input type="password" name="oldpw" id="oldpw" placeholder="Old Password" required>
-            <span></span>
-          </div>
-          <div class="textf">
-            <input type="password" name="newpw" id="newpw" placeholder="New Password" required>
-            <span></span>
-          </div>
-       
-          <input type="submit" value="SettingPassChange">
-        </form>
-        <div class = "flashes">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              <ul>
-              {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-              {% endfor %}
-              </ul>
-            {% endif %}
-          {% endwith %}
-          </div>
-</div>
-
-<br></br>
-
-<div>
-    <button type="submit" onclick="confirm('Account will be deleted. Continue?')" value="Delete_Account">Delete Account</p> 
-</div>
-<br></br>
-
-
+  <div class="search">
+    <h1>Search</h1>
+    <a href="/search"><i>Search for a YouTuber instead</i></a>
+    <br/>
+    <form method="POST">
+      <div class="textf">
+        <input type="text" name="userName" id="userName" placeholder="Enter the name of user!" required>
+      </div>
+      <input
+          type="submit"
+          value="Search"
+        />
+    </form>
+  <form method="POST">
+    <div class="channelBoxes">
+      {%for elem in searchedUsers%}
+        <input type="submit" name="col" id="userName" value="{{elem}}" />
+      {%endfor%}
+    </div>
+  </form>
+<br>
 </body>
 </html>
