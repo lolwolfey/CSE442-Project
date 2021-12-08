@@ -8,24 +8,17 @@
     box-sizing: border-box;
     font-family: "Rancho", cursive;
   }
-  .login{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
+  .pw{
+    position: center;
+    width: 500px;
     background: #BDBDBD;
     border-radius: px;
     
   }
-  .login h1{
-    text-align: center;
-    padding: 5px 0;
-    border-bottom: 1px solid silver;
-  }
-  .login form{
+  
+  .pw form{
     padding: 0 100px;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
   }
   form .textf{
     position: relative;
@@ -49,7 +42,7 @@
   .pass:hover{
     text-decoration: underline;
   }
-  input[type="submit"]{
+  button[type="submit"]{
     width: 50%;
     height: 30px;
     border: 1px solid;
@@ -61,7 +54,7 @@
     cursor: pointer;
     outline: 5px;
   }
-  input[type="submit"]:hover{
+  button[type="submit"]:hover{
     border-color: black;
     transition: .5s;
   }
@@ -73,16 +66,6 @@ body {
   font-weight: bold;
   text-align: center;
   font-size: 50px;
-}
-
-.signup {
-  position: relative;
-  border: 0;
-  margin: 0;
-  font-family: 'Rancho', cursive;
-  text-align: center;
-  font-size: 25px;
-  white-space: nowrap;
 }
 
 .topnav { 
@@ -108,30 +91,40 @@ body {
   color: black;
 }
 
+.channel_card {
+  width: 50%;
+  background-color: white;
+  padding: 5px 10px;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+}
+
 </style>
+
+
+
 <head>
-  <title>Login Page</title>
+  <title>Send Email</title>
 </head>
+
 <body>
-<div class="topnav">
-    <a class="active" href="#home"><i>Boom Boom Sauce</i></a>
-</div>
-  <br></br>
-      <div class = "login">
-        <h1> Welcome! </h1>
-        <form method="post">
-          <div class="textf">
-            <input type="text" placeholder="Username" required>
-            <span></span>
-          </div>
-          <div class="textf">
-            <input type="text" placeholder="Password" required>
-            <span></span>
-          </div>
-       
-      <input type="submit" value="Login">
-        </form>
-      <div class = "signup">Don't have an account yet? <a href="C:\Users\Roshan\Desktop\CSE442-Project\public-html\Signup.html"> Sign up</a></div>
+  <div class="topnav">
+    <a class="active" href="/home"><i>Boom Boom Sauce</i>&emsp;&emsp;</a>
   </div>
+
+<br></br>
+
+<br></br>
+
+<div>
+    <p>Input Email: </p>
+        <form action = "send_mail" method="POST">
+            <input type="email" name = "email" placeholder="Email">
+            <button type="submit" value="Send Email">Submit</button>
+        </form>
+</div>
+
+
 </body>
 </html>
